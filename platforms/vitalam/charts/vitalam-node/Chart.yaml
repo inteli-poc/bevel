@@ -1,0 +1,10 @@
+##############################################################################################
+#  Copyright Accenture. All Rights Reserved.
+#
+#  SPDX-License-Identifier: Apache-2.0
+##############################################################################################
+
+apiVersion: v2
+name: vitalam-node
+version: 1.0.0
+description: A chart to deploy vitalam node

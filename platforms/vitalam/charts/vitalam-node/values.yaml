@@ -1,0 +1,32 @@
+##############################################################################################
+#  Copyright Accenture. All Rights Reserved.
+#
+#  SPDX-License-Identifier: Apache-2.0
+##############################################################################################
+
+metadata:
+  namespace: default
+  replicaCount: 1
+
+images:
+  vitalam: ghcr.io/digicatapult/vitalam-node:v2.5.0
+  initContainer: alpine:latest
+  
+node:
+  name: vitalam-node
+  basePath: /tmp/node01
+  ports:
+    p2p: 30333
+    ws: 9944
+
+storage:
+  storageclassname:
+  storagesize: 1Gi
+
+vault:
+  address:
+  serviceaccountname:
+  secretprefix:
+  filename:
+
+genesis:

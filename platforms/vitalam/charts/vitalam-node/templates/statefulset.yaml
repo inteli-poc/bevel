@@ -1,0 +1,173 @@
+##############################################################################################
+#  Copyright Accenture. All Rights Reserved.                                                
+#
+#  SPDX-License-Identifier: Apache-2.0
+##############################################################################################
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.node.name }}
+  namespace: {{ .Values.metadata.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ .Values.node.name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }} 
+spec:
+  serviceName: {{ .Values.node.name }}
+  replicas: {{ .Values.metadata.replicaCount}}
+  selector:
+    matchLabels:
+      name: {{ .Values.node.name }}                   
+      app.kubernetes.io/name: {{ .Values.node.name }}
+      helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+      app.kubernetes.io/managed-by: {{ .Release.Service }}
+      app.kubernetes.io/instance: {{ .Release.Name }} 
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels: 
+        name: {{ .Values.node.name }}               
+        app.kubernetes.io/name: {{ .Values.node.name }}
+        helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/instance: {{ .Release.Name }} 
+    spec: 
+      serviceAccountName: {{ .Values.vault.serviceaccountname }}
+      initContainers:
+      - name: init-secrets
+        image: {{ .Values.images.initContainer }}
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /secrets
+          name: keystore
+        env:
+        - name: VAULT_ADDR
+          value: {{ .Values.vault.address }}
+        - name: VAULT_SECRET_PREFIX
+          value: {{ .Values.vault.secretprefix }}
+        command: ["/bin/sh", "-c"]
+        args:
+        - |-
+          #!/bin/sh
+            apk update && apk add jq curl
+            mkdir secrets
+            
+            validateVaultResponse () {
+              if echo ${2} | grep "errors"; then
+                echo "ERROR: unable to retrieve ${1}: ${2}"
+                exit 1
+              fi
+              if  [ "$3" == "LOOKUPSECRETRESPONSE" ]
+              then
+                http_code=$(curl -sS -o /dev/null -w "%{http_code}" \
+                --header "X-Vault-Token: ${VAULT_CLIENT_TOKEN}" \
+                ${VAULT_ADDR}/v1/${vault_secret_key})
+                curl_response=$?
+                if test "$http_code" != "200" ; then
+                  echo "Http response code from Vault - $http_code"
+                  if test "$curl_response" != "0"; then
+                     echo "Error: curl command failed with error code - $curl_response"
+                     exit 1
+                  fi
+                fi
+              fi
+            }
+
+            KUBE_SA_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+            echo "Getting secrets from Vault Server: ${VAULT_ADDR}"
+
+            ## Login to Vault to get an app role token ##
+            VAULT_CLIENT_TOKEN=$(curl -sS --request POST ${VAULT_ADDR}/v1/auth/${KUBERNETES_AUTH_PATH}/login \
+              -H "Content-Type: application/json" \
+              -d '{"role":"'"${VAULT_APP_ROLE}"'","jwt":"'"${KUBE_SA_TOKEN}"'"}' | \
+              jq -r 'if .errors then . else .auth.client_token end')
+            validateVaultResponse 'vault login token' "${VAULT_CLIENT_TOKEN}"
+            echo "logged in"
+
+            vault_secret_key="${VAULT_SECRET_PREFIX}/{{ .Values.vault.filename }}"
+            
+            echo "Getting node account keys from $vault_secret_key"
+
+            LOOKUP_SECRET_RESPONSE=$(curl -sS \
+              --header "X-Vault-Token:${VAULT_CLIENT_TOKEN}" \
+              ${VAULT_ADDR}/v1/${vault_secret_key} | \
+              jq -r 'if .errors then . else . end')
+            validateVaultResponse "secret (${vault_secret_key})" "${LOOKUP_SECRET_RESPONSE}" "LOOKUPSECRETRESPONSE" 
+            
+            secretSeed=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["secretSeed"]')
+            echo "${secretSeed}" > secrets/secretSeed
+      containers:
+      - name: node-vitalam
+        image: {{ .Values.images.vitalam }}
+        env:
+        - name: NODE_NAME
+          value: {{ .Values.node.name  }}
+        volumeMounts:
+        - mountPath: /secrets
+          name: keystore
+        - mountPath: {{ .Values.node.basePath }}
+          name: {{ .Values.node.name }}-pv
+        - mountPath: /etc/config
+          name: {{ .Values.node.name }}-genesis-volume
+        command: ["/bin/sh", "-c"]
+        args:
+        - |-
+          #!/bin/sh
+
+          mkdir -p secrets
+
+          ## add configmap data to volume
+          cat /etc/config/genesis.json > secrets/genesis.json
+
+          ## store aura and grandpa keys in node keystore ##
+
+            /vitalam-node/vitalam-node key insert --base-path {{ .Values.node.basePath }} \
+            --chain secrets/genesis.json \
+            --scheme Sr25519 \
+            --suri secrets/secretSeed \
+            --key-type aura
+
+            /vitalam-node/vitalam-node key insert --base-path {{ .Values.node.basePath }} \
+            --chain secrets/genesis.json \
+            --scheme Ed25519 \
+            --suri secrets/secretSeed \
+            --key-type gran
+            
+          ## start the node ##
+
+            /vitalam-node/vitalam-node \
+            --chain secrets/genesis.json \
+            --base-path {{ .Values.node.basePath }} \
+            --validator \
+            --name ${NODE_NAME} \
+            --node-key-file <node key file>
+        ports:
+          - name: ws
+            containerPort: {{ .Values.node.ports.ws }}
+            protocol: TCP
+          - name: p2p
+            containerPort: {{ .Values.node.ports.p2p }}
+            protocol: TCP
+      volumes:
+      - name: keystore
+        emptyDir:
+          medium: Memory
+      - name: {{ .Values.node.name }}-genesis-volume
+        configMap:
+          name: {{ .Values.node.name }}-genesis
+          items:
+            - key: genesis.json
+              path: genesis.json
+      restartPolicy: OnFailure
+  volumeClaimTemplates: 
+  - metadata:
+      name: {{ .Values.node.name }}-pv
+    spec:
+      storageClassName: {{ .Values.storage.storageclassname }}
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: {{ .Values.storage.storagesize }}
