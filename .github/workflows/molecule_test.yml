@@ -6,9 +6,9 @@
 
 # This is custom git Action created to run molecule test cases during any push on develop branch
 # The workflow is divided into test stages, based on the PR title particular test stages will run
-# The test coverage is for BAF corda and fabric. Other DLTs will be added gradually
+# The test coverage is for Hyperledger Bevel corda and fabric. Other DLTs will be added gradually
 
-name: Molecule Test Workflow
+name: Test Ansible using Molecule
 
 on:
   pull_request:
@@ -22,7 +22,7 @@ jobs:
     - uses: deepakputhraya/action-pr-title@master
       with:
         regex: '\[.*\].*' # Regex the title should match.
-        allowed_prefixes: '[shared],[docs],[indy],[fabric],[corda],[besu],[quorum],[corda-ent]' # title should start with the given prefix.
+        allowed_prefixes: '[shared],[docs],[indy],[fabric],[corda],[besu],[quorum],[corda-ent],[substrate],[chore]' # title should start with the given prefix.
         disallowed_prefixes: 'feat/,hotfix' # title should not start with the given prefix.
         prefix_case_sensitive: true # title prefix are case sensitive.
         min_length: 6 # Min length of the title.

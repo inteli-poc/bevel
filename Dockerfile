@@ -5,15 +5,15 @@
 ##############################################################################################
 
 # USAGE: 
-# docker build . -t baf-build
-# docker run -v $(pwd):/home/blockchain-automation-framework/ baf-build
+# docker build . -t bevel-build
+# docker run -v $(pwd):/home/bevel/ bevel-build
 
 FROM ubuntu:20.04
 
 # Create working directory
 WORKDIR /home/
 ENV PYTHON_VERSION='3.6.13'
-ENV OPENSHIFT_VERSION='0.11.0'
+ENV OPENSHIFT_VERSION='0.12.0'
 
 RUN apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -52,6 +52,7 @@ RUN apt-get update && apt-get install -y \
     apt-get clean && \
     ln -s /usr/bin/python3 /usr/bin/python && \
     rm -rf /var/lib/apt/lists/*
+
 RUN npm install -g ajv-cli
 RUN apt-get update && apt-get install -y python3-venv
 
@@ -74,7 +75,7 @@ ENV PATH=/home/jdk-14/bin:$PATH
 # 3) Private key file which has write-access to the git repo
 
 #path to mount the repo
-VOLUME /home/blockchain-automation-framework/
+VOLUME /home/bevel/
 
 
 CMD ["/home/run.sh"]

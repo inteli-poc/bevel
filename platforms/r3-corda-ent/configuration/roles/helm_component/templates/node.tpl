@@ -17,8 +17,8 @@ spec:
       namespace: {{ component_ns }}
       labels:
     image:
-      initContainerName: {{ network.docker.url }}/{{ init_image }}
-      nodeContainerName: {{ network.docker.url }}/{{ docker_image }}
+      initContainerName: {{ network.docker.url }}/{{ init_container_image }}
+      nodeContainerName: {{ network.docker.url }}/{{ main_container_image }}
       imagepullsecret: regcred
       pullPolicy: Always
     acceptLicence: true
@@ -65,7 +65,7 @@ spec:
         p2pAddress: {{ node_name }}.{{ org.external_url_suffix }}:{{ peer.p2p.ambassador | default('10002') }}
 {% endif %}
       legalName: "{{ peer.subject }}"
-      emailAddress: "dev-node@baf.com"
+      emailAddress: "dev-node@bevel.com"
       crlCheckSoftFail: true
       tlsCertCrlDistPoint: ""
       tlsCertCrlIssuer: "{{ network | json_query('network_services[?type==`idman`].crlissuer_subject') | first }}"
