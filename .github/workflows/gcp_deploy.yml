@@ -1,0 +1,75 @@
+##############################################################################################
+#  Copyright Accenture. All Rights Reserved.
+#
+#  SPDX-License-Identifier: Apache-2.0
+##############################################################################################
+
+# Deploy DLT network supported by Hyperledger Bevel on GCP environment
+# Prerequisites
+#   - A GKE Cluster accessible from GitHub Runner
+#   - A Vault instance accessible from GitHub Runner
+#   - A completed network.yaml file on Github Secrets
+# This workflow can triggered manually
+# 
+# In summary, this pipeline does the following
+# 1. Prepare deployment environment files
+# 2. Depending on the branch, deploys DLT network
+
+name: Deploy DLT network
+
+on:
+  workflow_dispatch:    
+  push:
+    branches: 
+      - 'substrate'
+    paths-ignore:
+      - '**/releases/**'
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}    # Add your cluster name here.
+  GKE_REGION: ${{ secrets.GKE_REGION }}  # Add your cluster zone here.
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    environment: gcp_development
+    strategy:
+      max-parallel: 1
+    steps:
+    # checkout git repo
+    - name: Git checkout
+      uses: actions/checkout@v2.4.0
+    # Install dependencies
+    - name: Set up gcloud Cloud SDK environment
+      uses: google-github-actions/setup-gcloud@v0.2.0
+      with:
+        service_account_key: ${{ secrets.GOOGLE_CREDENTIALS }}
+        project_id: ${{ env.PROJECT_ID }}
+    - uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
+      with:
+        cluster_name: ${{ env.GKE_CLUSTER }}
+        location: ${{ env.GKE_REGION }}
+        credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
+    # # GCP Authentication
+    # - name: Authenticate to Google Cloud
+    #   uses: 'google-github-actions/auth@v0.4.1'
+    #   with:
+    #     credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+    - name: Prepare build environment
+      run: |
+        ansible --version
+        kubectl get services -o wide
+    - name: Deploy DLT platform
+      uses: dawidd6/action-ansible-playbook@v2
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        ANSIBLE_STDOUT_CALLBACK: "yaml"
+      with:
+        # Required, playbook filepath
+        playbook: platforms/shared/configuration/site.yaml
+        requirements: platforms/shared/configuration/requirements.yaml
+        # Optional, additional flags to pass to ansible-playbook
+        options: |
+          -e "@build/network.yaml"
+          -e "no_ansible_log=true"
