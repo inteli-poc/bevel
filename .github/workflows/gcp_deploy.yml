@@ -22,6 +22,7 @@ on:
   push:
     branches: 
       - 'substrate'
+      - 'vitalam'
     paths-ignore:
       - '**/releases/**'
 
@@ -60,6 +61,8 @@ jobs:
       run: |
         ansible --version
         kubectl get services -o wide
+        pwd
+        ls -ltr
     - name: Deploy DLT platform
       uses: dawidd6/action-ansible-playbook@v2
       env:
@@ -69,7 +72,7 @@ jobs:
         # Required, playbook filepath
         playbook: platforms/shared/configuration/site.yaml
         requirements: platforms/shared/configuration/requirements.yaml
-        # Optional, additional flags to pass to ansible-playbook
+        # Mandatory, additional flags to pass to ansible-playbook
         options: |
           -e "@build/network.yaml"
           -e "no_ansible_log=true"
