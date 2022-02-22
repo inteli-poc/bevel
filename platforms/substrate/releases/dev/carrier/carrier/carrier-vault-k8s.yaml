@@ -1,12 +1,12 @@
 apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
-  name: carrier-vaultk8s-job
+  name: carrier-vault-k8s
   namespace: carrier-subs
   annotations:
     fluxcd.io/automated: "false"
 spec:
-  releaseName: carrier-vaultk8s-job
+  releaseName: carrier-vault-k8s
   chart:
     git: https://github.com/inteli-poc/bevel.git
     ref: substrate
