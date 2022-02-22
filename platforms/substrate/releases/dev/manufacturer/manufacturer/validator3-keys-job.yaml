@@ -1,0 +1,31 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: validator3-keys-job
+  namespace: manufacturer-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: validator3-keys-job
+  chart:
+    git: https://github.com/inteli-poc/bevel.git
+    ref: substrate
+    path: platforms/substrate/charts/substrate-key-mgmt
+  values:
+    node:
+      name: validator3
+      image: docker.io/parity/substrate:v3.0.0
+      pullPolicy: IfNotPresent
+      command: substrate
+    metadata:
+      name: validator3-keys-job
+      namespace: manufacturer-subs
+    initContainer:
+      image: hyperledgerlabs/alpine-utils:1.0
+      pullPolicy: IfNotPresent
+    vault:
+      address: http://vault.internal.dev.gcp.inteli-poc.com:20002
+      role: vault-role
+      authpath: substratemanufacturer
+      serviceaccountname: vault-auth
+      certsecretprefix: secretsv2/data/manufacturer-subs
