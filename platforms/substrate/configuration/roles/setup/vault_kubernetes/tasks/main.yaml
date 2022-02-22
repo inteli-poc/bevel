@@ -49,7 +49,7 @@
 - name: Create policy for Access Control
   template:
     src: "policy-rw.tpl"
-    dest: "./build/vault-crypto-{{ component_type }}-{{ component_name }}-rw.hcl"
+    dest: "./build/vault-crypto-{{ component_type }}-{{ name }}-rw.hcl"
   changed_when: false
   
 #############################################################################################
@@ -65,8 +65,8 @@
   include_role:
     name: create/helm_component
   vars: 
-    name: "{{ component_name }}"   
-    type: "vault_kubernetes_job"    
+    name: "{{ name }}"   
+    type: "vault_k8s_mgmt"    
     vault_auth: "{{ vault_auth_status }}"
     vault_policy: "{{ vault_policy_temp }}"
     git_url: "{{ item.gitops.git_url }}"
@@ -75,7 +75,8 @@
     vault: "{{ item.vault }}"
     k8s: "{{ item.k8s }}"
     kubernetes_url: "{{ kubernetes_server_url.stdout }}"
-    alpine_image: "{{ network.docker.url }}/alpine-utils:1.0"
+    alpine_image: "ghcr.io/hyperledger/alpine-utils:1.0"
+    policydata: "{{ lookup('file', './build/vault-crypto-{{ component_type }}-{{ name }}-rw.hcl') }}"
     values_dir: "{{playbook_dir}}/../../../{{item.gitops.release_dir}}/{{ item.name | lower }}"
   
 #Git Push : Pushes the above generated files to git directory 
@@ -85,7 +86,7 @@
   vars:
     GIT_DIR: "{{ playbook_dir }}/../../../"
     gitops: "{{ item.gitops }}"    
-    GIT_RESET_PATH: "platforms/hyperledger-fabric/configuration"
+    GIT_RESET_PATH: "platforms/substrate/configuration"
     msg: "[ci skip] Pushing vault_kubernetes files"
    
 # Check if vault_kubernetes is completed
@@ -94,8 +95,7 @@
     name: "{{ playbook_dir }}/../../shared/configuration/roles/check/helm_component"
   vars:
     component_type: Job
-    namespace: "{{ item.name | lower}}-net"
-    component_name: "{{ item.name | lower}}-vaultkubenertes-job"
+    namespace: "{{ component_ns }}"
     kubernetes: "{{ item.k8s }}"
 
 #############################################################################################
@@ -104,7 +104,7 @@
   include_role:
     name: delete/k8s_secrets
   vars: 
-    namespace: "{{ item.name | lower}}-net"
+    namespace: "{{ component_ns }}"
     vault: "{{ item.vault }}"
     kubernetes: "{{ item.k8s }}"
     check: "token_secret"

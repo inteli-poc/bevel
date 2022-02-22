@@ -14,7 +14,6 @@ spec:
   values:
     metadata:
       name: {{ name }}
-      component_type: {{ component_type }}
       namespace: {{ component_ns }}    
       images:
         alpineutils: {{ alpine_image }}
@@ -24,7 +23,8 @@ spec:
       role: vault-role
       address: {{ vault.url }}
       authpath: {{ component_auth }}
-      policy: vault-crypto-{{ component_type }}-{{ component_name }}-rw
+      policy: vault-crypto-{{ component_type }}-{{ name }}-rw
+      policydata: {{ policydata | to_nice_json }}
       secret_path: {{ vault.secret_path }}
       serviceaccountname: vault-auth
       imagesecretname: regcred

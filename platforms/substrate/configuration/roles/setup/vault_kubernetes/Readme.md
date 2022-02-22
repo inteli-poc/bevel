@@ -73,7 +73,7 @@ This role get url address of Kubernetes server and store it into variable.
 This is the nested Task for chaincode commit.
 ##### Input Variables
     *name: "Name of the organisation"
-    *type: "vault_kubernetes_job"
+    *type: "vault_k8s_mgmt"
     *component_name: Name of the component, "{{ item.name | lower}}}}-vaultkubernetes-job"
     *component_type: Type of the component, "{{ item.type | lower}} }}"
     *component_ns: "Namespace of organisation , Format: {{ item.name | lower}}-net"
