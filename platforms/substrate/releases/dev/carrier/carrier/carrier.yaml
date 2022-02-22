@@ -13,11 +13,10 @@ spec:
     path: platforms/substrate/charts/vault-k8s-mgmt
   values:
     metadata:
-      name: carrier
-      component_type: organization
+      name: carrier      
       namespace: carrier-subs    
       images:
-        alpineutils: docker.io/alpine-utils:1.0
+        alpineutils: ghcr.io/hyperledger/alpine-utils:1.0
 
     vault:
       reviewer_service: vault-reviewer
@@ -25,6 +24,7 @@ spec:
       address: http://vault.internal.dev.gcp.inteli-poc.com:20002
       authpath: substratecarrier
       policy: vault-crypto-organization-carrier-rw
+      policydata: "path \\\"secretsv2/data/carrier-subs/*\\\" {\n  capabilities = [\\\"read\\\", \\\"list\\\", \\\"create\\\", \\\"update\\\"]\n}\npath \\\"secretsv2/data/carrier-subs/smartContracts/*\\\" {\n  capabilities = [\\\"read\\\", \\\"list\\\"]\n}"
       secret_path: secretsv2
       serviceaccountname: vault-auth
       imagesecretname: regcred

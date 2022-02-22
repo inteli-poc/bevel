@@ -62,4 +62,4 @@ charts:
   operations_console: operations_console
   auth: auth
   substrate_keys_job: substrate-key-mgmt
-  vault_kubernetes_job: vault-k8s-mgmt
+  vault_k8s_mgmt: vault-k8s-mgmt
