@@ -47,9 +47,11 @@
 #####################################################################################################################
 # This task creates the access policy for various Substrate entity
 - name: Create policy for Access Control
+  vars:  
+    name: "{{ item.name | lower }}"
   template:
-    src: "policy-rw.tpl"
-    dest: "./build/vault-crypto-{{ component_type }}-{{ name }}-rw.hcl"
+    src: "policy-ro.tpl"
+    dest: "./build/vault-crypto-{{ component_type }}-{{ name }}-ro.hcl"
   changed_when: false
   
 #############################################################################################
@@ -64,8 +66,8 @@
 - name: "Create value file for vault_kubernetes"
   include_role:
     name: create/helm_component
-  vars: 
-    name: "{{ name }}"   
+  vars:  
+    name: "{{ item.name | lower }}"
     type: "vault_k8s_mgmt"    
     vault_auth: "{{ vault_auth_status }}"
     vault_policy: "{{ vault_policy_temp }}"
@@ -76,7 +78,7 @@
     k8s: "{{ item.k8s }}"
     kubernetes_url: "{{ kubernetes_server_url.stdout }}"
     alpine_image: "ghcr.io/hyperledger/alpine-utils:1.0"
-    policydata: "{{ lookup('file', './build/vault-crypto-{{ component_type }}-{{ name }}-rw.hcl') }}"
+    policydata: "{{ lookup('file', './build/vault-crypto-{{ component_type }}-{{ name }}-ro.hcl') }}"
     values_dir: "{{playbook_dir}}/../../../{{item.gitops.release_dir}}/{{ item.name | lower }}"
   
 #Git Push : Pushes the above generated files to git directory 

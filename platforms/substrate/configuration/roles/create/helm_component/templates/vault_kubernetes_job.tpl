@@ -1,12 +1,12 @@
 apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
-  name: {{ name }}-vaultk8s-job
+  name: {{ component_name }}
   namespace: {{ component_ns }}
   annotations:
     fluxcd.io/automated: "false"
 spec:
-  releaseName: {{ name }}-vaultk8s-job
+  releaseName: {{ component_name }}
   chart:
     git: {{ git_url }}
     ref: {{ git_branch }}
@@ -23,7 +23,7 @@ spec:
       role: vault-role
       address: {{ vault.url }}
       authpath: {{ component_auth }}
-      policy: vault-crypto-{{ component_type }}-{{ name }}-rw
+      policy: vault-crypto-{{ component_type }}-{{ name }}-ro
       policydata: {{ policydata | to_nice_json }}
       secret_path: {{ vault.secret_path }}
       serviceaccountname: vault-auth
