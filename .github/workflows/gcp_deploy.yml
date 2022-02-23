@@ -28,7 +28,7 @@ on:
 
 env:
   GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-  PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+  GCLOUD_PROJECT: ${{ secrets.GCP_PROJECT }}
   GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}    # Add your cluster name here.
   GKE_REGION: ${{ secrets.GKE_REGION }}  # Add your cluster zone here.
   GITOPS_CREDS: ${{ secrets.GITOPS_PRIVATE_KEY }}
@@ -55,7 +55,7 @@ jobs:
     - name: Set up gcloud Cloud SDK environment
       uses: google-github-actions/setup-gcloud@v0.2.0
       with:
-        project_id: ${{ env.PROJECT_ID }}
+        project_id: ${{ env.GCLOUD_PROJECT }}
     # Get current branch
     - name: Set output
       id: vars
@@ -127,7 +127,7 @@ jobs:
     - name: Set up gcloud Cloud SDK environment
       uses: google-github-actions/setup-gcloud@v0.2.0
       with:
-        project_id: ${{ env.PROJECT_ID }}
+        project_id: ${{ env.GCLOUD_PROJECT }}
       # # GCP Authentication
       # - name: Authenticate to Google Cloud
       #   uses: 'google-github-actions/auth@v0.4.1'
