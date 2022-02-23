@@ -78,6 +78,7 @@ jobs:
         ls -ltr
         echo $KUBECONFIG
         mkdir -p build
+        mkdir ~/.ssh
         LOCAL_BUILD_PATH=$(pwd)/build
         echo $LOCAL_BUILD_PATH
         set +x
