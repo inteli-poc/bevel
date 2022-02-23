@@ -30,6 +30,8 @@ env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT }}
   GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}    # Add your cluster name here.
   GKE_REGION: ${{ secrets.GKE_REGION }}  # Add your cluster zone here.
+  GITOPS_CREDS: ${{ secrets.GITOPS_PRIVATE_KEY }}
+  VAULT_CREDS: ${{ secrets.VAULT_PRIVATE_KEY }}
 
 jobs:
   deployment:

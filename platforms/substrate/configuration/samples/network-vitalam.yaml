@@ -47,8 +47,8 @@ network:
     # Provide the command which is used to start the node
     command: "./vitalam-node"     # Please ensure the command corresponds to the node_image above
     # NOTE for the below paths, the directories should exist
-    bootnodes: "BUILD_DIR/substrate_bootnodes" # Location where bootnodes information is read or saved if empty
-    genesis: "BUILD_DIR/substrate_genesis"   # Location where information is read or saved if empty
+    bootnodes: "/BUILD_DIR/substrate_bootnodes" # Location where bootnodes information is read or saved if empty
+    genesis: "/BUILD_DIR/substrate_genesis"   # Location where information is read or saved if empty
   
   # Allows specification of one or many organizations that will be connecting to a network.
   organizations:
@@ -62,12 +62,12 @@ network:
       # Kubernetes cluster deployment variables. The config file path and name has to be provided in case
       # the cluster has already been created.
       k8s:
-        context: "gke_acn-inteli-poc_europe-west2_gke-dev"
+        context: "GKE_CONTEXT"
         config_file: "~/.kube/config"
       # Hashicorp Vault server address and root-token. Vault should be unsealed.
       # Do not check-in root_token
       vault:
-        url: "http://vault.internal.dev.gcp.inteli-poc.com:20002"
+        url: "http://VAULT_URL:VAULT_PORT"
         root_token: "VAULT_TOKEN"
         secret_path: "secretsv2"
       # Git Repo details which will be used by GitOps/Flux.
@@ -148,12 +148,12 @@ network:
       # Kubernetes cluster deployment variables. The config file path and name has to be provided in case
       # the cluster has already been created.
       k8s:
-        context: "gke_acn-inteli-poc_europe-west2_gke-dev"
+        context: "GKE_CONTEXT"
         config_file: "~/.kube/config"
       # Hashicorp Vault server address and root-token. Vault should be unsealed.
       # Do not check-in root_token
       vault:
-        url: "http://vault.internal.dev.gcp.inteli-poc.com:20002"
+        url: "http://VAULT_URL:VAULT_PORT"
         root_token: "VAULT_TOKEN"
         secret_path: "secretsv2"
       # Git Repo details which will be used by GitOps/Flux.
@@ -225,12 +225,12 @@ network:
       # Kubernetes cluster deployment variables. The config file path and name has to be provided in case
       # the cluster has already been created.
       k8s:
-        context: "gke_acn-inteli-poc_europe-west2_gke-dev"
+        context: "GKE_CONTEXT"
         config_file: "~/.kube/config"
       # Hashicorp Vault server address and root-token. Vault should be unsealed.
       # Do not check-in root_token
       vault:
-        url: "http://vault.internal.dev.gcp.inteli-poc.com:20002"
+        url: "http://VAULT_URL:VAULT_PORT"
         root_token: "VAULT_TOKEN"
         secret_path: "secretsv2"
       # Git Repo details which will be used by GitOps/Flux.
