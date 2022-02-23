@@ -81,6 +81,9 @@ jobs:
         mkdir ~/.ssh
         LOCAL_BUILD_PATH=$(pwd)/build
         echo $LOCAL_BUILD_PATH
+        curl https://ipv4.icanhazip.com/ > ./build/localip
+        
+        gcloud compute firewall-rules update allow-github-ssh --source-ranges=$(cat ./build/localip)/32 --enable-logging
         set +x
         echo $GITOPS_CREDS > ${LOCAL_BUILD_PATH}/gitops
         echo $VAULT_CREDS > ~/.ssh/vault.pem
