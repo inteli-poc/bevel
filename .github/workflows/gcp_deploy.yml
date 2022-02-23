@@ -60,30 +60,25 @@ jobs:
     - name: Set output
       id: vars
       run: echo ::set-output name=branch::${GITHUB_REF#refs/heads/}
-    - uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
+    - uses: google-github-actions/get-gke-credentials@v0
       with:
         cluster_name: ${{ env.GKE_CLUSTER }}
         location: ${{ env.GKE_REGION }}
         credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
-    # # GCP Authentication
-    # - name: Authenticate to Google Cloud
-    #   uses: 'google-github-actions/auth@v0.4.1'
-    #   with:
-    #     credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+    
     - name: Prepare build environment
       run: |
         ansible --version
-        kubectl get services -o wide
-        pwd
-        ls -ltr
-        echo $KUBECONFIG
+        kubectl get services -o wide        
+        
         mkdir -p build
         mkdir ~/.ssh
         LOCAL_BUILD_PATH=$(pwd)/build
         echo $LOCAL_BUILD_PATH
         curl https://ipv4.icanhazip.com/ > ./build/localip
+        mv $KUBECONFIG ./build/config
         
-        gcloud compute firewall-rules update allow-github-ssh --source-ranges=$(cat ./build/localip)/32 --enable-logging
+        gcloud compute firewall-rules update allow-github-ssh --source-ranges=$(cat ./build/localip)/32
         set +x
         echo $GITOPS_CREDS > ${LOCAL_BUILD_PATH}/gitops
         echo $VAULT_CREDS > ~/.ssh/vault.pem
@@ -121,3 +116,26 @@ jobs:
         options: |
           -e "@build/network.yaml"
           -e "no_ansible_log=true"
+  post-deployment:
+    if: ${{ always() }}
+    needs: [deployment]
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+    steps:  
+    # Install dependencies
+    - name: Set up gcloud Cloud SDK environment
+      uses: google-github-actions/setup-gcloud@v0.2.0
+      with:
+        service_account_key: ${{ secrets.GOOGLE_CREDENTIALS }}
+        project_id: ${{ env.PROJECT_ID }}
+      # # GCP Authentication
+      # - name: Authenticate to Google Cloud
+      #   uses: 'google-github-actions/auth@v0.4.1'
+      #   with:
+      #     credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+    # Remove github runner in gke network config
+    - name: Remove github runner in firewall rule
+      continue-on-error: true
+      run: |
+        gcloud compute firewall-rules update allow-github-ssh --source-ranges= 

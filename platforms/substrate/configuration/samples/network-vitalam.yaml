@@ -63,7 +63,7 @@ network:
       # the cluster has already been created.
       k8s:
         context: "GKE_CONTEXT"
-        config_file: "~/.kube/config"
+        config_file: "/BUILD_DIR/config"
       # Hashicorp Vault server address and root-token. Vault should be unsealed.
       # Do not check-in root_token
       vault:
@@ -149,7 +149,7 @@ network:
       # the cluster has already been created.
       k8s:
         context: "GKE_CONTEXT"
-        config_file: "~/.kube/config"
+        config_file: "/BUILD_DIR/config"
       # Hashicorp Vault server address and root-token. Vault should be unsealed.
       # Do not check-in root_token
       vault:
@@ -226,7 +226,7 @@ network:
       # the cluster has already been created.
       k8s:
         context: "GKE_CONTEXT"
-        config_file: "~/.kube/config"
+        config_file: "/BUILD_DIR/config"
       # Hashicorp Vault server address and root-token. Vault should be unsealed.
       # Do not check-in root_token
       vault:
