@@ -84,6 +84,7 @@ jobs:
         set +x
         echo $GITOPS_CREDS > ${LOCAL_BUILD_PATH}/gitops
         echo $VAULT_CREDS > ~/.ssh/vault.pem
+        set -x
         chmod 400 ${LOCAL_BUILD_PATH}/gitops
         chmod 400  ~/.ssh/vault.pem
         ssh-keyscan github.com >> ~/.ssh/known_hosts
