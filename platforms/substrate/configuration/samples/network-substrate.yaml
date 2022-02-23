@@ -81,10 +81,10 @@ network:
         release_dir: "platforms/substrate/releases/dev" # Relative Path in the Git repo for flux sync per environment. 
         chart_source: "platforms/substrate/charts"     # Relative Path where the Helm charts are stored in Git repo
         git_repo: "github.com/inteli-poc/bevel.git"   # Gitops git repository URL for git push 
-        username: "GIT_USER"          # Git Service user who has rights to check-in in all branches
+        username: "bevel"          # Git Service user who has rights to check-in in all branches
         password: "CHANGE_ME"          # Git Server user password/token (Optional for ssh; Required for https)
-        email: "change@me.com"                # Email to use in git config
-        private_key: "BUILD_DIR/gitops"          # Path to private key file which has write-access to the git repo (Optional for https; Required for ssh)
+        email: "bevel@inteli-poc.com"                # Email to use in git config
+        private_key: "/BUILD_DIR/gitops"          # Path to private key file which has write-access to the git repo (Optional for https; Required for ssh)
       # The participating nodes are named as peers
       services:
         peers:
@@ -169,10 +169,10 @@ network:
         release_dir: "platforms/substrate/releases/dev" # Relative Path in the Git repo for flux sync per environment. 
         chart_source: "platforms/substrate/charts"     # Relative Path where the Helm charts are stored in Git repo
         git_repo: "github.com/inteli-poc/bevel.git"   # Gitops git repository URL for git push 
-        username: "GIT_USER"          # Git Service user who has rights to check-in in all branches
+        username: "bevel"          # Git Service user who has rights to check-in in all branches
         password: "CHANGE_ME"          # Git Server user password/token (Optional for ssh; Required for https)
-        email: "change@me.com"                # Email to use in git config
-        private_key: "BUILD_DIR/gitops"          # Path to private key file which has write-access to the git repo (Optional for https; Required for ssh)
+        email: "bevel@inteli-poc.com"                # Email to use in git config
+        private_key: "/BUILD_DIR/gitops"          # Path to private key file which has write-access to the git repo (Optional for https; Required for ssh)
 
       # The participating nodes are named as peers 
       services:
@@ -248,10 +248,10 @@ network:
         release_dir: "platforms/substrate/releases/dev" # Relative Path in the Git repo for flux sync per environment. 
         chart_source: "platforms/substrate/charts"     # Relative Path where the Helm charts are stored in Git repo
         git_repo: "github.com/inteli-poc/bevel.git"   # Gitops git repository URL for git push 
-        username: "GIT_USER"          # Git Service user who has rights to check-in in all branches
+        username: "bevel"          # Git Service user who has rights to check-in in all branches
         password: "CHANGE_ME"          # Git Server user password/token (Optional for ssh; Required for https)
-        email: "change@me.com"                # Email to use in git config
-        private_key: "BUILD_DIR/gitops"          # Path to private key file which has write-access to the git repo (Optional for https; Required for ssh)
+        email: "bevel@inteli-poc.com"                # Email to use in git config
+        private_key: "/BUILD_DIR/gitops"          # Path to private key file which has write-access to the git repo (Optional for https; Required for ssh)
 
       services:
         peers:

@@ -32,6 +32,13 @@ env:
   GKE_REGION: ${{ secrets.GKE_REGION }}  # Add your cluster zone here.
   GITOPS_CREDS: ${{ secrets.GITOPS_PRIVATE_KEY }}
   VAULT_CREDS: ${{ secrets.VAULT_PRIVATE_KEY }}
+  VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
+  VAULT_SERVER: ${{ secrets.VAULT_URL }}
+  VAULT_PORT: ${{ secrets.VAULT_PORT }}
+  VAULT_BASTION: ${{ secrets.VAULT_BASTION }}
+  GKE_CONTEXT: ${{ secrets.GKE_CONTEXT }}
+  SSH_SERVER_ALIVE_INTERVAL: 60
+  SSH_SERVER_ALIVE_COUNT_MAX: 20
 
 jobs:
   deployment:
@@ -49,6 +56,10 @@ jobs:
       with:
         service_account_key: ${{ secrets.GOOGLE_CREDENTIALS }}
         project_id: ${{ env.PROJECT_ID }}
+    # Get current branch
+    - name: Set output
+      id: vars
+      run: echo ::set-output name=branch::${GITHUB_REF#refs/heads/}
     - uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
       with:
         cluster_name: ${{ env.GKE_CLUSTER }}
@@ -65,6 +76,33 @@ jobs:
         kubectl get services -o wide
         pwd
         ls -ltr
+        echo $KUBECONFIG
+        mkdir -p build
+        LOCAL_BUILD_PATH=${pwd()}/build
+        echo $LOCAL_BUILD_PATH
+        set +x
+        cat $GITOPS_CREDS > ${LOCAL_BUILD_PATH}/gitops
+        cat $VAULT_CREDS > ~/.ssh/vault.pem
+        chmod 400 ${LOCAL_BUILD_PATH}/gitops
+        chmod 400  ~/.ssh/vault.pem
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        ssh-keyscan ${VAULT_BASTION} >> ~/.ssh/known_hosts
+        echo "127.0.0.1 ${VAULT_SERVER}" > /etc/hosts
+        echo "ServerAliveInterval ${SSH_SERVER_ALIVE_INTERVAL}" >> ~/.ssh/config
+        echo "ServerAliveCountMax ${SSH_SERVER_ALIVE_COUNT_MAX}" >> ~/.ssh/config
+        ssh -i ~/.ssh/vault.pem -f -q -N -L ${VAULT_PORT}:${VAULT_SERVER}:${VAULT_PORT} ubuntu@${VAULT_BASTION}
+        cp platforms/substrate/configuration/samples/network-${{ steps.vars.outputs.branch }}.yaml build/network.yaml
+
+        git config --global user.email "bevel@inteli-poc.com"
+        git config --global user.name "bevel"
+        git config --global push.default matching
+
+        sed -i -e 's+/BUILD_DIR+${LOCAL_BUILD_PATH}+g' build/network.yaml
+        sed -i -e 's*VAULT_TOKEN*${VAULT_TOKEN}*g' build/network.yaml
+        sed -i -e 's*VAULT_URL*${VAULT_SERVER}*g' build/network.yaml
+        sed -i -e 's*VAULT_PORT*${VAULT_PORT}*g' build/network.yaml
+        sed -i -e 's*GKE_CONTEXT*${GKE_CONTEXT}*g' build/network.yaml
+
     - name: Deploy DLT platform
       uses: dawidd6/action-ansible-playbook@v2
       env:
