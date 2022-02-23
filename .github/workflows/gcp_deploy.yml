@@ -90,7 +90,7 @@ jobs:
         chmod 400  ~/.ssh/vault.pem
         ssh-keyscan github.com >> ~/.ssh/known_hosts
         ssh-keyscan ${VAULT_BASTION} >> ~/.ssh/known_hosts
-        echo "127.0.0.1 ${VAULT_SERVER}" > /etc/hosts
+        echo "127.0.0.1 ${VAULT_SERVER}" > sudo /etc/hosts
         echo "ServerAliveInterval ${SSH_SERVER_ALIVE_INTERVAL}" >> ~/.ssh/config
         echo "ServerAliveCountMax ${SSH_SERVER_ALIVE_COUNT_MAX}" >> ~/.ssh/config
         ssh -i ~/.ssh/vault.pem -f -q -N -L ${VAULT_PORT}:${VAULT_SERVER}:${VAULT_PORT} ubuntu@${VAULT_BASTION}
