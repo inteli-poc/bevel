@@ -78,7 +78,7 @@ jobs:
         ls -ltr
         echo $KUBECONFIG
         mkdir -p build
-        LOCAL_BUILD_PATH=${pwd()}/build
+        LOCAL_BUILD_PATH=$(pwd)/build
         echo $LOCAL_BUILD_PATH
         set +x
         cat $GITOPS_CREDS > ${LOCAL_BUILD_PATH}/gitops
