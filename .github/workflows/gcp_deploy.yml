@@ -91,9 +91,10 @@ jobs:
         ssh-keyscan github.com >> ~/.ssh/known_hosts
         ssh-keyscan ${VAULT_BASTION} >> ~/.ssh/known_hosts
         echo "127.0.0.1 ${VAULT_SERVER}" > sudo /etc/hosts
-        #echo "ServerAliveInterval ${SSH_SERVER_ALIVE_INTERVAL}" >> ~/.ssh/config
-        #echo "ServerAliveCountMax ${SSH_SERVER_ALIVE_COUNT_MAX}" >> ~/.ssh/config
-        ssh -i ~/.ssh/vault.pem -f -q -N -L ${VAULT_PORT}:${VAULT_SERVER}:${VAULT_PORT} ubuntu@${VAULT_BASTION}
+        echo "ServerAliveInterval ${SSH_SERVER_ALIVE_INTERVAL}" >> ~/.ssh/config
+        echo "ServerAliveCountMax ${SSH_SERVER_ALIVE_COUNT_MAX}" >> ~/.ssh/config
+        ssh -i ~/.ssh/vault.pem -f -q -N -L 20002:vault.internal.dev.gcp.inteli-poc.com:20002 ubuntu@35.233.123.75
+        
         cp platforms/substrate/configuration/samples/network-${{ steps.vars.outputs.branch }}.yaml build/network.yaml
 
         git config --global user.email "bevel@inteli-poc.com"
