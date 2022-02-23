@@ -119,7 +119,6 @@ jobs:
     if: ${{ always() }}
     needs: [deployment]
     runs-on: ubuntu-latest
-    environment: gcp_development
     strategy:
       max-parallel: 1
     steps:  
