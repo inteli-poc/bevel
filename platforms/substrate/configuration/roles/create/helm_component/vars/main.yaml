@@ -1,0 +1,12 @@
+##############################################################################################
+#  Copyright Accenture. All Rights Reserved.
+#
+#  SPDX-License-Identifier: Apache-2.0
+##############################################################################################
+
+helm_templates:
+  substrate_keys_job: substrate_keys_job.tpl
+  vitalam_ipfs_node: vitalam_ipfs_node.tpl
+  vault_k8s_mgmt: vault_kubernetes_job.tpl
+  bootnode: node_substrate.tpl
+  validator: node_substrate.tpl
