@@ -103,6 +103,7 @@ network:
           name: validator1
           subject: "O=Validator1,OU=Validator1,L=51.50/-0.13/London,C=GB" # This is the node subject. L=lat/long is mandatory for supplychain sample app
           type: validator         # value can be validator or bootnode ( or ipfs, for vitalAM)
+          sudo: true      # value has to be set to true to enable the selected peer to become the sudo node of the network - note only one peer can be sudo == true, the rest will HAVE to be sudo == false 
           p2p:
             port: 30333
             ambassador: 15012       #Port exposed on ambassador service (use one port per org if using single cluster)
@@ -114,6 +115,7 @@ network:
           name: validator2
           subject: "O=Validator1,OU=Validator1,L=51.50/-0.13/London,C=GB" # This is the node subject. L=lat/long is mandatory for supplychain sample app
           type: validator         # value can be validator or bootnode ( or ipfs, for vitalAM)
+          sudo: false      # value has to be set to true to enable the selected peer to become the sudo node of the network - note only one peer can be sudo == true, the rest will HAVE to be sudo == false 
           p2p:
             port: 30333
             ambassador: 15013       #Port exposed on ambassador service (use one port per org if using single cluster)
@@ -192,6 +194,7 @@ network:
           name: validator3
           subject: "O=Validator3,OU=Validator3,L=47.38/8.54/Zurich,C=CH" # This is the node subject. L=lat/long is mandatory for supplychain sample app
           type: validator         # value can be validator or bootnode ( or ipfs, for vitalAM)
+          sudo: false      # value has to be set to true to enable the selected peer to become the sudo node of the network - note only one peer can be sudo == true, the rest will HAVE to be sudo == false 
           p2p:
             port: 30333
             ambassador: 15021       #Port exposed on ambassador service (use one port per org if using single cluster)
@@ -203,6 +206,7 @@ network:
           name: validator4
           subject: "O=Validator4,OU=Validator4,L=47.38/8.54/Zurich,C=CH" # This is the node subject. L=lat/long is mandatory for supplychain sample app
           type: validator         # value can be validator or bootnode ( or ipfs, for vitalAM)
+          sudo: false      # value has to be set to true to enable the selected peer to become the sudo node of the network - note only one peer can be sudo == true, the rest will HAVE to be sudo == false 
           p2p:
             port: 30333
             ambassador: 15022       #Port exposed on ambassador service (use one port per org if using single cluster)

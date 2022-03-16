@@ -51,6 +51,8 @@ spec:
           value: {{ .Values.aura_key }}
         - name: GRANDPA_KEY
           value: {{ .Values.grandpa_key }}
+        - name: SUDO_KEY
+          value: {{ .Values.sudo_key }}
         command: ["bash", "-c"]
         args:
         - |-
@@ -111,6 +113,9 @@ spec:
           echo {{.}}
           GENESIS=$(echo "$GENESIS" | jq --arg grandpa {{.}} '.genesis.runtime.palletGrandpa.authorities += [[$grandpa, 1]]')
           {{- end }}
+
+          echo "Inserting sudo key into genesis"
+          GENESIS=$(echo "$GENESIS" | jq --arg sudokey ${SUDO_KEY} '.genesis.runtime.palletSudo.key |= $sudokey')
 
           echo "$GENESIS" > genesis.json
 

@@ -31,3 +31,18 @@
 - name: Set aura key
   set_fact:
     aura_key_list={{ aura_key_list|default([]) + [ aura_key.stdout ] }}
+
+# This task fetches the aura key of the sudo peer and registers it as sudo var
+- name: Get sudo key
+  environment:
+    VAULT_ADDR: "{{ vault.url }}"
+    VAULT_TOKEN: "{{ vault.root_token }}"
+  shell: |
+    vault kv get -field=aura_addr {{ vault.secret_path | default('secretsv2') }}/{{ component_ns }}/{{ peer.name }}/substrate
+  register: sudo
+  when: peer.sudo == true
+
+- name: Insert retrieved key into sudo_key_list var
+  set_fact:
+    sudo_key_list={{ sudo.stdout }}
+  when: peer.sudo == true

@@ -29,3 +29,4 @@ spec:
       certsecretprefix: {{ vault.secret_path | default('secretsv2') }}/{{ component_ns }}
     aura_keys: {{ aura_key_list }}
     grandpa_keys: {{ grandpa_key_list }}
+    sudo_key: {{ sudo_key_list }}

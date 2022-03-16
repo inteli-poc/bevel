@@ -13,6 +13,10 @@
   set_fact:
     grandpa_key_list: []
 
+- name: Set sudo_key var
+  set_fact:
+    sudo_key_list: 
+
 - name: Pull keys for each validator peer
   include_tasks: nested_main.yaml
   vars:

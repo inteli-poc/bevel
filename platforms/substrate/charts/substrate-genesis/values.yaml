@@ -67,3 +67,7 @@ grandpa_keys:
   # e.g.
   # -5FPQ5bk3kiwpIEH72sayKBJe7Q57xNwAwmes3FA2YW37AE41
   # -5FPQ5bk3i1wadHJWEHUAIBJe7Q57xNwAwmes3FA2YW37AE41
+sudo_key:
+  # Provide the key of the dedicated sudo peer
+  # e.g.
+  # -5FPQ5bk3kiwpIEH72sayKBJe7Q57xNwAwmes3FA2YW37AE41

@@ -874,6 +874,7 @@
             "name": { "type": "string","pattern": "^[a-z0-9-_]{1,30}$","description":"Name of the peer"},
             "subject": { "type": "string", "description": "This is the alternative identity of the peer node"},
             "type":{"type":"string","enum":["validator","bootnode","member","ipfs","ipfs-bootnode"],"description":"value can be validator, bootnode or member; ipfs type is for vitalAM only"},
+            "sudo":{"type": "boolean", "description": "Set sudo to true to dedicate the peer as the sudo node, only one peer can be sudo node and the rest have to be set to false"},
             "p2p":  { "$ref":"#/definitions/shared_port_ambassador", "description":"P2P port with external access"},
             "swarm":  { "$ref":"#/definitions/shared_port_ambassador","description":"IPFS Swarm port with external access"},
             "api":  { "$ref":"#/definitions/shared_port","description":"API port"},
