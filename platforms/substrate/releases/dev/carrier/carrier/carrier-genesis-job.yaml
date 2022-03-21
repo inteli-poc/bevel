@@ -1,0 +1,31 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: carrier-genesis-job
+  namespace: carrier-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: carrier-genesis-job
+  chart:
+    git: https://github.com/inteli-poc/bevel.git
+    ref: substrate
+    path: platforms/substrate/charts/substrate-genesis
+  values:
+    node:
+      name: carrier-genesis-job
+      image: docker.io/parity/substrate:latest
+      pullPolicy: IfNotPresent
+      command: substrate
+    metadata:
+      name: carrier-genesis-job
+      namespace: carrier-subs
+    vault:
+      address: http://vault.internal.dev.gcp.inteli-poc.com:20002
+      role: vault-role
+      authpath: substratecarrier
+      serviceaccountname: vault-auth
+      # Not using /data because vault cli is used in this container
+      certsecretprefix: secretsv2/carrier-subs
+    aura_keys: ['5H1XBQn6PwTqvu7KQWhZDj42h7CMHR7Lua9vMC36usaxHvQH', '5E76cBrb79XiegVw9eun3kFPpw7z3Tnnz6pMTMbfasAnUVVZ', '5DegQqdiXP2BwJRdEBXTEUFT4ZfPrKxAiQbsNiGZFb91ibdT', '5EHMTgGVyeuVWckkGSfVMScCWMBQuWjfJ88CvWaf7qSzXc8T']
+    grandpa_keys: ['5HV7tgbj7JPwv1ZMQBDxoir3ar7bxpZKYrVi5QxJ46XTGHsr', '5D3LGhBMdTmYZpCWHqXPPoFntU6EdtyysWWsgs11tajLH8HK', '5ErqL6Ff7A7KYBsDYpfKhdREudr2KqEpmKqosKuvQsGfs55A', '5GcXMzx5QmdX2w32bFyERqE8nZPoTczU4JyHatdceT6UC95A']
