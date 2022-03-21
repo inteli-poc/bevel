@@ -118,7 +118,9 @@ spec:
           {{- end }}
 
           echo "$GENESIS" > genesis.json
-
+          echo "********* check genesis *********"
+          cat genesis.json
+          echo "********* check genesis *********"
           echo "Converting genesis to raw format"
           GENESIS=$($command build-spec --disable-default-bootnode --raw --chain ./genesis.json)
           echo "$GENESIS" > genesis_raw.json
