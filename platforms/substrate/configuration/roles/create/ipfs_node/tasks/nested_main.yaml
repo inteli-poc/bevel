@@ -1,0 +1,45 @@
+##############################################################################################
+#  Copyright Accenture. All Rights Reserved.
+#
+#  SPDX-License-Identifier: Apache-2.0
+##############################################################################################
+
+# ---------------------------------------------------------------------
+- name: "Set nodeName var to bootnode peer name"
+  set_fact:
+    nodeName: "{{ peer.name }}"
+    bootnodeCheck: true
+  when: peer.type == 'bootnode'
+
+# generate ipfs node helmrelease file
+- name: "Create ipfs node release file"
+  include_role:
+    name: create/helm_component
+  vars:    
+    component_name: "{{ peer.name }}-ipfs-node"
+    type: "vitalam_ipfs_node"
+    storageclass_name: "{{ item.cloud_provider }}storageclass"
+    external_url: "{{ item.external_url_suffix }}"
+    git_url: "{{ item.gitops.git_url }}"
+    git_branch: "{{ item.gitops.branch }}"
+    org: "{{ item }}"
+    docker_url: "{{ network.docker.url }}"
+    charts_dir: "{{ item.gitops.chart_source }}"
+    values_dir: "{{playbook_dir}}/../../../{{item.gitops.release_dir}}/{{ item.name | lower }}"
+    nodeHost: "{{ nodeName }}"    
+    vitalamNode: false
+  loop: "{{ peers }}"
+  loop_control:
+    loop_var: peer 
+  when: 
+  - bootnodeCheck 
+  - peer.type == 'ipfs' or peer.type == 'ipfs-bootnode' 
+
+# push the created deployment files to repository
+- name: "Push the created deployment files to repository"
+  include_role:
+    name: "{{ playbook_dir }}/../../shared/configuration/roles/git_push"
+  vars:
+    GIT_DIR: "{{ playbook_dir }}/../../../"
+    GIT_RESET_PATH: "platforms/substrate/configuration"
+    msg: "[ci skip] Pushing ipfs node files"

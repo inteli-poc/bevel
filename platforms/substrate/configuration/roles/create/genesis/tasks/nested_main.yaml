@@ -1,0 +1,13 @@
+##############################################################################################
+#  Copyright Accenture. All Rights Reserved.
+#
+#  SPDX-License-Identifier: Apache-2.0
+##############################################################################################
+
+# Gets the required keys list
+- name: Get required keys
+  include_tasks: nested_keys.yaml
+  loop: "{{ peers }}"
+  loop_control:
+    loop_var: peer
+  when: peer.type == 'validator'

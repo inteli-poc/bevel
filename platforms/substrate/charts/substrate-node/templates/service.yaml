@@ -1,49 +1,59 @@
-{{ $fullname :=  include "substrate_chart.name" . }}
+{{ $fullname :=  include "node.fullname" . }}
+{{ $selectorLabels :=  include "node.selectorLabels" .  }}
+{{ $serviceLabels :=  include "node.serviceLabels" .  }}
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ $fullname }}
+  namespace: {{ $.Values.node.namespace }}
   labels:
-    {{- include "substrate_node.serviceLabels" . | indent 4 }}
+    {{- include "node.labels" . | nindent 4 }}
 spec:
   type: ClusterIP
   clusterIP: None
   selector:
-  {{- include "substrate_node.selectorLabels" . | nindent 4 }}
+    {{- $selectorLabels | nindent 4 }}
   ports:
     {{- if $.Values.node.substrateApiSidecar.enabled }}
     - port: 8080
       name: api-sidecar
     {{- end }}
-    - port: 9933
+    - port: {{ $.Values.node.ports.rpc }}
       name: http-rpc
-    - port: 9944
+      protocol: TCP
+      targetPort: http-rpc
+    - port: {{ $.Values.node.ports.ws }}
       name: websocket-rpc
+      protocol: TCP
+      targetPort: websocket-rpc
 ---
-{{range $i := until (.Values.node.replicas | int) }}
+{{range $i := until ($.Values.node.replicas | int) }}
 {{- if $.Values.node.perNodeServices.createClusterIPService }}
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ $fullname }}-{{ $i }}
+  namespace: {{ $.Values.node.namespace }}
   labels:
-    {{- include "substrate_node.serviceLabels" . | indent 4 }}
+    {{- $serviceLabels | nindent 4 }}
     instance: {{ $fullname }}-{{ $i }}
 spec:
   type: ClusterIP
   clusterIP: None
   selector:
-  {{- include "substrate_node.selectorLabels" . | nindent 4 }} 
+    {{- $selectorLabels | nindent 4 }}
     statefulset.kubernetes.io/pod-name: {{ $fullname }}-{{ $i }}
   ports:
-  - name: ws-rpc
-    protocol: TCP
-    port: {{ .Values.node.ports.ws }}
-  - name: http-rpc
-    protocol: TCP
-    port: {{ .Values.node.ports.rpc }}
-  - name: prometheus
-    port: 9615
+    - port: {{ $.Values.node.ports.rpc }}
+      name: http-rpc
+      protocol: TCP
+      targetPort: http-rpc
+    - port: {{ $.Values.node.ports.ws }}
+      name: websocket-rpc
+      protocol: TCP
+      targetPort:  websocket-rpc
+    - port: 9615
+      name: prometheus
 {{- end }}
 ---
 {{- if $.Values.node.perNodeServices.createP2pNodePortService }}
@@ -51,15 +61,39 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ $fullname }}-{{ $i }}-relay-chain-p2p
+  annotations:
+  {{- if eq $.Values.proxy.provider "ambassador" }}
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v2
+      kind: TCPMapping
+      name: {{ $fullname }}-p2p
+      port: {{ $.Values.proxy.p2p }}
+      service: {{ $fullname }}-{{ $i }}-relay-chain-p2p:{{ $.Values.node.ports.p2p }}
+      ---
+      apiVersion: ambassador/v2
+      kind: TLSContext
+      name: {{ $fullname }}_mapping_tlscontext
+      hosts:
+      - {{ $.Values.proxy.external_url }}
+      secret: {{ $fullname }}-ambassador-certs.{{ $.Values.node.namespace }}
+      secret_namespacing: true
+      min_tls_version: v1.2
+  {{- end }}
+{{- with $.Values.node.perNodeServices.relayServiceAnnotations }}
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
-  type: NodePort
-  externalTrafficPolicy: Local
+  type: {{ $.Values.node.perNodeServices.p2pServiceType }}
+  {{- if eq $.Values.node.perNodeServices.p2pServiceType "ClusterIP" }}
+  clusterIP: None
+  {{- end }}
   selector:
-  {{- include "substrate_node.selectorLabels" . | nindent 4 }} 
+    {{- $selectorLabels | nindent 4 }}
     statefulset.kubernetes.io/pod-name: {{ $fullname }}-{{ $i }}
   ports:
     - name: p2p
-      port: {{ .Values.node.ports.p2p }}
+      port: {{ $.Values.node.ports.p2p }}
       targetPort: 30333
 {{- end }}
 ---
@@ -68,11 +102,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ $fullname }}-{{ $i }}-para-chain-p2p
+{{- with $.Values.node.perNodeServices.paraServiceAnnotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
   type: NodePort
   externalTrafficPolicy: Local
   selector:
-  {{- include "substrate_node.selectorLabels" . | nindent 4 }} 
+    {{- $selectorLabels | nindent 4 }}
     statefulset.kubernetes.io/pod-name: {{ $fullname }}-{{ $i }}
   ports:
     - name: p2p
