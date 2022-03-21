@@ -21,7 +21,7 @@ spec:
       name: carrier-bn-keys-job
       namespace: carrier-subs
     initContainer:
-      image: docker.io/hyperledger/alpine-utils:1.0
+      image: ghcr.io/hyperledger/alpine-utils:1.0
       pullPolicy: IfNotPresent
     vault:
       address: http://vault.internal.dev.gcp.inteli-poc.com:20002
