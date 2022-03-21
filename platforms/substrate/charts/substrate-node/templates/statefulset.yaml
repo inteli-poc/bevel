@@ -482,6 +482,7 @@ spec:
                 {{- else }}
                 --listen-addr=/ip4/0.0.0.0/tcp/30333 \
                 {{- end }}
+                -l sub-libp2p=debug
                 {{- join " " .Values.node.collator.relayChainFlags | nindent 16 }}
           env:
             - name: CHAIN

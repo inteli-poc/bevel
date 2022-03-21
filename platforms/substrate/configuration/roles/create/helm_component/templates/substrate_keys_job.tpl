@@ -21,7 +21,7 @@ spec:
       name: {{ component_name }}
       namespace: {{ component_ns }}
     initContainer:
-      image: {{ network.docker.url }}/hyperledger/alpine-utils:1.0
+      image: ghcr.io/hyperledger/alpine-utils:1.0
       pullPolicy: IfNotPresent
     vault:
       address: {{ vault.url }}
