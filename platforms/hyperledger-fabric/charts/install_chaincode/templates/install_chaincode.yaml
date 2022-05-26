@@ -137,14 +137,13 @@ spec:
           echo "${TLSCACERTS}" >> ${OUTPUT_PATH}/tlscacerts/tlsca.crt
 
           # GIT user creds
-          GIT_SSH_PRIVATE_KEY={{ $.Values.vault.secretgitprivatekey }}
-          vault_secret_key=$(echo ${GIT_SSH_PRIVATE_KEY} |awk -F "?" '{print $1}')
-          vault_data_key=$(echo ${GIT_SSH_PRIVATE_KEY} |awk -F "?" '{print $2}')
+          vault_secret_key={{ $.Values.vault.secretgitprivatekey }}
+          
           LOOKUP_SECRET_RESPONSE=$(curl -sS \
               --header "X-Vault-Token: ${VAULT_CLIENT_TOKEN}" \
           ${VAULT_ADDR}/v1/${vault_secret_key} | jq -r 'if .errors then . else . end')
           validateVaultResponse "secret (${vault_secret_key})" "${LOOKUP_SECRET_RESPONSE}" "LOOKUPSECRETRESPONSE"
-          VALUE_OF_SECRET=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r ".data.data[\"${vault_data_key}\"]")         
+          VALUE_OF_SECRET=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r ".data.data[\"git_password\"]")         
           echo "${VALUE_OF_SECRET}" >> ${MOUNT_PATH}/user_cred
 
         volumeMounts:

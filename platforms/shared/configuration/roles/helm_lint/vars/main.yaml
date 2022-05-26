@@ -65,3 +65,5 @@ charts:
   vault_k8s_mgmt: vault-k8s-mgmt
   bootnode: substrate-node
   validator: substrate-node
+  ambassador_besu: generate_ambassador_certs
+  certs-ambassador-quorum: certs-ambassador-quorum
