@@ -1,0 +1,57 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: oem-web
+  namespace: oem-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  chart:
+    path: examples/dscp-app/charts/dscp-frontend
+    git: "https://github.com/inteli-poc/bevel.git"
+    ref: "vitalam"
+  releaseName: oem-web
+  values:
+    fullNameOverride: oem-web
+    config:
+      port: 80      
+      logLevel: info      
+      enableLivenessProbe: true
+      applicationConfig:
+        authDomain: inteli-poc.eu.auth0.com
+        clientID: wODA1nb3lAqnwdXqpaXr9f01xYSFmSxx
+        authAudience: https://inteli-poc.com/api
+        apiScheme: https
+        apiHost: oem-api.vitalam.intelipoc.com
+        apiPort: 443
+        substrateHost: "oem"
+        substratePort: 9944         
+        inteliDemoPersona: cust
+        inteliCustIdentity: 5H4F1n6UFfdmukiYnvmPfdW2guwYvW6PTKh7rEyhu1gsQGVV
+        inteliAmIdentity: 5HivxLaxoBcDC8K8nDVEGx3xod71C4gTvGSA8esKL5UKJiVq
+        inteliLabIdentity: 5EvR7RwpSvHbCKzjDFov5uvKGJbskt4YDnFJBcWWeViM1dBK
+        inteliAmlabIdentity: 5EvR7RwpSvHbCKzjDFov5uvKGJbskt4YDnFJBcWWeViM1dBK
+    ingress: 
+      enabled: false
+      className: "gce"
+      paths:
+        - /
+    replicaCount: 1
+    image:
+      repository: ghcr.io/inteli-poc/inteli-demo
+      pullPolicy: Always
+      tag: 'v3.0.1'
+
+    vault:
+      alpineutils: ghcr.io/hyperledger/alpine-utils:1.0
+      address: http://vault.internal.dev.intelipoc.com:20002
+      secretprefix: secretsv2/data/oem-subs/oem
+      serviceaccountname: vault-auth
+      role: vault-role
+      authpath: substrateoem
+
+    proxy:
+      provider: ambassador
+      name: oem 
+      external_url_suffix: vitalam.intelipoc.com      
+      issuedFor: oem

@@ -1,0 +1,50 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: oem-genesis-job
+  namespace: oem-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: oem-genesis-job
+  chart:
+    git: https://github.com/inteli-poc/bevel.git
+    ref: vitalam
+    path: platforms/substrate/charts/substrate-genesis
+  values:
+    node:
+      name: oem-genesis-job
+      image: ghcr.io/digicatapult/dscp-node:v3.6.0
+      pullPolicy: IfNotPresent
+      command: ./dscp-node
+    metadata:
+      name: oem-genesis-job
+      namespace: oem-subs
+    vault:
+      address: http://vault.internal.dev.intelipoc.com:20002
+      role: vault-role
+      authpath: substrateoem
+      serviceaccountname: vault-auth
+      certsecretprefix: secretsv2/oem-subs
+    chain: inteli-gcp
+    aura_keys: ['5E9Q7as3Aerh5FbXYqzoS5zVBjkx9DySFFt8UNwzMaEDqR3K', '5HNhV9Cjhayq8H5UASdNj5MjAirakVYGcqTV7mWgVX4htyTi', '5GKFsnRirKboMS49tdnpQLP4vzWYD3uD76xHVorbLoipfAxA', '5CdNSH9MjEVU7uQWZ4eYp7XF6SthMXhGzbMiQ3Mm1SbSiSBD']
+    grandpa_keys: ['5Ghka86g9b7zJk7GhBqj92eXNg3kjCX6h7zkx6uSonakCq9o', '5HE2tp6kYnTKTgEJR4TrVGYwQr3gv3CcmhQBhQBBTkFtgfbz', '5G8osgT8zWsfySi9wn9BcshV9ieDDFkHvMhirgf38nXxSs63', '5DYkFPQpyrqgTfRgHtJEGBTsbqu3MN6eHrTawqDsQPv2m3GW']
+    members: 
+      -   account_id: 5H4F1n6UFfdmukiYnvmPfdW2guwYvW6PTKh7rEyhu1gsQGVV
+          balance: 1152921504606846976
+          nodes:
+          - 002408011220BAD017809364D709629D4D5E4B3835D0C78C9AF1A5ACEB18D62B98CB557A3247
+          - 0024080112208F3095B1B485CF304451B6692D634A612BF8CE718F93D587530C00F1E263C981
+          - 0024080112201C69237090A807C17BEC9B97EC3EC6034A439283B277C64C905541FE3D63FD6E
+          - 002408011220209242C6CE61C4917E0AF6C2199393B345601E8EE0D3D376571886F41B73F5F8
+          - 0024080112207511233413FACBAB59C27775422A62102A47D936AD7410B34EC4151DAEBCBF31
+      -   account_id: 5HivxLaxoBcDC8K8nDVEGx3xod71C4gTvGSA8esKL5UKJiVq
+          balance: 1152921504606846976
+          nodes:
+          - 002408011220AC5F72C16DAD428CA9EA6858A9231E57D135AF527ECCB820E3913EFEB75BF206
+          - 002408011220F73CD8E75F3899FD09469E647F8EDED013206CAF6057084EA968F8ACBE4AB44E
+          - 002408011220E8769A49A9D1691604987AC493EF5EAA32CED25DEDC87DFB32769D562D1CB7C9
+      -   account_id: 5EvR7RwpSvHbCKzjDFov5uvKGJbskt4YDnFJBcWWeViM1dBK
+          balance: 1152921504606846976
+          nodes:
+          - 0024080112206B695DF906A7370D92B185F31BD0EA53FA5A78CC5B024E3330C5C6532EC7EE03
