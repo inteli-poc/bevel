@@ -40,7 +40,7 @@ spec:
       enabled: false
     proxy:
       provider: ambassador
-      external_url: tiertwo-api-ipfs-swarm.uat.intelipoc.com
+      external_url: tiertwo-api-ipfs-swarm.subs.intelipoc.com
       port: 15073
       certSecret: tiertwo-api-ambassador-certs
     vault:
