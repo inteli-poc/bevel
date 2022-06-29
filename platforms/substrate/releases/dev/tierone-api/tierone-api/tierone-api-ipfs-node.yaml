@@ -40,7 +40,7 @@ spec:
       enabled: false
     proxy:
       provider: ambassador
-      external_url: tierone-api-ipfs-swarm.uat.intelipoc.com
+      external_url: tierone-api-ipfs-swarm.subs.intelipoc.com
       port: 15068
       certSecret: tierone-api-ambassador-certs
     vault:
