@@ -40,7 +40,7 @@ spec:
       enabled: false
     proxy:
       provider: ambassador
-      external_url: oem-api-ipfs-swarm.uat.intelipoc.com
+      external_url: oem-api-ipfs-swarm.subs.intelipoc.com
       port: 15065
       certSecret: oem-api-ambassador-certs
     vault:
