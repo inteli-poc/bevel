@@ -86,7 +86,7 @@ spec:
 
     proxy:
       provider: ambassador
-      external_url: oem-api-bn.uat.intelipoc.com
+      external_url: oem-api-bn.subs.intelipoc.com
       p2p: 15057
       certSecret: oem-api-ambassador-certs
 
