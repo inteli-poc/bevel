@@ -1,7 +1,7 @@
 apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
-  name: oem-api-ipfs-bn-api
+  name: oem-api-ipfs-bn-dscp-api
   namespace: oem-api-subs
   annotations:
     fluxcd.io/automated: "false"
@@ -10,9 +10,9 @@ spec:
     path: examples/dscp-app/charts/dscp-api
     git: "https://github.com/inteli-poc/bevel.git"
     ref: "api-sandbox"
-  releaseName: oem-api-ipfs-bn-api
+  releaseName: oem-api-ipfs-bn-dscp-api
   values:
-    fullNameOverride: oem-api-ipfs-bn-api
+    fullNameOverride: oem-api-ipfs-bn-dscp-api
     config:
       port: 80
       externalNodeHost: "oem-api-ipfs-bn"

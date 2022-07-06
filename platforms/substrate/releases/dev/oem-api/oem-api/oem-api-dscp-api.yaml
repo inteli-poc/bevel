@@ -1,7 +1,7 @@
 apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
-  name: oem-api-api
+  name: oem-api-dscp-api
   namespace: oem-api-subs
   annotations:
     fluxcd.io/automated: "false"
@@ -10,9 +10,9 @@ spec:
     path: examples/dscp-app/charts/dscp-api
     git: "https://github.com/inteli-poc/bevel.git"
     ref: "api-sandbox"
-  releaseName: oem-api-api
+  releaseName: oem-api-dscp-api
   values:
-    fullNameOverride: oem-api-api
+    fullNameOverride: oem-api-dscp-api
     config:
       port: 80
       externalNodeHost: "oem-api"
