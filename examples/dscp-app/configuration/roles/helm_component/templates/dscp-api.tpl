@@ -1,7 +1,7 @@
 apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
-  name: {{ name }}-dscp-api
+  name: {{ name }}-api
   namespace: {{ component_ns }}
   annotations:
     fluxcd.io/automated: "false"
@@ -10,9 +10,9 @@ spec:
     path: {{ charts_dir }}/dscp-api
     git: "{{ component_gitops.git_url }}"
     ref: "{{ component_gitops.branch }}"
-  releaseName: {{ name }}-dscp-api
+  releaseName: {{ name }}-api
   values:
-    fullNameOverride: {{ name }}-dscp-api
+    fullNameOverride: {{ name }}-api
     config:
       port: {{ peer.api.port }}
       externalNodeHost: "{{ name }}"
@@ -26,7 +26,6 @@ spec:
       ipfsStatusPollPeriodMs: 10000
       ipfsStatusTimeoutMs: 2000
       auth:
-        type: {{ auth_type }} 
         jwksUri: {{ auth_jwksUri }}
         audience: {{ auth_audience }}
         issuer: {{ auth_issuer }}

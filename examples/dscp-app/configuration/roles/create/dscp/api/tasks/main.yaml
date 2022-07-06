@@ -27,7 +27,7 @@
     name: helm_component
   vars:
     type: "dscp-api"
-    component_name: "{{ peer.name }}-dscp-api"
+    component_name: "{{ peer.name }}-api"
     name: "{{ peer.name }}"
     charts_dir: "examples/dscp-app/charts"
   loop: "{{ org.services.peers }}"
@@ -52,7 +52,7 @@
   vars:
     component_type: "Pod"
     namespace: "{{ component_ns }}"
-    component_name: "{{ peer.name }}-dscp-api"
+    component_name: "{{ peer.name }}-api"
     kubernetes: "{{ org.k8s }}"
     label_selectors:
       - name = {{ component_name }}

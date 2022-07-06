@@ -62,7 +62,6 @@ network:
       external_url_suffix: dscp.inteli-poc.com   # This is the url suffix that will be added in DNS recordset. Must be different for different clusters
       # these are the Auth0 API values that will be used for authentication to substrate api endpoints. Eg. tokenUrl: https://example.eu.auth0.com/oauth/token
       auth:
-        type: "NONE" # Can be NONE or JWT - default NONE
         jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json"  # JSON Web Key Set containing public keys used by the Auth0 API
         audience: "https://inteli-poc.com/api"  # Identifier of the Auth0 API
         issuer: "https://inteli-poc.eu.auth0.com/"      # # Issuer Domain of the Auth0 API, Don't forget the ending /
@@ -172,7 +171,6 @@ network:
       external_url_suffix: dscp.inteli-poc.com
       # these are the Auth0 API values that will be used for authentication to substrate api endpoints. Eg. tokenUrl: https://example.eu.auth0.com/oauth/token
       auth:
-        type: "NONE"
         jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json"  # JSON Web Key Set containing public keys used by the Auth0 API
         audience: "https://inteli-poc.com/api"  # Identifier of the Auth0 API
         issuer: "https://inteli-poc.eu.auth0.com/"      # # Issuer Domain of the Auth0 API, Don't forget the ending /
@@ -257,7 +255,6 @@ network:
       external_url_suffix: dscp.inteli-poc.com
       # these are the Auth0 API values that will be used for authentication to substrate api endpoints. Eg. tokenUrl: https://example.eu.auth0.com/oauth/token
       auth:
-        type: "NONE"
         jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json"  # JSON Web Key Set containing public keys used by the Auth0 API
         audience: "https://inteli-poc.com/api"  # Identifier of the Auth0 API
         issuer: "https://inteli-poc.eu.auth0.com/"      # # Issuer Domain of the Auth0 API, Don't forget the ending /
