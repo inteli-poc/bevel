@@ -1,18 +1,19 @@
 config:
   port: 80
-  dscpApiHost: dscp-api
-  dscpApiPort: 80
+  dscpApiHost: dscp-api # pass dscp api svc address
+  dscpApiPort: 80 # ^^
   logLevel: info
-  dbName: inteli
+  dbName: postgres
   dbPort: 5432
-  identityServiceHost: localhost
-  identityServicePort: 80
+  identityServiceHost: localhost # pass dscp-id-service svc address
+  identityServicePort: 80 # ^^
   auth:
     type: NONE
-    jwksUri: https://inteli.eu.auth0.com/.well-known/jwks.json
-    audience: inteli-dev
-    issuer: https://inteli.eu.auth0.com/
-    tokenUrl: https://inteli.eu.auth0.com/oauth/token
+    # jwksUri: https://inteli.eu.auth0.com/.well-known/jwks.json
+    # audience: inteli-dev
+    # issuer: https://inteli.eu.auth0.com/
+    # tokenUrl: https://inteli.eu.auth0.com/oauth/token
+  externalPostgresql: postgresql.oem-api-subs.svc.cluster.local
 
 ingress:
   # annotations: {}
@@ -31,7 +32,7 @@ image:
   pullSecrets: ['ghcr-digicatapult']
 
 postgresql:
-  enabled: true
+  enabled: false
   postgresqlDatabase: inteli
   postgresqlUsername: postgres
-  postgresqlPassword: postgres
+  postgresqlPassword: V78b1C8sdl

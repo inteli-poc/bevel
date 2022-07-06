@@ -1,4 +1,0 @@
-image:
-  repository: 'inteli-api'
-  tag: 'latest'
-  PullPolicy: Never

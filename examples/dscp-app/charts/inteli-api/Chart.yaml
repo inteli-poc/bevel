@@ -4,12 +4,3 @@ appVersion: '1.25.10'
 description: A Helm chart for inteli-api
 version: '1.25.10'
 type: application
-maintainers:
-  - name: digicatapult
-    email: opensource@digicatapult.org.uk
-    url: www.digicatapult.org.uk
-dependencies:
-  - name: postgresql
-    version: '^10.12.2'
-    repository: https://charts.bitnami.com/bitnami
-    condition: postgresql.enabled
