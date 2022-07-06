@@ -17,6 +17,8 @@ config:
   ipfsStatusTimeoutMs: 2000
   # Provide the Auth0 details. This should accept client_credentials as grant type
   auth:
+    # Options: NONE, JWT
+    type:
     # Eg: jwksUri: https://inteli-poc.eu.auth0.com/.well-known/jwks.json
     jwksUri:
     # Eg: audience: https://inteli-poc.com/api
