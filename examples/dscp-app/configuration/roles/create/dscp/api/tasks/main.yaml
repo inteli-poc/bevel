@@ -27,7 +27,7 @@
     name: helm_component
   vars:
     type: "dscp-api"
-    component_name: "{{ peer.name }}-api"
+    component_name: "{{ peer.name }}-dscp-api"
     name: "{{ peer.name }}"
     charts_dir: "examples/dscp-app/charts"
   loop: "{{ org.services.peers }}"
