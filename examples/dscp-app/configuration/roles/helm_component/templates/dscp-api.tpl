@@ -1,7 +1,7 @@
 apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
-  name: {{ name }}-api
+  name: {{ name }}-dscp-api
   namespace: {{ component_ns }}
   annotations:
     fluxcd.io/automated: "false"
@@ -10,9 +10,9 @@ spec:
     path: {{ charts_dir }}/dscp-api
     git: "{{ component_gitops.git_url }}"
     ref: "{{ component_gitops.branch }}"
-  releaseName: {{ name }}-api
+  releaseName: {{ name }}-dscp-api
   values:
-    fullNameOverride: {{ name }}-api
+    fullNameOverride: {{ name }}-dscp-api
     config:
       port: {{ peer.api.port }}
       externalNodeHost: "{{ name }}"
