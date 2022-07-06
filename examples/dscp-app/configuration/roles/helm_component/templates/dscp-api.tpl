@@ -27,10 +27,10 @@ spec:
       ipfsStatusTimeoutMs: 2000
       auth:
         type: {{ auth_type | default 'NONE' }}
-        jwksUri: {{ auth_jwksUri | default '' }}
-        audience: {{ auth_audience | default '' }}
-        issuer: {{ auth_issuer | default '' }}
-        tokenUrl: {{ auth_tokenUrl | default '' }}
+        jwksUri: {{ auth_jwksUri }}
+        audience: {{ auth_audience }}
+        issuer: {{ auth_issuer }}
+        tokenUrl: {{ auth_tokenUrl }}
     ingress:
       enabled: false
       className: "gce"
