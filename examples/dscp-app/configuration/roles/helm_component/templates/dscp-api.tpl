@@ -26,7 +26,7 @@ spec:
       ipfsStatusPollPeriodMs: 10000
       ipfsStatusTimeoutMs: 2000
       auth:
-        type: {{ auth_type }} | default 'NONE'
+        type: {{ auth_type | default 'NONE}} 
         jwksUri: {{ auth_jwksUri }}
         audience: {{ auth_audience }}
         issuer: {{ auth_issuer }}
