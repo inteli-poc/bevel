@@ -40,7 +40,7 @@ spec:
     image:
       repository: ghcr.io/digicatapult/dscp-api
       pullPolicy: IfNotPresent
-      tag: 'v4.1.0'
+      tag: 'v4.2.0'
     dscpNode:
       enabled: false
 
