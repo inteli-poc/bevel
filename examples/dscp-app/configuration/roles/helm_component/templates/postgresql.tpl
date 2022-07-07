@@ -1,7 +1,7 @@
 apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
-  name: {{ name }}-id-service-postgresql
+  name: {{ name }}-{{ attachment_name }}-postgresql
   namespace: {{ component_ns }}
   annotations:
     fluxcd.io/automated: "false"
@@ -10,7 +10,7 @@ spec:
     path: {{ charts_dir }}/postgresql
     git: "{{ component_gitops.git_url }}"
     ref: "{{ component_gitops.branch }}"
-  releaseName: {{ name }}-id-service-postgresql
+  releaseName: {{ name }}-{{ attachment_name }}-postgresql
   values:
     global:
       postgresql:
