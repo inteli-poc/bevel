@@ -58,7 +58,7 @@
     component_name: "{{ peer.name }}-id-service-postgresql"
     kubernetes: "{{ org.k8s }}"
     label_selectors:
-      - name = {{ component_name }}
+      - app.kubernetes.io/instance = {{ component_name }}
   loop: "{{ org.services.peers }}"
   loop_control:
     loop_var: peer
