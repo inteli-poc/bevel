@@ -27,7 +27,7 @@
     name: helm_component
   vars:
     type: "postgresql"
-    component_name: "{{ peer.name }}-id-service-postgres"
+    component_name: "{{ peer.name }}-id-service-postgresql"
     name: "{{ peer.name }}"
     charts_dir: "examples/dscp-app/charts"
     postgres_password: "{{ peer.postgresql.password }}"
@@ -55,7 +55,7 @@
   vars:
     component_type: "Pod"
     namespace: "{{ component_ns }}"
-    component_name: "{{ peer.name }}-id-service-postgres"
+    component_name: "{{ peer.name }}-id-service-postgresql"
     kubernetes: "{{ org.k8s }}"
     label_selectors:
       - name = {{ component_name }}
