@@ -27,11 +27,10 @@
     name: helm_component
   vars:
     type: "postgresql"
-    component_name: "{{ peer.name }}-id-service-postgresql"
     name: "{{ peer.name }}"
     charts_dir: "examples/dscp-app/charts"
     postgres_password: "{{ peer.postgresql.password }}"
-    database_name: "inteli"
+    database_name: "{{ peer.postgresql.database_name }}"
     postgres_port: "{{ peer.postgresql.port }}"
   loop: "{{ org.services.peers }}"
   loop_control:
@@ -46,7 +45,7 @@
     GIT_DIR: "{{ playbook_dir }}/../../../"
     gitops: "{{ component_gitops }}"
     GIT_RESET_PATH: "platforms/substrate/configuration"
-    msg: "[ci skip] Pushing deployment files for postgresql id-service"
+    msg: "[ci skip] Pushing deployment files for postgresql"
 
 # Wait for postgresql Pod to run
 - name: "Waiting for postgresql pod in {{ component_ns }}"
@@ -55,7 +54,7 @@
   vars:
     component_type: "Pod"
     namespace: "{{ component_ns }}"
-    component_name: "{{ peer.name }}-id-service-postgresql"
+    component_name: "{{ peer.name }}-{{ attached_to }}-postgresql"
     kubernetes: "{{ org.k8s }}"
     label_selectors:
       - app.kubernetes.io/instance = {{ component_name }}
