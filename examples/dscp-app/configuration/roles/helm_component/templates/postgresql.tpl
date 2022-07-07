@@ -20,4 +20,3 @@ spec:
         service:
           ports:
             postgresql: {{ postgres_port }}
-

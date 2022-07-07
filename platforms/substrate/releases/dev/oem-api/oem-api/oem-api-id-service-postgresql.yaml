@@ -20,4 +20,3 @@ spec:
         service:
           ports:
             postgresql: 5432
-
