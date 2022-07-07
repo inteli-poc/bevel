@@ -19,7 +19,7 @@
   loop: "{{ org.services.peers }}"
   loop_control:
     loop_var: peer
-  when: peer.api is defined
+  when: peer.postgresql is defined
 
 # Create postgresql values file for the peer nodes
 - name: "Create postgresql values file for all peers"
@@ -36,7 +36,7 @@
   loop: "{{ org.services.peers }}"
   loop_control:
     loop_var: peer
-  when: peer.api is defined
+  when: peer.postgresql is defined
 
 # Push the api deployment files to repository
 - name: "Push the created deployment files to repository"
@@ -62,4 +62,4 @@
   loop: "{{ org.services.peers }}"
   loop_control:
     loop_var: peer
-  when: peer.api is defined
+  when: peer.postgresql is defined
