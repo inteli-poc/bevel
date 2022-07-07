@@ -29,6 +29,7 @@
     type: "postgresql"
     name: "{{ peer.name }}"
     charts_dir: "examples/dscp-app/charts"
+    component_name: "{{ peer.name }}-{{ attached_to }}-postgresql"
     postgres_password: "{{ peer.postgresql.password }}"
     database_name: "{{ peer.postgresql.database_name }}"
     postgres_port: "{{ peer.postgresql.port }}"
