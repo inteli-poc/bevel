@@ -13,7 +13,7 @@ spec:
   releaseName: oem-api-id-service
   values:
     config:
-      fullNameOverride:
+      fullNameOverride: oem-api-id-service
       externalNodeHost: oem-api
       externalPostgresql: oem-api-id-service-postgresql.svc.cluster.local
       port: 3001
