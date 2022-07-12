@@ -1,0 +1,57 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: tiertwo-api-id-service
+  namespace: tiertwo-api-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  chart:
+    path: examples/dscp-app/charts/dscp-identity-service
+    git: "https://github.com/inteli-poc/bevel.git"
+    ref: "api-sandbox"
+  releaseName: tiertwo-api-id-service
+  values:
+    config:
+      fullNameOverride:
+      externalNodeHost: tiertwo-api
+      externalPostgresql: tiertwo-api-id-service-postgresql.svc.cluster.local
+      port: 3001
+      logLevel: info
+      dbName: inteli
+      dbPort: 5432
+      enableLivenessProbe: true
+      selfAddress: 5FpgGCDQRbnJH4ndi8tRqdQRcC2qWqs36oXbMaccUbkkCtBb
+      auth:
+        type: NONE
+        jwksUri: https://inteli-poc.eu.auth0.com/.well-known/jwks.json
+        audience: https://inteli-poc.com/api
+        issuer: https://inteli-poc.eu.auth0.com/
+        tokenUrl: https://inteli-poc.eu.auth0.com/oauth/token
+    ingress:
+      enabled: false
+      # annotations: {}
+      # className
+      paths:
+        - /v1/members
+    replicaCount: 1
+    image:
+      repository: ghcr.io/digicatapult/dscp-identity-service
+      pullPolicy: IfNotPresent
+      tag: 'v1.4.0'
+      pullSecrets: ['ghcr-digicatapult']
+
+    postgresql:
+      enabled: false
+      postgresqlDatabase: inteli
+      postgresqlUsername: postgres
+      postgresqlPassword: postgres123
+    dscpNode:
+      enabled: false
+
+    proxy:
+      provider: ambassador
+      name: tiertwo-api 
+      external_url_suffix: subs.intelipoc.com
+      port: 443
+      issuedFor: tiertwo-api
