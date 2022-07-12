@@ -13,9 +13,9 @@ spec:
   releaseName: {{ name }}-id-service
   values:
     config:
-      fullnameOverride: 
+      fullnameOverride: {{ name }}-id-service
       externalNodeHost: {{ name }}
-      externalPostgresql: {{ db_address }}.{{ component_ns }}.svc.cluster.local
+      externalPostgresql: {{ db_address }}.{{ component_ns }}
       port: {{ peer.id_service.port }}
       logLevel: info
       dbName: {{ db_name }}

@@ -13,7 +13,7 @@ metadata:
       kind: Mapping
       name: {{ $fullname }}_identity_service_mapping
       prefix: /      
-      host: {{ .Values.proxy.name }}-identity-service.{{ .Values.proxy.external_url_suffix }}
+      host: {{ .Values.proxy.name }}-id-service.{{ .Values.proxy.external_url_suffix }}
       service: {{ $fullname }}:{{ .Values.config.port }}
       timeout_ms: 20000
       tls: false      
@@ -22,8 +22,8 @@ metadata:
       kind: TLSContext
       name: {{ $fullname }}_mapping_tlscontext
       hosts:
-      - {{ .Values.proxy.name }}-identity-service.{{ .Values.proxy.external_url_suffix }}
-      secret: {{ .Values.proxy.name }}-certs
+      - {{ .Values.proxy.name }}-id-service.{{ .Values.proxy.external_url_suffix }}
+      secret: {{ .Values.proxy.name }}-id-certs
       min_tls_version: v1.2
   {{- end }}
 spec:
@@ -38,18 +38,18 @@ spec:
 apiVersion: getambassador.io/v2
 kind: Mapping
 metadata:
-  name: {{ .Values.proxy.name }}-identity-service-acme-cm
+  name: {{ .Values.proxy.name }}-id-service-acme-cm
 spec:
-  host: {{ .Values.proxy.name }}-identity-service.{{ .Values.proxy.external_url_suffix }}
+  host: {{ .Values.proxy.name }}-id-service.{{ .Values.proxy.external_url_suffix }}
   prefix: /.well-known/acme-challenge/
   rewrite: ""
-  service: {{ .Values.proxy.name }}-identity-service-acme-cs
+  service: {{ .Values.proxy.name }}-id-service-acme-cs
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.proxy.name }}-identity-service-acme-cs
+  name: {{ .Values.proxy.name }}-id-service-acme-cs
 spec:
   ports:
   - port: 80
