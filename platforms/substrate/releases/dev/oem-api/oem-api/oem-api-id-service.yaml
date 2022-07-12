@@ -13,9 +13,9 @@ spec:
   releaseName: oem-api-id-service
   values:
     config:
-      fullnameOverride: oem-api-id-service
+      fullnameOverride: 
       externalNodeHost: oem-api
-      externalPostgresql: oem-api-id-service-postgresql.svc.cluster.local
+      externalPostgresql: oem-api-id-service-postgresql.oem-api-subssvc.cluster.local
       port: 3001
       logLevel: info
       dbName: inteli
