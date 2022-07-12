@@ -13,9 +13,9 @@ spec:
   releaseName: tiertwo-api-id-service
   values:
     config:
-      fullNameOverride:
+      fullnameOverride: 
       externalNodeHost: tiertwo-api
-      externalPostgresql: tiertwo-api-id-service-postgresql.svc.cluster.local
+      externalPostgresql: tiertwo-api-id-service-postgresql.tiertwo-api-subs.svc.cluster.local
       port: 3001
       logLevel: info
       dbName: inteli

@@ -15,7 +15,7 @@ spec:
     config:
       fullnameOverride: 
       externalNodeHost: {{ name }}
-      externalPostgresql: {{ db_address }}.{{ component_ns }}svc.cluster.local
+      externalPostgresql: {{ db_address }}.{{ component_ns }}.svc.cluster.local
       port: {{ peer.id_service.port }}
       logLevel: info
       dbName: {{ db_name }}
