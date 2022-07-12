@@ -58,7 +58,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 */}}
 {{- define "dscp-identity-service.postgresql.fullname" -}}
 {{- if .Values.config.externalPostgresql -}}
-{{ .Values.config.externalPostgresql | trunc 63 | trimSuffix "-" -}}
+{{ .Values.config.externalPostgresql | trimSuffix "-" -}}
 {{- else if not ( .Values.postgresql.enabled ) -}}
 {{ fail "Postgresql must either be enabled or passed via config.externalPostgresql" }}
 {{- else if .Values.postgresql.fullnameOverride -}}

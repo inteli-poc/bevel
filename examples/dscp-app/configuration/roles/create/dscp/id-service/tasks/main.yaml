@@ -69,7 +69,7 @@
   vars:
     component_type: "Pod"
     namespace: "{{ component_ns }}"
-    component_name: "{{ peer.name }}-id-service"
+    component_name: "{{ peer.name }}-id-service-dscp-identity-service"
     kubernetes: "{{ org.k8s }}"
     label_selectors:
       - name = {{ component_name }}
