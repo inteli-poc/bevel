@@ -13,9 +13,9 @@ spec:
   releaseName: tierone-api-id-service
   values:
     config:
-      fullnameOverride: 
+      fullnameOverride: tierone-api-id-service
       externalNodeHost: tierone-api
-      externalPostgresql: tierone-api-id-service-postgresql.tierone-api-subs.svc.cluster.local
+      externalPostgresql: tierone-api-id-service-postgresql.tierone-api-subs
       port: 3001
       logLevel: info
       dbName: inteli
