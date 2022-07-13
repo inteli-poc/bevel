@@ -35,4 +35,4 @@ postgresql:
   postgresqlUsername: 
   postgresqlPassword: 
 dscpNode:
-  enabled: true
+  enabled: false
