@@ -13,7 +13,7 @@ spec:
   releaseName: tiertwo-api-id-service
   values:
     config:
-      fullnameOverride: tiertwo-api-id-service
+      fullNameOverride: tiertwo-api-id-service
       externalNodeHost: tiertwo-api
       externalPostgresql: tiertwo-api-id-service-postgresql.tiertwo-api-subs
       port: 3001
