@@ -13,7 +13,7 @@ spec:
   releaseName: tierone-api-id-service
   values:
     config:
-      fullnameOverride: tierone-api-id-service
+      fullNameOverride: tierone-api-id-service
       externalNodeHost: tierone-api
       externalPostgresql: tierone-api-id-service-postgresql.tierone-api-subs
       port: 3001
