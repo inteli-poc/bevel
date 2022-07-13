@@ -13,7 +13,7 @@ spec:
   releaseName: {{ name }}-id-service
   values:
     config:
-      fullnameOverride: {{ name }}-id-service
+      fullNameOverride: {{ name }}-id-service
       externalNodeHost: {{ name }}
       externalPostgresql: {{ db_address }}.{{ component_ns }}
       port: {{ peer.id_service.port }}
