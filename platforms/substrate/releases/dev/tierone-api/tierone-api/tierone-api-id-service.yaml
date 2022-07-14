@@ -12,6 +12,7 @@ spec:
     ref: "api-sandbox"
   releaseName: tierone-api-id-service
   values:
+    fullNameOverride:
     config:
       fullNameOverride: tierone-api-id-service
       externalNodeHost: tierone-api
