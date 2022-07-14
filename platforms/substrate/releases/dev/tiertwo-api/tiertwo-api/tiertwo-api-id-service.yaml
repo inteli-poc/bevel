@@ -12,8 +12,8 @@ spec:
     ref: "api-sandbox"
   releaseName: tiertwo-api-id-service
   values:
+    fullNameOverride: tiertwo-api-id-service
     config:
-      fullNameOverride: tiertwo-api-id-service
       externalNodeHost: tiertwo-api
       externalPostgresql: tiertwo-api-id-service-postgresql.tiertwo-api-subs
       port: 3001
