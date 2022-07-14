@@ -12,9 +12,8 @@ spec:
     ref: "api-sandbox"
   releaseName: oem-api-id-service
   values:
-    fullNameOverride:
+    fullNameOverride: oem-api-id-service
     config:
-      fullNameOverride: oem-api-id-service
       externalNodeHost: oem-api
       externalPostgresql: oem-api-id-service-postgresql.oem-api-subs
       port: 3001

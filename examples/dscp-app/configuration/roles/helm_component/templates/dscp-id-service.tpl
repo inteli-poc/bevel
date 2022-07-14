@@ -12,9 +12,8 @@ spec:
     ref: "{{ component_gitops.branch }}"
   releaseName: {{ name }}-id-service
   values:
-    fullNameOverride:
+    fullNameOverride: {{ name }}-id-service
     config:
-      fullNameOverride: {{ name }}-id-service
       externalNodeHost: {{ name }}
       externalPostgresql: {{ db_address }}.{{ component_ns }}
       port: {{ peer.id_service.port }}
