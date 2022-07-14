@@ -12,9 +12,8 @@ spec:
     ref: "api-sandbox"
   releaseName: tierone-api-id-service
   values:
-    fullNameOverride:
+    fullNameOverride: tierone-api-id-service
     config:
-      fullNameOverride: tierone-api-id-service
       externalNodeHost: tierone-api
       externalPostgresql: tierone-api-id-service-postgresql.tierone-api-subs
       port: 3001
