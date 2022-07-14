@@ -12,6 +12,7 @@ spec:
     ref: "api-sandbox"
   releaseName: oem-api-id-service
   values:
+    fullNameOverride:
     config:
       fullNameOverride: oem-api-id-service
       externalNodeHost: oem-api

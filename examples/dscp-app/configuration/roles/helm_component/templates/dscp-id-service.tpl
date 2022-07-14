@@ -12,6 +12,7 @@ spec:
     ref: "{{ component_gitops.branch }}"
   releaseName: {{ name }}-id-service
   values:
+    fullNameOverride:
     config:
       fullNameOverride: {{ name }}-id-service
       externalNodeHost: {{ name }}

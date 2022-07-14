@@ -1,5 +1,5 @@
+fullNameOverride:
 config:
-  fullNameOverride:
   externalNodeHost:
   externalPostgresql:
   port: 
