@@ -15,8 +15,8 @@ spec:
     fullnameOverride: oem-ipfs-bn-ipfs
     config:
       healthCheckPort: 80
-      nodeHost: "oem-ipfs-bn"
-      nodePort: "9944"
+      nodeHost: oem-ipfs-bn
+      nodePort: 9944
       logLevel: debug
       ipfsApiPort: 5001
       ipfsSwarmPort: 4001
