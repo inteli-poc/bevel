@@ -1,30 +1,27 @@
 apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
-  name: {{ name }}-api
+  name: {{ name }}-id-service
   namespace: {{ component_ns }}
   annotations:
     fluxcd.io/automated: "false"
 spec:
   chart:
-    path: {{ charts_dir }}/dscp-api
+    path: {{ charts_dir }}/dscp-identity-service
     git: "{{ component_gitops.git_url }}"
     ref: "{{ component_gitops.branch }}"
-  releaseName: {{ name }}-api
+  releaseName: {{ name }}-id-service
   values:
-    fullNameOverride: {{ name }}-api
+    fullNameOverride: {{ name }}-id-service
     config:
-      port: {{ peer.api.port }}
-      externalNodeHost: "{{ name }}"
-      externalNodePort: {{ peer.ws.port }}
-      logLevel: info  
-      externalIpfsHost: "{{ name }}-ipfs-api" 
-      externalIpfsPort: {{ peer.ipfs.apiPort }} 
+      externalNodeHost: {{ name }}
+      externalPostgresql: {{ db_address }}.{{ component_ns }}
+      port: {{ peer.id_service.port }}
+      logLevel: info
+      dbName: {{ db_name }}
+      dbPort: {{ db_port }}
       enableLivenessProbe: true
-      substrateStatusPollPeriodMs: 10000
-      substrateStatusTimeoutMs: 2000
-      ipfsStatusPollPeriodMs: 10000
-      ipfsStatusTimeoutMs: 2000
+      selfAddress: 
       auth:
         type: {{ auth_type }}
         jwksUri: {{ auth_jwksUri }}
@@ -33,21 +30,25 @@ spec:
         tokenUrl: {{ auth_tokenUrl }}
     ingress:
       enabled: false
-      className: "gce"
+      # annotations: {}
+      # className
       paths:
-        - /v3
+        - /v1/members
     replicaCount: 1
     image:
-      repository: ghcr.io/digicatapult/dscp-api
+      repository: ghcr.io/digicatapult/dscp-identity-service
       pullPolicy: IfNotPresent
-      tag: 'v4.2.0'
+      tag: 'v1.4.0'
+      pullSecrets: ['ghcr-digicatapult']
+
+    postgresql:
+      enabled: false
+      postgresqlDatabase: {{ db_name }}
+      postgresqlUsername: postgres
+      postgresqlPassword: {{ db_password }}
     dscpNode:
       enabled: false
 
-    dscpIpfs:
-      enabled: false
-      dscpNode:
-        enabled: false
     vault:
       alpineutils: ghcr.io/hyperledger/alpine-utils:1.0
       address: {{ component_vault.url }}
@@ -60,5 +61,5 @@ spec:
       provider: {{ network.env.proxy }}
       name: {{ org.name | lower }} 
       external_url_suffix: {{ org.external_url_suffix }}
-      port: {{ peer.api.ambassador }}
+      port: {{ peer.id_service.ambassador }}
       issuedFor: {{ org.name | lower }}

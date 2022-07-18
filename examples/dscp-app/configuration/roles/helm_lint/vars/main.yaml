@@ -8,3 +8,6 @@ charts:
   dscp-api: dscp-api
   dscp-frontend: dscp-frontend
   certissuer: certissuer
+  postgresql: postgresql
+  dscp-id-service: dscp-identity-service
+  inteli-api: inteli-api
