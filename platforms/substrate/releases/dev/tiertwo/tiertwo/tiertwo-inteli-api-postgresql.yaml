@@ -1,0 +1,22 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: tiertwo-inteli-api-postgresql
+  namespace: tiertwo-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  chart:
+    path: examples/dscp-app/charts/postgresql
+    git: "https://github.com/inteli-poc/bevel.git"
+    ref: "vitalam"
+  releaseName: tiertwo-inteli-api-postgresql
+  values:
+    global:
+      postgresql:
+        auth:
+          postgresPassword: postgres123
+          database: inteli
+        service:
+          ports:
+            postgresql: 5432
