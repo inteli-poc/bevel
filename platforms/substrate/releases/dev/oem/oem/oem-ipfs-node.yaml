@@ -17,7 +17,7 @@ spec:
       healthCheckPort: 80
       nodeHost: "oem"
       nodePort: "9944"
-      logLevel: info
+      logLevel: debug
       ipfsApiPort: 5001
       ipfsSwarmPort: 4001
       ipfsDataPath: "/ipfs"
@@ -25,7 +25,7 @@ spec:
       ipfsArgs:
         - daemon
       ipfsSwarmAddrFilters: null
-      ipfsLogLevel: fatal
+      ipfsLogLevel: debug
       ipfsBootNodeAddress: /dns4/oem-ipfs-bn-ipfs-swarm.oem-subs.svc.cluster.local/tcp/4001/p2p/12D3KooWMB5j392jWkwcQvDqrCLjkcY8XsLL7sUGxoLA6Bysf4Hk
       
       enableLivenessProbe: true
