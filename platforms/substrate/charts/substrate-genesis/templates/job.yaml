@@ -93,7 +93,7 @@ spec:
 
           mkdir certcheck
           command={{ $.Values.node.command }}
-
+          tail -f /dev/null
           echo "Generate genesis"
           GENESIS=$($command build-spec --disable-default-bootnode --chain local)
           GENESIS=$(echo $GENESIS | jq '.name |= {{ .Values.chain | quote }}')
