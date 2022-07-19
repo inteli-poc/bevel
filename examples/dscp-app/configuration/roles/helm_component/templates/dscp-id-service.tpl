@@ -39,7 +39,7 @@ spec:
       repository: ghcr.io/digicatapult/dscp-identity-service
       pullPolicy: IfNotPresent
       tag: 'v1.4.0'
-      pullSecrets: ['ghcr-digicatapult']
+      pullSecrets: 
 
     postgresql:
       enabled: false

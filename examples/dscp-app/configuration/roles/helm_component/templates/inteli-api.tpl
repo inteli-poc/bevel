@@ -56,7 +56,7 @@ spec:
       repository: ghcr.io/digicatapult/inteli-api
       pullPolicy: IfNotPresent
       tag: 'v1.28.0'
-      pullSecrets: ['ghcr-digicatapult']
+      pullSecrets: 
 
     postgresql:
       enabled: false
