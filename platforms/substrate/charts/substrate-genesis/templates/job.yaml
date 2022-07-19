@@ -99,10 +99,8 @@ spec:
           GENESIS=$(echo $GENESIS | jq '.id |= {{ .Values.chain | replace "-" "_" | quote }}')
           GENESIS=$(echo $GENESIS | jq '.chainType |= "Live"')
 
-          tail -f /dev/null
-
           echo "Editing genesis config"          
-          GENESIS=$(echo $GENESIS | jq '.genesis.runtime..aura.authorities |= []')
+          GENESIS=$(echo $GENESIS | jq '.genesis.runtime.aura.authorities |= []')
           GENESIS=$(echo $GENESIS | jq '.genesis.runtime.grandpa.authorities |= []')
           GENESIS=$(echo $GENESIS | jq '.genesis.runtime.balances.balances |= []')
           {{- if eq $.Values.node.image "ghcr.io/digicatapult/dscp-node" }}
