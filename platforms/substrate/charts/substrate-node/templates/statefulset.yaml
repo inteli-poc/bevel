@@ -420,7 +420,7 @@ spec:
               EXTERNAL_ADDRESS="{{ .Values.proxy.external_url }}"
               echo "EXTERNAL_ADDRESS=${EXTERNAL_ADDRESS}"
               EXTERNAL_P2P_PORT="{{ .Values.proxy.p2p }}"
-              echo "EXTERNAL_P2P_PORT=${EXTERNAL_P2P_PORTs}"
+              echo "EXTERNAL_P2P_PORT=${EXTERNAL_P2P_PORT}"
               {{- end }}
               {{- if .Values.node.collator.isParachain }}
               PARA_CHAIN_P2P_PORT="$(cat /data/para_chain_p2p_port)"
