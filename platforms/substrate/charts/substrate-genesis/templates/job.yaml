@@ -31,7 +31,7 @@ spec:
         fsGroup: 1000
       containers:
       - name: generate-genesis
-        image: {{ $.Values.node.image }}
+        image: {{ $.Values.node.image }}:{{ $.Values.node.imageTag }}
         imagePullPolicy: {{ $.Values.node.pullPolicy }}
         volumeMounts:
           - name: certcheck
@@ -56,7 +56,7 @@ spec:
         - |-
           #!/usr/bin/env bash
 
-          {{- if ne $.Values.node.image "docker.io/paritytech/substrate-playground-template-node-template:latest" }}
+          {{- if ne $.Values.node.image "docker.io/paritytech/substrate-playground-template-node-template" }}
           apt-get update && apt-get install -y jq bc curl unzip;
           if [[ $? > 0 ]]
           then
@@ -170,7 +170,7 @@ spec:
           echo "installing vault cli"
           curl -O -L https://releases.hashicorp.com/vault/1.7.1/vault_1.7.1_linux_amd64.zip
           unzip vault_1.7.1_linux_amd64.zip
-          {{- if eq $.Values.node.image "docker.io/paritytech/substrate-playground-template-node-template:latest" }}
+          {{- if eq $.Values.node.image "docker.io/paritytech/substrate-playground-template-node-template" }}
           export PATH=$PATH:~/workspace
           {{- else }}
           mv vault /bin

@@ -26,6 +26,8 @@ node:
   name:
   # Pull substrate Docker image
   image:
+  # Substrate image tag
+  imageTag: 
   # Pull policy to be used for the Docker image
   # Eg. pullPolicy: IfNotPresent
   pullPolicy: IfNotPresent

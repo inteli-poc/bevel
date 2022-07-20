@@ -14,7 +14,8 @@ spec:
   values:
     node:
       name: oem-genesis-job
-      image: ghcr.io/digicatapult/dscp-node:v4.1.0
+      image: ghcr.io/digicatapult/dscp-node
+      imageTag: v4.1.0
       pullPolicy: IfNotPresent
       command: ./dscp-node
     metadata:
