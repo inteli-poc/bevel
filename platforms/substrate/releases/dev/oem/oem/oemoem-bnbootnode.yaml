@@ -66,8 +66,8 @@ spec:
         enabled: false
         
       perNodeServices:
-        createClusterIPService: true
-        createP2pNodePortService: true
+        createApiService: true
+        createP2pService: true
         p2pServiceType: ClusterIP
         setPublicAddressToExternalIp:
           enabled: false
