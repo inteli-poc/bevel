@@ -151,8 +151,7 @@ spec:
           
           echo "$GENESIS" > certcheck/genesis.json
           echo "********* check genesis *********"
-          head -c 1000 certcheck/genesis.json
-          tail -c 2000 certcheck/genesis.json
+          cat certcheck/genesis.json
           echo "Converting genesis to raw format"
           GENESIS=$($command build-spec --disable-default-bootnode --raw --chain certcheck/genesis.json)
           echo "$GENESIS" > certcheck/genesis_raw.json
