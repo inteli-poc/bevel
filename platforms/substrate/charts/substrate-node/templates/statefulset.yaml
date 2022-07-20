@@ -416,7 +416,7 @@ spec:
               echo "EXTERNAL_ADDRESS=${EXTERNAL_ADDRESS}"
               RELAY_CHAIN_P2P_PORT="$(cat /data/relay_chain_p2p_port)"
               echo "RELAY_CHAIN_P2P_PORT=${RELAY_CHAIN_P2P_PORT}"
-              {{-if eq .Values.proxy.provider "ambassador" }}
+              {{- if eq .Values.proxy.provider "ambassador" }}
               EXTERNAL_ADDRESS="{{ .Values.proxy.external_url }}"
               echo "EXTERNAL_ADDRESS=${EXTERNAL_ADDRESS}"
               RELAY_CHAIN_P2P_PORT="{{ .Values.proxy.p2p }}"
