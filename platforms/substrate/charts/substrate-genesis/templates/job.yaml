@@ -99,7 +99,7 @@ spec:
           GENESIS=$(echo $GENESIS | jq '.id |= {{ .Values.chain | replace "-" "_" | quote }}')
           GENESIS=$(echo $GENESIS | jq '.chainType |= "Live"')
 
-          echo "Editing genesis config"          
+          echo "Editing genesis config"
           GENESIS=$(echo $GENESIS | jq '.genesis.runtime.aura.authorities |= []')
           GENESIS=$(echo $GENESIS | jq '.genesis.runtime.grandpa.authorities |= []')
           GENESIS=$(echo $GENESIS | jq '.genesis.runtime.balances.balances |= []')
