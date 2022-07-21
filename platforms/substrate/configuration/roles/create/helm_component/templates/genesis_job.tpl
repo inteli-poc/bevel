@@ -14,7 +14,8 @@ spec:
   values:
     node:
       name: {{ component_name }}
-      image: {{ network.docker.url }}/{{ network.config.node_image }}:{{ network.version }}
+      image: {{ network.docker.url }}/{{ network.config.node_image }}
+      imageTag: {{ network.version }}
       pullPolicy: IfNotPresent
       command: {{ network.config.command }}
     metadata:
