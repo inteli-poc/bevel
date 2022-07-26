@@ -4,7 +4,7 @@
 #  SPDX-License-Identifier: Apache-2.0
 ##############################################################################################
 
-#Check if the pods for the organizations are up and running
+# Check if the pods for the organizations are up and running
 - name: "Waiting for peer pod {{ peer.name }} in {{ component_ns }}"
   include_role:
     name: "{{ playbook_dir }}/../../../platforms/shared/configuration/roles/check/helm_component"
@@ -20,6 +20,20 @@
   loop_control:
     loop_var: peer
   when: (peer.postgresql is defined) and (peer.inteli_api is defined)
+
+# Create postgresql values file for inteli-api
+- name: "Creating postgresql values file for inteli-api"
+  include_role:
+    name: "{{ playbook_dir }}/roles/create/dscp/postgresql"
+  vars:
+    component_ns: "{{ org.name | lower }}-subs"
+    component_gitops: "{{ org.gitops }}"
+    attached_to: "inteli-api"
+    values_dir: "{{ playbook_dir }}/../../../{{ org.gitops.release_dir }}/{{ org.name | lower }}"
+  loop: "{{ org.services.peers }}"
+  loop_control:
+    loop_var: peer
+  when: (peer.postgresql is defined) and (peer.id_service is defined)
 
 # Create inteli-api values file for the peer nodes
 - name: "Create inteli-api values file for all peers"

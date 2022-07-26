@@ -4,7 +4,10 @@ metadata:
   name: {{ name }}-inteli-api
   namespace: {{ component_ns }}
   annotations:
-    fluxcd.io/automated: "false"
+    fluxcd.io/automated: "true"
+    repository.fluxcd.io/app: image.repository
+    tag.fluxcd.io/app: image.tag
+    filter.fluxcd.io/app: 'glob:v1.0.*'
 spec:
   chart:
     path: {{ charts_dir }}/inteli-api
@@ -53,9 +56,9 @@ spec:
       port: 
 
     image:
-      repository: ghcr.io/digicatapult/inteli-api
+      repository: ghcr.io/inteli-poc/inteli-api
       pullPolicy: IfNotPresent
-      tag: 'v1.28.0'
+      tag: 'v1.0.0'
       pullSecrets: 
 
     postgresql:
