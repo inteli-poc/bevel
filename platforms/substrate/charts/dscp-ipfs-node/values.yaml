@@ -4,9 +4,13 @@
 fullnameOverride:
 # This section contains the ipfs node config values
 config:
-  healthCheckPort:
+  healthCheckPort: 80
+  healthCheckPollPeriod: 30000
+  healthCheckTimeout: 2000
   nodeHost:  # This overrides dscpNode.enabled
   nodePort:
+  # publicKey:
+  # privateKey:
   # Sets the log level - default trace, example values: all, debug, off, info, fatal
   logLevel:
   # Sets the ipfs api port - default
@@ -22,7 +26,21 @@ config:
   # Sets the ipfs log level - default trace, example values: debug, info, warn, error, dpanic, panic, fatal
   ipfsLogLevel:
   ipfsSwarmAddrFilters:
-  enableLivenessProbe:
+
+service:
+  swarm:
+    annotations: {}
+    enabled: true
+    port: 4001
+  api:
+    annotations: {}
+    enabled: true
+    port: 5001
+
+statefulSet:
+  annotations: {}
+  livenessProbe:
+    enabled: true
 
 # This section contains the values relating to the ipfs image as of now the image is pulled from the digicatapult github container registry
 image:

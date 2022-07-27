@@ -15,6 +15,9 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.statefulSet.annotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
         name: {{ include "dscp-ipfs.fullname" . }}
     spec:
@@ -37,15 +40,44 @@ spec:
               $ipfsCommand config Addresses.API /ip4/0.0.0.0/tcp/$ipfsApiPort;
               $ipfsCommand config --json Addresses.Swarm "[\"/ip4/0.0.0.0/tcp/$ipfsSwarmPort\"]";
               $ipfsCommand config --json Addresses.Announce "[\"/dns4/{{ $fullname }}-swarm.{{ .Release.Namespace }}.svc.cluster.local/tcp/$ipfsSwarmPort/\"]";
-              $ipfsCommand config --json Addresses.NoAnnounce "[]";
-              $ipfsCommand config --json Swarm.AddrFilters $ipfsSwarmAddrFilters;
+              $ipfsCommand config --json Addresses.NoAnnounce "[]";              
               $ipfsCommand config Datastore.StorageMax $(echo "$dataVolumeSize""Gb");
+              $ipfsCommand config --json Swarm.AddrFilters $ipfsSwarmAddrFilters;
               $ipfsCommand config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"http://0.0.0.0:$ipfsApiPort\", \"http://127.0.0.1:$ipfsApiPort\"]";
               $ipfsCommand bootstrap rm --all;
               if [ ! -z "$ipfsBootNodeAddress" ]; then $ipfsCommand bootstrap add $ipfsBootNodeAddress; fi;
           volumeMounts:
             - mountPath: {{ .Values.config.ipfsDataPath }}
               name: ipfs-data
+        {{- if and .Values.config.publicKey .Values.config.privateKey }}              
+        - name: {{ include "dscp-ipfs.initIpfsConfig.name" . }}-keys
+          image: jetbrainsinfra/jq:latest
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          env:
+            - name: IPFS_PATH
+              value: {{ .Values.config.ipfsDataPath }}
+            - name: IPFS_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "dscp-ipfs.fullname" . }}-secret
+                  key: publicKey
+            - name: IPFS_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "dscp-ipfs.fullname" . }}-secret
+                  key: privateKey
+          envFrom:
+            - configMapRef:
+                name: {{ include "dscp-ipfs.fullname" . }}-config
+          command: ['/bin/sh', '-c', '-e', '-x']
+          args:
+            - |
+              echo "$(jq --arg publickey $IPFS_PUBLIC_KEY '.Identity.PeerID = $publickey' /ipfs/config)" > /ipfs/config ;
+              echo "$(jq --arg privatekey $IPFS_PRIVATE_KEY '.Identity.PrivKey = $privatekey' /ipfs/config)" > /ipfs/config ;
+          volumeMounts:
+            - mountPath: {{ .Values.config.ipfsDataPath }}
+              name: ipfs-data
+        {{- end }}
         - name: ipfs-init
           image: {{ .Values.initContainer.image }}
           imagePullPolicy: {{ .Values.initContainer.pullPolicy | quote }}
@@ -131,6 +163,16 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           command: [ './app/index.js' ]
           env:
+            - name: HEALTHCHECK_POLL_PERIOD_MS
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dscp-ipfs.fullname" . }}-config
+                  key: healthCheckPollPeriod
+            - name: HEALTHCHECK_TIMEOUT_MS
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "dscp-ipfs.fullname" . }}-config
+                  key: healthCheckTimeout
             - name: PORT
               valueFrom:
                 configMapKeyRef:
@@ -180,7 +222,7 @@ spec:
             - containerPort: {{ .Values.config.ipfsApiPort }}
               name: ipfs-http-api
               protocol: TCP
-          {{- if .Values.config.enableLivenessProbe }}
+          {{- if .Values.statefulSet.livenessProbe.enabled }}
           livenessProbe:
             httpGet:
               path: /health
