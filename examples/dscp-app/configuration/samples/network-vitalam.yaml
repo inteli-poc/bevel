@@ -12,7 +12,7 @@ network:
   # Network level configuration specifies the attributes required for each organization
   # to join an existing network.
   type: substrate
-  version: v2.13.0  #this is the version of Substrate docker image that will be deployed.
+  version: v4.1.0  #this is the version of Substrate docker image that will be deployed.
 
   #Environment section for Kubernetes setup
   env:
@@ -60,14 +60,6 @@ network:
       unit: OEM
       type: superuser
       external_url_suffix: dscp.inteli-poc.com   # This is the url suffix that will be added in DNS recordset. Must be different for different clusters
-      # these are the Auth0 API values that will be used for authentication to substrate api endpoints. Eg. tokenUrl: https://example.eu.auth0.com/oauth/token
-      auth:
-        type: "NONE" # Options: NONE, JWT
-        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json"  # JSON Web Key Set containing public keys used by the Auth0 API
-        audience: "https://inteli-poc.com/api"  # Identifier of the Auth0 API
-        issuer: "https://inteli-poc.eu.auth0.com/"      # # Issuer Domain of the Auth0 API, Don't forget the ending /
-        tokenUrl: "https://inteli-poc.eu.auth0.com/oauth/token" # Auth0 API endpoint that issues an Authorisation (Bearer) access token
-        clientId: "ORG1_CLIENT_ID"        # Client Id for accessing the API and Frontend Auths
       cloud_provider: gcp   # Options: aws, azure, gcp
       
       # Kubernetes cluster deployment variables. The config file path and name has to be provided in case
@@ -81,6 +73,15 @@ network:
         url: "http://VAULT_URL:VAULT_PORT"
         root_token: "VAULT_TOKEN"
         secret_path: "secretsv2"
+      # these are the Auth0 API values that will be used for authentication to substrate api endpoints. Eg. tokenUrl: https://example.eu.auth0.com/oauth/token
+      auth:
+        type: "JWT" # Options: NONE, JWT
+        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json"  # JSON Web Key Set containing public keys used by the Auth0 API
+        audience: "https://inteli-poc.com/api"  # Identifier of the Auth0 API
+        issuer: "https://inteli-poc.eu.auth0.com/"      # # Issuer Domain of the Auth0 API, Don't forget the ending /
+        tokenUrl: "https://inteli-poc.eu.auth0.com/oauth/token" # Auth0 API endpoint that issues an Authorisation (Bearer) access token
+        clientId: "ORG1_CLIENT_ID"        # Client Id for accessing the API and Frontend Auths
+      
       # Git Repo details which will be used by GitOps/Flux.
       # Do not check-in git_access_token
       gitops:
@@ -180,14 +181,7 @@ network:
       name: tierone
       unit: Tier1
       external_url_suffix: dscp.inteli-poc.com
-      # these are the Auth0 API values that will be used for authentication to substrate api endpoints. Eg. tokenUrl: https://example.eu.auth0.com/oauth/token
-      auth:
-        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json"  # JSON Web Key Set containing public keys used by the Auth0 API
-        audience: "https://inteli-poc.com/api"  # Identifier of the Auth0 API
-        issuer: "https://inteli-poc.eu.auth0.com/"      # # Issuer Domain of the Auth0 API, Don't forget the ending /
-        tokenUrl: "https://inteli-poc.eu.auth0.com/oauth/token" # Auth0 API endpoint that issues an Authorisation (Bearer) access token
-        clientId: "ORG2_CLIENT_ID"        # Client Id for accessing the API and Frontend Auths
-
+      
       cloud_provider: gcp   # Options: aws, azure, gcp
       
       # Kubernetes cluster deployment variables. The config file path and name has to be provided in case
@@ -201,6 +195,15 @@ network:
         url: "http://VAULT_URL:VAULT_PORT"
         root_token: "VAULT_TOKEN"
         secret_path: "secretsv2"
+      # these are the Auth0 API values that will be used for authentication to substrate api endpoints. Eg. tokenUrl: https://example.eu.auth0.com/oauth/token
+      auth:
+        type: JWT
+        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json"  # JSON Web Key Set containing public keys used by the Auth0 API
+        audience: "https://inteli-poc.com/api"  # Identifier of the Auth0 API
+        issuer: "https://inteli-poc.eu.auth0.com/"      # # Issuer Domain of the Auth0 API, Don't forget the ending /
+        tokenUrl: "https://inteli-poc.eu.auth0.com/oauth/token" # Auth0 API endpoint that issues an Authorisation (Bearer) access token
+        clientId: "ORG2_CLIENT_ID"        # Client Id for accessing the API and Frontend Auths
+
       # Git Repo details which will be used by GitOps/Flux.
       # IMPORTANT: Do not check-in your password, the git_access_token!
       gitops:
@@ -274,14 +277,6 @@ network:
       name: tiertwo
       unit: Tier2
       external_url_suffix: dscp.inteli-poc.com
-      # these are the Auth0 API values that will be used for authentication to substrate api endpoints. Eg. tokenUrl: https://example.eu.auth0.com/oauth/token
-      auth:
-        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json"  # JSON Web Key Set containing public keys used by the Auth0 API
-        audience: "https://inteli-poc.com/api"  # Identifier of the Auth0 API
-        issuer: "https://inteli-poc.eu.auth0.com/"      # # Issuer Domain of the Auth0 API, Don't forget the ending /
-        tokenUrl: "https://inteli-poc.eu.auth0.com/oauth/token" # Auth0 API endpoint that issues an Authorisation (Bearer) access token
-        clientId: "ORG3_CLIENT_ID"        # Client Id for accessing the API and Frontend Auths
-
       cloud_provider: gcp   # Options: aws, azure, gcp
       
       # Kubernetes cluster deployment variables. The config file path and name has to be provided in case
@@ -295,6 +290,15 @@ network:
         url: "http://VAULT_URL:VAULT_PORT"
         root_token: "VAULT_TOKEN"
         secret_path: "secretsv2"
+      # these are the Auth0 API values that will be used for authentication to substrate api endpoints. Eg. tokenUrl: https://example.eu.auth0.com/oauth/token
+      auth:
+        type: JWT
+        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json"  # JSON Web Key Set containing public keys used by the Auth0 API
+        audience: "https://inteli-poc.com/api"  # Identifier of the Auth0 API
+        issuer: "https://inteli-poc.eu.auth0.com/"      # # Issuer Domain of the Auth0 API, Don't forget the ending /
+        tokenUrl: "https://inteli-poc.eu.auth0.com/oauth/token" # Auth0 API endpoint that issues an Authorisation (Bearer) access token
+        clientId: "ORG3_CLIENT_ID"        # Client Id for accessing the API and Frontend Auths
+
       # Git Repo details which will be used by GitOps/Flux.
       # IMPORTANT: Do not check-in your password, the git_access_token!
       gitops:
