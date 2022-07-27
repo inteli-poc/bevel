@@ -4,7 +4,7 @@ metadata:
   name: {{ name }}-inteli-api
   namespace: {{ component_ns }}
   annotations:
-    fluxcd.io/automated: "true"
+    fluxcd.io/automated: "false"
     repository.fluxcd.io/app: image.repository
     tag.fluxcd.io/app: image.tag
     filter.fluxcd.io/app: 'glob:v1.0.*'
