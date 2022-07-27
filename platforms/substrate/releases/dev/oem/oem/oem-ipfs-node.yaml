@@ -15,6 +15,8 @@ spec:
     fullnameOverride: oem-ipfs
     config:
       healthCheckPort: 80
+      healthCheckPollPeriod: 30000
+      healthCheckTimeout: 2000
       nodeHost: "oem"
       nodePort: "9944"
       logLevel: info
@@ -24,15 +26,29 @@ spec:
       ipfsCommand: "/usr/local/bin/ipfs"
       ipfsArgs:
         - daemon
+        - "--migrate"
       ipfsSwarmAddrFilters: null
-      ipfsLogLevel: fatal
+      ipfsLogLevel: info
       ipfsBootNodeAddress: /dns4/oem-ipfs-bn-ipfs-swarm.oem-subs.svc.cluster.local/tcp/4001/p2p/12D3KooWFNX8Hko5iymACknaLQQev4s1puF6TWwNghAZpaJPg1sP
       
-      enableLivenessProbe: true
+    service:
+      swarm:
+        annotations: {}
+        enabled: true
+        port: 4001
+      api:
+        annotations: {}
+        enabled: true
+        port: 5001
+
+    statefulSet:
+      annotations: {}
+      livenessProbe:
+        enabled: true
     image:
       repository: ghcr.io/digicatapult/dscp-ipfs
       pullPolicy: IfNotPresent
-      tag: 'v2.4.0'
+      tag: 'v2.6.1'
     storage:
       storageClass: "gcpstorageclass"
       dataVolumeSize: 20  # in Gigabytes
