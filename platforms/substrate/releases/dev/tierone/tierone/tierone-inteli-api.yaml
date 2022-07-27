@@ -4,7 +4,7 @@ metadata:
   name: tierone-inteli-api
   namespace: tierone-subs
   annotations:
-    fluxcd.io/automated: "false"
+    fluxcd.io/automated: "true"
     repository.fluxcd.io/app: image.repository
     tag.fluxcd.io/app: image.tag
     filter.fluxcd.io/app: 'glob:v1.0.*'
