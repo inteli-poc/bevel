@@ -15,6 +15,8 @@ spec:
     fullnameOverride: {{ peer.name }}-ipfs
     config:
       healthCheckPort: 80
+      healthCheckPollPeriod: 30000
+      healthCheckTimeout: 2000
       nodeHost: "{{ peer.name }}"
       nodePort: "{{ peer.ws.port }}"
       logLevel: info
@@ -24,16 +26,30 @@ spec:
       ipfsCommand: "/usr/local/bin/ipfs"
       ipfsArgs:
         - daemon
+        - "--migrate"
       ipfsSwarmAddrFilters: null
-      ipfsLogLevel: fatal
+      ipfsLogLevel: info
 {% if ipfs_bootnode is defined %}
       ipfsBootNodeAddress: {{ ipfs_bootnode[1:] | join(',') }}
 {% endif %}      
-      enableLivenessProbe: true
+    service:
+      swarm:
+        annotations: {}
+        enabled: true
+        port: {{ peer.ipfs.swarmPort }}
+      api:
+        annotations: {}
+        enabled: true
+        port: {{ peer.ipfs.apiPort }}
+
+    statefulSet:
+      annotations: {}
+      livenessProbe:
+        enabled: true
     image:
       repository: {{ docker_url }}/digicatapult/dscp-ipfs
       pullPolicy: IfNotPresent
-      tag: 'v2.4.0'
+      tag: 'v2.6.1'
     storage:
       storageClass: "{{ storageclass_name }}"
       dataVolumeSize: 20  # in Gigabytes

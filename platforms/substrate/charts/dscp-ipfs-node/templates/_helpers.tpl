@@ -21,6 +21,12 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" | lower}}
 {{- end }}
 
+{{- define "dscp-ipfs-node.fullname" -}}
+{{- if .Values.dscpNode.enabled -}}
+{{- template "dscp-node.fullname" .Subcharts.dscpNode -}}
+{{- end -}}
+{{- end -}}
+
 {{- define "dscp-ipfs.ipfsApiPort" -}}
 {{- if .Values.config.ipfsApiPort -}}
 {{- .Values.config.ipfsApiPort | quote -}}
