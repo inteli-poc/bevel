@@ -26,7 +26,7 @@ spec:
       ipfsStatusPollPeriodMs: 10000
       ipfsStatusTimeoutMs: 2000
       auth:
-        type: JWT
+        type: NONE
         jwksUri: https://inteli-poc.eu.auth0.com/.well-known/jwks.json
         audience: https://inteli-poc.com/api
         issuer: https://inteli-poc.eu.auth0.com/
