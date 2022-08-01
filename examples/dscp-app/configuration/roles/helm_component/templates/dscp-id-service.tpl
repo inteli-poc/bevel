@@ -18,8 +18,8 @@ spec:
       externalPostgresql: {{ db_address }}.{{ component_ns }}
       port: {{ peer.id_service.port }}
       logLevel: info
-      dbName: {{ db_name }}
-      dbPort: {{ db_port }}
+      dbName: {{ peer.id_service.db_name }}
+      dbPort: {{ peer.postgresql.port }}
       enableLivenessProbe: true
       selfAddress: 
       auth:
@@ -43,9 +43,9 @@ spec:
 
     postgresql:
       enabled: false
-      postgresqlDatabase: {{ db_name }}
-      postgresqlUsername: postgres
-      postgresqlPassword: {{ db_password }}
+      postgresqlDatabase: {{ peer.id_service.db_name }}
+      postgresqlUsername: {{ peer.postgresql.user }}
+      postgresqlPassword: {{ peer.postgresql.password }}
     dscpNode:
       enabled: false
 

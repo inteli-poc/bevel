@@ -12,10 +12,16 @@
     type: "postgresql"
     name: "{{ peer.name }}"
     charts_dir: "examples/dscp-app/charts"
-    component_name: "{{ peer.name }}-{{ attached_to }}-postgresql"
-    postgres_password: "{{ peer.postgresql.password }}"
-    database_name: "{{ peer.postgresql.database_name }}"
+    component_name: "{{ peer.name }}-postgresql"
+    username: "{{ peer.postgresql.user }}"
+    password: "{{ peer.postgresql.password }}"
+    first_db_name: "{{ peer.id_service.db_name }}"
+    second_db_name: "{{ peer.inteli_api.db_name }}"
     postgres_port: "{{ peer.postgresql.port }}"
+  loop: "{{ org.services.peers }}"
+  loop_control:
+    loop_var: peer
+  when: (peer.postgresql is defined) and (peer.inteli_api is defined)
 
 # Push the postgresql deployment files to repository
 - name: "Push the created deployment files to repository"
@@ -34,7 +40,11 @@
   vars:
     component_type: "Pod"
     namespace: "{{ component_ns }}"
-    component_name: "{{ peer.name }}-{{ attached_to }}-postgresql"
+    component_name: "{{ peer.name }}-postgresql"
     kubernetes: "{{ org.k8s }}"
     label_selectors:
       - app.kubernetes.io/instance = {{ component_name }}
+  loop: "{{ org.services.peers }}"
+  loop_control:
+    loop_var: peer
+  when: (peer.postgresql is defined) and (peer.inteli_api is defined)

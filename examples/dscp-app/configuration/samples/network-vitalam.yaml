@@ -167,12 +167,14 @@ network:
             ambassador: 443
           postgresql:
             port: 5432
-            password: "postgres123" # this sets the password to the postgresql admin user - default username = postgres
-            database_name: "inteli"
+            user: postgres
+            password: "postgres123"
           id_service:
+            db_name: "id-service"
             port: 3001
             ambassador: 443
           inteli_api:
+            db_name: "inteli-api"
             port: 3000
             ambassador: 443
 
@@ -242,12 +244,14 @@ network:
             ambassador: 443
           postgresql:
             port: 5432
-            password: "postgres123" # this sets the password to the postgresql admin user - default username = postgres
-            database_name: "inteli"
+            user: postgres
+            password: "postgres123"
           id_service:
+            db_name: "id-service"
             port: 3001
             ambassador: 443
           inteli_api:
+            db_name: "inteli-api"
             port: 3000
             ambassador: 443
         - peer:
@@ -336,11 +340,13 @@ network:
             ambassador: 443
           postgresql:
             port: 5432
-            password: "postgres123" # this sets the password to the postgresql admin user - default username = postgres
-            database_name: "inteli"
+            user: postgres
+            password: "postgres123"
           id_service:
+            db_name: "id-service"
             port: 3001
             ambassador: 443
           inteli_api:
+            db_name: "inteli-api"
             port: 3000
             ambassador: 443
