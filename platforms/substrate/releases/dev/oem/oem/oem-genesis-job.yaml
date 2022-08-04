@@ -1,0 +1,51 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: oem-genesis-job
+  namespace: oem-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: oem-genesis-job
+  chart:
+    git: https://github.com/inteli-poc/bevel.git
+    ref: vitalam
+    path: platforms/substrate/charts/substrate-genesis
+  values:
+    node:
+      name: oem-genesis-job
+      image: ghcr.io/digicatapult/dscp-node
+      imageTag: v4.2.1
+      pullPolicy: IfNotPresent
+      command: ./dscp-node
+    metadata:
+      name: oem-genesis-job
+      namespace: oem-subs
+    vault:
+      address: http://vault.internal.dev.intelipoc.com:20002
+      role: vault-role
+      authpath: substrateoem
+      serviceaccountname: vault-auth
+      certsecretprefix: secretsv2/oem-subs
+    chain: inteli-gcp
+    aura_keys: ['5HiXqJRgL927EPc5p3U59kw3UC93MJxRDbQaStMRvwnHFDJ1', '5F1eZEe6vHNp2os7pmWAWcZYwAxih9xZXoBXXTCWe3WaMjKu', '5EhTduKpe3DwkVcewPcV3YRqjpG56uxBd5Z9agnocmu19put', '5DnzBMdMU4Yt1dz3uXc2w9aMkHGp3viuVj1cBVTTo32ZuhEX']
+    grandpa_keys: ['5DGfdE7gTEoUV2PY37SvGu41B8PweNeH96bAJ5WZBRHpRziy', '5F1MvBvpTxMenpJyN1ZWEQBggNb6M3zANtawDZuW1DZcvbao', '5CjWtKcn3NU5dRCH2usjKXYpHncDSzzkz8n5fAG4efnJmZgY', '5CWXXxfMoopdmGLb5usWUJHWSRk3vHFXsoYjAqBLbRD9FqJs']
+    members: 
+      -   account_id: 5GnGDH3iZzZ2PRWWUyAU5c9QqUDywmDJcWmuuzVEeCkqkXmH
+          balance: 1152921504606846976
+          nodes:
+          - 0024080112202A5F1D600F7504E282009FAC7206D21FE336038CC186369648C40F25079BD758
+          - 002408011220EE7AFBDE92B1F997E4AB934348B10A2F4AF662FC13F4907C58C2DFEBFEC79006
+          - 002408011220E62110F4A23C8A1AE4048CC6C5333A8F77BE830EA5034B75F0A2E21990021A93
+          - 002408011220AF03EE3D26137DED901142CBD84D19AC265EBF71A545022A02CC528AD1A6F63F
+          - 002408011220ACFAB86DFC227801D9F14F6631A95B57CE8B13CE601194E898FBD6245DFC315E
+      -   account_id: 5CPiTSvEat7zq3TihH49tyoQaQmc92JzRBmfLfSzTXCaXsVS
+          balance: 1152921504606846976
+          nodes:
+          - 0024080112208795C1395375E8AB1812962D59400DE091A0E6D3AEE4E6A375D70D7E336575F5
+          - 002408011220A8952993827F6301EF307EE4D520419F4B15BF75246A6DA4CA68CD2FF583DCFE
+          - 0024080112208F693940E85EF5B7EB6382DA4933006007DB102317516FB80439178FDE0F3C44
+      -   account_id: 5G6SxXKNJoSg7Z8kUSuzhwUf18pVMMRceQ2bRooymczf2T2c
+          balance: 1152921504606846976
+          nodes:
+          - 002408011220F5CE0822061D8B87D1D6FB2DD7BD68A28FC756CD899F2C25C782208A5F82CE6A
