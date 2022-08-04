@@ -19,7 +19,7 @@ spec:
     config:
       port: {{ peer.inteli_api.port }}
       externalPostgresql: {{ db_address }}.{{ component_ns }}
-      dbName: {{ peer.postgresql.database_name }}
+      dbName: {{ peer.inteli_api.db_name }}
       dbPort: {{ peer.postgresql.port }}
       dscpApiHost: {{ dscp_api_addr }}.{{ component_ns }}
       dscpApiPort: {{ peer.api.port }}
@@ -63,8 +63,8 @@ spec:
 
     postgresql:
       enabled: false
-      postgresqlDatabase: {{ peer.postgresql.database_name }}
-      postgresqlUsername: postgres
+      postgresqlDatabase: {{ peer.inteli_api.db_name }}
+      postgresqlUsername: {{ peer.postgresql.user }}
       postgresqlPassword: {{ peer.postgresql.password }}
 
 
