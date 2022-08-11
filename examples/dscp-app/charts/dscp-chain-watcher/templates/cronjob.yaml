@@ -11,7 +11,7 @@ metadata:
   labels:
     app.kubernetes.io/name: {{ include "chain-watcher.fullname" . }}-cron-job
 spec:
-  schedule: "*/5 * * * *"
+  schedule: "*/1 * * * *"
   jobTemplate:
     spec:
       backoffLimit: 6
