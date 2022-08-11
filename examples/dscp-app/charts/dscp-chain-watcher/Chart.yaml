@@ -4,11 +4,9 @@
 #  SPDX-License-Identifier: Apache-2.0
 ##############################################################################################
 
-helm_templates:
-  dscp-api: dscp-api.tpl
-  dscp-frontend: dscp-frontend.tpl
-  certissuer: certissuer.tpl
-  postgresql: postgresql.tpl
-  dscp-id-service: dscp-id-service.tpl
-  inteli-api: inteli-api.tpl
-  dscp-chain-watcher: dscp-chain-watcher.tpl
+apiVersion: v2
+name: dscp-chain-watcher
+appVersion: '1.0.0'
+description: A Helm chart for dscp-chain-watcher
+version: '1.0.0'
+type: job
