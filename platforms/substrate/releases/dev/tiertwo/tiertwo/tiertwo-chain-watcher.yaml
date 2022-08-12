@@ -29,5 +29,5 @@ spec:
     image:
       repository: ghcr.io/inteli-poc/dscp-chain-watcher
       pullPolicy: IfNotPresent
-      tag: 'v1.0.f0a1a00'
+      tag: 'v1.0.6cdc85b'
       pullSecrets:
