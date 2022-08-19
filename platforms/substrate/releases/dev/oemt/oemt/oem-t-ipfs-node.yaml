@@ -1,0 +1,67 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: oem-t-ipfs-node
+  namespace: oemt-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: oem-t-ipfs-node
+  chart:
+    git: https://github.com/inteli-poc/bevel.git
+    ref: test-network-dev
+    path: platforms/substrate/charts/dscp-ipfs-node
+  values:
+    fullnameOverride: oem-t-ipfs
+    config:
+      healthCheckPort: 80
+      healthCheckPollPeriod: 30000
+      healthCheckTimeout: 2000
+      nodeHost: "oem-t"
+      nodePort: "9944"
+      logLevel: info
+      ipfsApiPort: 5001
+      ipfsSwarmPort: 4001
+      ipfsDataPath: "/ipfs"
+      ipfsCommand: "/usr/local/bin/ipfs"
+      ipfsArgs:
+        - daemon
+        - "--migrate"
+      ipfsSwarmAddrFilters: null
+      ipfsLogLevel: info
+      ipfsBootNodeAddress: /dns4/oem-ipfs-bn-t-ipfs-swarm.oemt-subs.svc.cluster.local/tcp/4001/p2p/12D3KooWA6d2sGJqtZQSTHZGQnNSP8T4XtFCksZmobTcMPDQ3PKp
+      
+    service:
+      swarm:
+        annotations: {}
+        enabled: true
+        port: 4001
+      api:
+        annotations: {}
+        enabled: true
+        port: 5001
+
+    statefulSet:
+      annotations: {}
+      livenessProbe:
+        enabled: true
+    image:
+      repository: ghcr.io/digicatapult/dscp-ipfs
+      pullPolicy: IfNotPresent
+      tag: 'v2.6.1'
+    storage:
+      storageClass: "gcpstorageclass"
+      dataVolumeSize: 20  # in Gigabytes
+    dscpNode:
+      enabled: false
+    proxy:
+      provider: ambassador
+      external_url: oem-t-ipfs-swarm.dscp.intelipoc.com
+      port: 15065
+      certSecret: oemt-ambassador-certs
+    vault:
+      address: http://vault.internal.dev.intelipoc.com:20002
+      role: vault-role
+      authpath: substrateoemt
+      serviceaccountname: vault-auth
+      certsecretprefix: secretsv2/data/oemt-subs/oem-t
