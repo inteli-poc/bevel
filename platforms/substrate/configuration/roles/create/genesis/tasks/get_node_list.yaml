@@ -18,6 +18,10 @@
     printf "{{ node_id.stdout }}" | base58 -d | xxd -p | tr -d '[:space:]' | tr '[:lower:]' '[:upper:]'    
   register: node_id_b58  
 
+- name: debug genesis
+  debug:
+    var: node_id_b58
+
 # Set the node_id into the node_list
 - name: Set node list
   set_fact:    
