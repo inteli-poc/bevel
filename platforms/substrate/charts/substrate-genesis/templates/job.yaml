@@ -155,8 +155,6 @@ spec:
           echo "Converting genesis to raw format"
           GENESIS=$($command build-spec --disable-default-bootnode --raw --chain certcheck/genesis.json)
           echo "$GENESIS" > certcheck/genesis_raw.json
-
-          tail -f /dev/null
           cat certcheck/genesis_raw.json | base64 -w0 > certcheck/genesis_base64
       
           KUBE_SA_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
