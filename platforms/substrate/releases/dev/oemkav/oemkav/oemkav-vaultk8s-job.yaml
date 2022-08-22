@@ -1,0 +1,32 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: oemkav-vaultk8s-job
+  namespace: oemkav-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: oemkav-vaultk8s-job
+  chart:
+    git: https://github.com/inteli-poc/bevel.git
+    ref: flux-v1/vitalam
+    path: platforms/substrate/charts/vault-k8s-mgmt
+  values:
+    metadata:
+      name: oemkav
+      namespace: oemkav-subs    
+      images:
+        alpineutils: hyperledgerlabs/alpine-utils:1.0
+
+    vault:
+      reviewer_service: vault-reviewer
+      role: vault-role
+      address: http://vault.internal.dev.intelipoc.com:20002
+      authpath: substrateoemkav
+      policy: vault-crypto-organization-oemkav-ro
+      policydata: "{\n  \"policy\": \"path \\\"secretsv2/data/oemkav-subs/*\\\" {\n    capabilities = [\\\"read\\\", \\\"list\\\", \\\"create\\\", \\\"update\\\"]\n  }\n  path \\\"secretsv2/data/oemkav-subs/smartContracts/*\\\" {\n    capabilities = [\\\"read\\\", \\\"list\\\"]\n  }\"\n}"
+      secret_path: secretsv2
+      serviceaccountname: vault-auth
+    
+    k8s:
+      kubernetes_url: https://34.142.7.147
