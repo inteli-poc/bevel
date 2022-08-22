@@ -26,3 +26,7 @@
 - name: Set node list
   set_fact:    
     node_list={{ node_list | default([]) + [ node_id_b58.stdout ] }}
+
+- name: debug genesis
+  debug:
+    var: node_list
