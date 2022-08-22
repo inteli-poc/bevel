@@ -1,0 +1,51 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: oemkav-genesis-job
+  namespace: oemkav-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: oemkav-genesis-job
+  chart:
+    git: https://github.com/inteli-poc/bevel.git
+    ref: flux-v1/vitalam
+    path: platforms/substrate/charts/substrate-genesis
+  values:
+    node:
+      name: oemkav-genesis-job
+      image: ghcr.io/digicatapult/dscp-node
+      imageTag: v4.2.1
+      pullPolicy: IfNotPresent
+      command: ./dscp-node
+    metadata:
+      name: oemkav-genesis-job
+      namespace: oemkav-subs
+    vault:
+      address: http://vault.internal.dev.intelipoc.com:20002
+      role: vault-role
+      authpath: substrateoemkav
+      serviceaccountname: vault-auth
+      certsecretprefix: secretsv2/oemkav-subs
+    chain: inteli-gcp
+    aura_keys: ['5GxGBxbveP2VRaG73tT5ocJCrAXoL4mhdnrsAZhzPKoLkyRz', '5GsP7ynQUL7NyEKp9c7CR55recTQ2YHEkp489ctYgpgEnRh1', '5F4b6quh7uNjjseJ5yhyhuedxkpab2uAMSnET6w2tKcqo5uE', '5CPEhY9TGzfzyvDfRrvoMTiVXZvsm3NoP3uUyUWHEgSuGVRW']
+    grandpa_keys: ['5DjdpAsdGSshnsAUwgn7VPNukMapNYK8Mo5Bpgc9eDugMfNU', '5EQGZgV5yq7MH9WELAJ817LicLhAWTCatHaSDyFSDi2nG8oD', '5F2Ude2HYoWaHtDjf1L22yY665iqRHUU3mfyNwkWjqVCBKvE', '5CHzx6f13pdKVnaMu4imGC5biK2AEERZfWdnueDQqS8m4VwG']
+    members: 
+      -   account_id: 5CZsPGUyKHCE9XWKSpVdBS8DMu8YPoLuEx1EGSorXoEbD4dc
+          balance: 1152921504606846976
+          nodes:
+          - ''
+          - ''
+          - ''
+          - ''
+          - ''
+      -   account_id: 5EjcuE2BtYtqb2rGywEhdXgARDmWgqWCwdV9iwQtXJ4Yq164
+          balance: 1152921504606846976
+          nodes:
+          - ''
+          - ''
+          - ''
+      -   account_id: 5Gh2mfZL4tobfZHMXeBao18zEtECXomsZH8LNXiAc8Qyq2xL
+          balance: 1152921504606846976
+          nodes:
+          - ''
