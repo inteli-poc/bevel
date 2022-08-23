@@ -20,6 +20,11 @@
     path: "{{ release_dir_ns }}/"
     state: absent
 
+- name: Delete release files
+  file:
+    path: "{{ flux_manifest_dir }}/"
+    state: absent
+
 #Git Push : Pushes the above generated files to git directory 
 - name: Git Push
   include_role: 

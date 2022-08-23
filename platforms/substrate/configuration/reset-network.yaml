@@ -45,6 +45,7 @@
         gitops: "{{ item.gitops }}"
         release_dir: "{{playbook_dir}}/../../../{{item.gitops.release_dir}}/{{ item.name|lower }}"
         release_dir_ns: "{{playbook_dir}}/../../../{{item.gitops.release_dir}}/{{ item.name|lower }}-subs"
+        flux_manifest_dir: "{{playbook_dir}}/../../../{{item.gitops.release_dir}}/flux-{{ network.env.type }}"
       loop: "{{ network['organizations'] }}"
 
     # delete build directory

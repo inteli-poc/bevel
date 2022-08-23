@@ -4,30 +4,6 @@
 #  SPDX-License-Identifier: Apache-2.0
 ##############################################################################################
 
-#This task creates the value files for each validator node of organization
-- name: Create value file for ipfs bootnode
-  include_role:
-    name: create/helm_component
-  vars:
-    component_name: "{{ name }}{{ peer.name }}node"
-    type: "node_substrate"
-    storageclass_name: "{{ item.cloud_provider }}storageclass"
-    external_url: "{{ item.external_url_suffix }}"
-    vault: "{{ item.vault }}"
-    git_url: "{{ item.gitops.git_url }}"
-    git_branch: "{{ item.gitops.branch }}"
-    org: "{{ item }}"
-    docker_url: "{{ network.docker.url }}"
-    charts_dir: "{{ item.gitops.chart_source }}"
-    values_dir: "{{playbook_dir}}/../../../{{item.gitops.release_dir}}/{{ item.name | lower }}"    
-    bootnode_data: "{{ lookup('file', '{{ network.config.bootnodes }}').splitlines() }}"
-    command: "{{ network.config.command }}"
-    role: "full"
-  loop: "{{ peers }}"
-  loop_control:
-    loop_var: peer
-  when: peer.type == "ipfs-bootnode"
-
 # generate ipfs node helmrelease file
 - name: "Create ipfs node release file"
   include_role:

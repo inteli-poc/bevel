@@ -6,7 +6,7 @@
 
 ---
 # yaml-language-server: $schema=../../../../platforms/network-schema.json
-# This is a sample configuration file for Substrate network which has 4 nodes.
+# This is a sample configuration file for Vitalam network which has 3 organizations.
 # All text values are case-sensitive
 network:
   # Network level configuration specifies the attributes required for each organization
@@ -127,6 +127,7 @@ network:
           name: oem-ipfs-bn
           subject: "O=OEMIPFSBoot,OU=OEMIPFSBoot,London,C=GB" # This is the node subject.
           type: ipfs-bootnode         # value can be validator or bootnode ( or ipfs, for vitalAM)
+          nodeHost: oem-bn            # peer name of substrate node for IPFS API-WS connection
           p2p:
             port: 30333
             ambassador: 15013       #Port exposed on ambassador service (use one port per org if using single cluster)
@@ -142,6 +143,7 @@ network:
           name: oem
           subject: "O=OEMIPFS,OU=OEMIPFS,London,C=GB" # This is the node subject.
           type: member         # value can be validator or bootnode ( or ipfs, for vitalAM)
+          nodeHost: oem        # peer name of substrate node for IPFS API-WS connection
           p2p:
             port: 30333
             ambassador: 15015       #Port exposed on ambassador service (use one port per org if using single cluster)
@@ -193,6 +195,7 @@ network:
           name: tierone
           subject: "O=Tier1,OU=Tier1,L=47.38/8.54/Zurich,C=CH"  # This is the node identity. L=lat/long is mandatory for supplychain sample app
           type: member         # value can be validator or bootnode ( or ipfs, for vitalAM)
+          nodeHost: tierone    # peer name of substrate node for IPFS API-WS connection
           p2p:
             port: 30333
             ambassador: 15020       #Port exposed on ambassador service (use one port per org if using single cluster)
@@ -264,6 +267,7 @@ network:
           name: tiertwo
           subject: "O=Tier2,OU=Tier2,L=40.73/-74/New York,C=US" # This is the node identity. L=lat/long is mandatory for supplychain sample app
           type: member         # value can be validator or bootnode ( or ipfs, for vitalAM)
+          nodeHost: tiertwo    # peer name of substrate node for IPFS API-WS connection
           p2p:
             port: 30333
             ambassador: 15030       #Port exposed on ambassador service (use one port per org if using single cluster)
