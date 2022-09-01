@@ -17,7 +17,7 @@ spec:
       healthCheckPort: 80
       healthCheckPollPeriod: 30000
       healthCheckTimeout: 2000
-      nodeHost: "{{ peer.name }}"
+      nodeHost: "{{ peer.nodeHost }}"
       nodePort: "{{ peer.ws.port }}"
       logLevel: info
       ipfsApiPort: {{ peer.ipfs.apiPort }}

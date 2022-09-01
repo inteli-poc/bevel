@@ -152,7 +152,7 @@
       name: create/ipfsbootnodefile
     when: network.config.node_image == "digicatapult/dscp-node"
 
-  # This role deploys Substrate validator nodes
+  # This role deploys Substrate member nodes
   - name: "Deploy Substrate members"
     include_role:
       name: create/member_node
