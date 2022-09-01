@@ -9,4 +9,4 @@ name: dscp-chain-watcher
 appVersion: '1.0.0'
 description: A Helm chart for dscp-chain-watcher
 version: '1.0.0'
-type: job
+type: application
