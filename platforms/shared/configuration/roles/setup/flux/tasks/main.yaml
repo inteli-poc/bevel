@@ -5,8 +5,9 @@
 ##############################################################################################
 
 ---
-- name: Install Flux CLI
-  shell: curl -s https://fluxcd.io/install.sh | bash
+- name: Install flux cli
+  shell: |
+    curl -s https://fluxcd.io/install.sh | bash -s {{ bin_install_dir }}
   environment:
     FLUX_VERSION: "{{ flux_version }}"
 
@@ -19,9 +20,9 @@
   tags:
     - molecule-idempotence-notest
 
-- name: Bootstrap flux v2 for git over HTTPS
+- name: Install flux cli and bootstrap flux v2
   shell: |
-    flux bootstrap git \
+    {{ bin_install_dir }}/flux bootstrap git \
     --url={{ git_url }} \
     --branch={{ git_branch }} \
     --username={{ git_username }} \
@@ -36,14 +37,14 @@
     - flux
     - molecule-idempotence-notest
 
-- name: Bootstrap flux v2 for git over SSH
+- name: Install flux cli and bootstrap flux v2
   shell: |
-     yes | flux bootstrap git \
-      --url={{ git_url }} \
-      --branch={{ git_branch }} \
-      --path={{ git_path }} \
-      --private-key-file={{ git_key }} \
-      --namespace=flux-{{ network.env.type }}
+    yes | {{ bin_install_dir }}/flux bootstrap git \
+    --url={{ git_url }} \
+    --branch={{ git_branch }} \
+    --path={{ git_path }} \
+    --private-key-file={{ git_key }} \
+    --namespace=flux-{{ network.env.type }}
   when: git_protocol == "ssh"
   environment:
     KUBECONFIG: "{{ item.k8s.config_file }}"
