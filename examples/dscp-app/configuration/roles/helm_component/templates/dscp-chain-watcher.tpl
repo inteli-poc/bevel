@@ -1,4 +1,4 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: {{ name }}-chain-watcher
@@ -6,10 +6,15 @@ metadata:
   annotations:
     fluxcd.io/automated: "false"
 spec:
+  interval: 1m
   chart:
-    path: {{ charts_dir }}/dscp-chain-watcher
-    git: "{{ component_gitops.git_url }}"
-    ref: "{{ component_gitops.branch }}"
+    spec:
+      interval: 1m
+      sourceRef:
+        kind: GitRepository
+        name: flux-{{ network.env.type }}
+        namespace: flux-{{ network.env.type }}
+      chart: {{ charts_dir }}/dscp-chain-watcher
   releaseName: {{ name }}-chain-watcher
   values:
     fullnameOverride: {{ name }}-chain-watcher
@@ -25,5 +30,5 @@ spec:
     image:
       repository: ghcr.io/inteli-poc/dscp-chain-watcher
       pullPolicy: IfNotPresent
-      tag: 'v1.0.2'
+      tag: 'v1.0.2daf80e'
       pullSecrets: 

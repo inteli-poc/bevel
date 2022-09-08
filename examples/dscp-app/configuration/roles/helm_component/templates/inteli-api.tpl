@@ -1,4 +1,4 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: {{ name }}-inteli-api
@@ -9,10 +9,15 @@ metadata:
     tag.fluxcd.io/app: image.tag
     filter.fluxcd.io/app: 'glob:v1.0.*'
 spec:
+  interval: 1m
   chart:
-    path: {{ charts_dir }}/inteli-api
-    git: "{{ component_gitops.git_url }}"
-    ref: "{{ component_gitops.branch }}"
+    spec:
+      interval: 1m
+      sourceRef:
+        kind: GitRepository
+        name: flux-{{ network.env.type }}
+        namespace: flux-{{ network.env.type }}
+      chart: {{ charts_dir }}/inteli-api
   releaseName: {{ name }}-inteli-api
   values:
     fullnameOverride: {{ name }}-inteli-api

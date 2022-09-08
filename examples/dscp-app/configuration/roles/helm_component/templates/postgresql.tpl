@@ -1,4 +1,4 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: {{ name }}-postgresql
@@ -6,10 +6,15 @@ metadata:
   annotations:
     fluxcd.io/automated: "false"
 spec:
+  interval: 1m
   chart:
-    path: {{ charts_dir }}/postgresql
-    git: "{{ component_gitops.git_url }}"
-    ref: "{{ component_gitops.branch }}"
+    spec:
+      interval: 1m
+      sourceRef:
+        kind: GitRepository
+        name: flux-{{ network.env.type }}
+        namespace: flux-{{ network.env.type }}
+      chart: {{ charts_dir }}/postgresql
   releaseName: {{ name }}-postgresql
   values:
     image:

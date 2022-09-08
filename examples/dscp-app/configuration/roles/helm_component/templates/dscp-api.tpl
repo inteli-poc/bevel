@@ -1,4 +1,4 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: {{ name }}-api
@@ -6,10 +6,15 @@ metadata:
   annotations:
     fluxcd.io/automated: "false"
 spec:
+  interval: 1m
   chart:
-    path: {{ charts_dir }}/dscp-api
-    git: "{{ component_gitops.git_url }}"
-    ref: "{{ component_gitops.branch }}"
+    spec:
+      interval: 1m
+      sourceRef:
+        kind: GitRepository
+        name: flux-{{ network.env.type }}
+        namespace: flux-{{ network.env.type }}
+      chart: {{ charts_dir }}/dscp-api
   releaseName: {{ name }}-api
   values:
     fullNameOverride: {{ name }}-api
@@ -40,7 +45,7 @@ spec:
     image:
       repository: ghcr.io/digicatapult/dscp-api
       pullPolicy: IfNotPresent
-      tag: 'v4.5.1'
+      tag: 'v4.6.7'
     dscpNode:
       enabled: false
 
