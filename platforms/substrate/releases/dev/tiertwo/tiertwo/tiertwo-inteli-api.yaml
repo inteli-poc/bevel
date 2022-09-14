@@ -59,7 +59,7 @@ spec:
     image:
       repository: ghcr.io/inteli-poc/inteli-api
       pullPolicy: IfNotPresent
-      tag: 'v1.0.02bbb19'
+      tag: 'v1.0.a029983'
       pullSecrets:
 
     postgresql:
