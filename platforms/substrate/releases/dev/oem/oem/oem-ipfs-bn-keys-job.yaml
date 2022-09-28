@@ -1,0 +1,32 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: oem-ipfs-bn-keys-job
+  namespace: oem-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: oem-ipfs-bn-keys-job
+  chart:
+    git: https://github.com/inteli-poc/bevel.git
+    ref: uat-network
+    path: platforms/substrate/charts/substrate-key-mgmt
+  values:
+    node:
+      name: oem-ipfs-bn
+      image: ghcr.io/digicatapult/dscp-node:v4.2.2
+      pullPolicy: IfNotPresent
+      command: ./dscp-node
+      type: ipfs-bootnode
+    metadata:
+      name: oem-ipfs-bn-keys-job
+      namespace: oem-subs
+    initContainer:
+      image: ghcr.io/hyperledger/alpine-utils:1.0
+      pullPolicy: IfNotPresent
+    vault:
+      address: http://vault.internal.uat.intelipoc.com:20004
+      role: vault-role
+      authpath: substrateoem
+      serviceaccountname: vault-auth
+      certsecretprefix: secretsv2/data/oem-subs
