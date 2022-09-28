@@ -1,0 +1,32 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: tierone-vaultk8s-job
+  namespace: tierone-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: tierone-vaultk8s-job
+  chart:
+    git: https://github.com/inteli-poc/bevel.git
+    ref: uat-network
+    path: platforms/substrate/charts/vault-k8s-mgmt
+  values:
+    metadata:
+      name: tierone
+      namespace: tierone-subs    
+      images:
+        alpineutils: hyperledgerlabs/alpine-utils:1.0
+
+    vault:
+      reviewer_service: vault-reviewer
+      role: vault-role
+      address: http://vault.internal.uat.intelipoc.com:20004
+      authpath: substratetierone
+      policy: vault-crypto-organization-tierone-ro
+      policydata: "{\n  \"policy\": \"path \\\"secretsv2/data/tierone-subs/*\\\" {\n    capabilities = [\\\"read\\\", \\\"list\\\", \\\"create\\\", \\\"update\\\"]\n  }\n  path \\\"secretsv2/data/tierone-subs/smartContracts/*\\\" {\n    capabilities = [\\\"read\\\", \\\"list\\\"]\n  }\"\n}"
+      secret_path: secretsv2
+      serviceaccountname: vault-auth
+    
+    k8s:
+      kubernetes_url: https://35.189.114.17
