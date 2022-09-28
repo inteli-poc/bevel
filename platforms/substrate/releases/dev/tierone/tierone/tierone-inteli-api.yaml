@@ -1,0 +1,76 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: tierone-inteli-api
+  namespace: tierone-subs
+  annotations:
+    fluxcd.io/automated: "false"
+    repository.fluxcd.io/app: image.repository
+    tag.fluxcd.io/app: image.tag
+    filter.fluxcd.io/app: 'glob:v1.0.*'
+spec:
+  chart:
+    path: examples/dscp-app/charts/inteli-api
+    git: "https://github.com/inteli-poc/bevel.git"
+    ref: "uat-network"
+  releaseName: tierone-inteli-api
+  values:
+    fullnameOverride: tierone-inteli-api
+    config:
+      port: 3000
+      externalPostgresql: tierone-postgresql.tierone-subs
+      dbName: inteli-api
+      dbPort: 5432
+      dscpApiHost: tierone-api.tierone-subs
+      dscpApiPort: 80
+      logLevel: info
+      identityServiceHost: tierone-id-service.tierone-subs
+      identityServicePort: 3001
+      auth:
+        type: NONE
+        jwksUri: https://inteli-poc.eu.auth0.com/.well-known/jwks.json
+        audience: https://inteli-poc.com/api
+        issuer: https://inteli-poc.eu.auth0.com/
+        tokenUrl: https://inteli-poc.eu.auth0.com/oauth/token
+
+    deployment:
+      annotations: {}
+      livenessProbe:
+        enabled: true
+      replicaCount: 1
+
+    ingress:
+      enabled: false
+      annotations: {}
+      # className: ""
+      paths:
+        - /v1/attachment
+        - /v1/build
+        - /v1/order
+        - /v1/part
+        - /v1/recipe
+
+    service:
+      annotations: {}
+      enabled: false
+      port: 
+
+    image:
+      repository: ghcr.io/inteli-poc/inteli-api
+      pullPolicy: IfNotPresent
+      tag: 'v1.0.0'
+      pullSecrets: 
+
+    postgresql:
+      enabled: false
+      postgresqlDatabase: inteli-api
+      postgresqlUsername: postgres
+      postgresqlPassword: postgres123
+
+
+    proxy:
+      provider: ambassador
+      name: tierone 
+      external_url_suffix: subs.intelipoc.com
+      port: 443
+      issuedFor: tierone
