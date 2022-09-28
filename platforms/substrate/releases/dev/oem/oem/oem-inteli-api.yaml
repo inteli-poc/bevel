@@ -1,3 +1,4 @@
+---
 apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
@@ -44,22 +45,22 @@ spec:
       annotations: {}
       # className: ""
       paths:
-        - /v1/attachment
-        - /v1/build
-        - /v1/order
-        - /v1/part
-        - /v1/recipe
+      - /v1/attachment
+      - /v1/build
+      - /v1/order
+      - /v1/part
+      - /v1/recipe
 
     service:
       annotations: {}
       enabled: false
-      port: 
+      port:
 
     image:
       repository: ghcr.io/inteli-poc/inteli-api
       pullPolicy: IfNotPresent
-      tag: 'v1.0.0'
-      pullSecrets: 
+      tag: 'v1.0.73f1206'
+      pullSecrets:
 
     postgresql:
       enabled: false
@@ -70,7 +71,7 @@ spec:
 
     proxy:
       provider: ambassador
-      name: oem 
+      name: oem
       external_url_suffix: subs.intelipoc.com
       port: 443
       issuedFor: oem
