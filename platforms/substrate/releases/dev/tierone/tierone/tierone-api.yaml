@@ -1,0 +1,64 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: tierone-api
+  namespace: tierone-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  chart:
+    path: examples/dscp-app/charts/dscp-api
+    git: "https://github.com/inteli-poc/bevel.git"
+    ref: "uat-network"
+  releaseName: tierone-api
+  values:
+    fullNameOverride: tierone-api
+    config:
+      port: 80
+      externalNodeHost: "tierone"
+      externalNodePort: 9944
+      logLevel: info  
+      externalIpfsHost: "tierone-ipfs-api" 
+      externalIpfsPort: 5001 
+      enableLivenessProbe: true
+      substrateStatusPollPeriodMs: 10000
+      substrateStatusTimeoutMs: 2000
+      ipfsStatusPollPeriodMs: 10000
+      ipfsStatusTimeoutMs: 2000
+      auth:
+        type: NONE
+        jwksUri: https://inteli-poc.eu.auth0.com/.well-known/jwks.json
+        audience: https://inteli-poc.com/api
+        issuer: https://inteli-poc.eu.auth0.com/
+        tokenUrl: https://inteli-poc.eu.auth0.com/oauth/token
+    ingress:
+      enabled: false
+      className: "gce"
+      paths:
+        - /v3
+    replicaCount: 1
+    image:
+      repository: ghcr.io/digicatapult/dscp-api
+      pullPolicy: IfNotPresent
+      tag: 'v4.5.1'
+    dscpNode:
+      enabled: false
+
+    dscpIpfs:
+      enabled: false
+      dscpNode:
+        enabled: false
+    vault:
+      alpineutils: ghcr.io/hyperledger/alpine-utils:1.0
+      address: http://vault.internal.uat.intelipoc.com:20004
+      secretprefix: secretsv2/data/tierone-subs/tierone
+      serviceaccountname: vault-auth
+      role: vault-role
+      authpath: substratetierone
+
+    proxy:
+      provider: ambassador
+      name: tierone 
+      external_url_suffix: subs.intelipoc.com
+      port: 443
+      issuedFor: tierone
