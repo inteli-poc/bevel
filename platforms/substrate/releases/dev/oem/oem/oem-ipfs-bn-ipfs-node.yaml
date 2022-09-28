@@ -1,0 +1,66 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: oem-ipfs-bn-ipfs-node
+  namespace: oem-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: oem-ipfs-bn-ipfs-node
+  chart:
+    git: https://github.com/inteli-poc/bevel.git
+    ref: uat-network
+    path: platforms/substrate/charts/dscp-ipfs-node
+  values:
+    fullnameOverride: oem-ipfs-bn-ipfs
+    config:
+      healthCheckPort: 80
+      healthCheckPollPeriod: 30000
+      healthCheckTimeout: 2000
+      nodeHost: "oem-ipfs-bn"
+      nodePort: "9944"
+      logLevel: info
+      ipfsApiPort: 5001
+      ipfsSwarmPort: 4001
+      ipfsDataPath: "/ipfs"
+      ipfsCommand: "/usr/local/bin/ipfs"
+      ipfsArgs:
+        - daemon
+        - "--migrate"
+      ipfsSwarmAddrFilters: null
+      ipfsLogLevel: info
+      
+    service:
+      swarm:
+        annotations: {}
+        enabled: true
+        port: 4001
+      api:
+        annotations: {}
+        enabled: true
+        port: 5001
+
+    statefulSet:
+      annotations: {}
+      livenessProbe:
+        enabled: true
+    image:
+      repository: ghcr.io/digicatapult/dscp-ipfs
+      pullPolicy: IfNotPresent
+      tag: 'v2.6.1'
+    storage:
+      storageClass: "gcpstorageclass"
+      dataVolumeSize: 20  # in Gigabytes
+    dscpNode:
+      enabled: false
+    proxy:
+      provider: ambassador
+      external_url: oem-ipfs-bn-ipfs-swarm.subs.intelipoc.com
+      port: 15062
+      certSecret: oem-ambassador-certs
+    vault:
+      address: http://vault.internal.uat.intelipoc.com:20004
+      role: vault-role
+      authpath: substrateoem
+      serviceaccountname: vault-auth
+      certsecretprefix: secretsv2/data/oem-subs/oem-ipfs-bn
