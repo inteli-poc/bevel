@@ -12,3 +12,6 @@ platforms/hyperledger-indy/images/**/Dockerfile
 # Cordite implementations from another source repo
 platforms/r3-corda/images/doorman/**
 platforms/r3-corda/images/networkmap/**
+
+# Postgresql chart from bitnami repo
+examples/dscp-app/charts/postgresql
