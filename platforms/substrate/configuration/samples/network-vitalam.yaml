@@ -12,7 +12,7 @@ network:
   # Network level configuration specifies the attributes required for each organization
   # to join an existing network.
   type: substrate
-  version: v4.1.0  #this is the version of Substrate docker image that will be deployed.
+  version: v4.2.1  #this is the version of Substrate docker image that will be deployed.
 
   #Environment section for Kubernetes setup
   env:
@@ -74,6 +74,8 @@ network:
         url: "http://VAULT_URL:VAULT_PORT"
         root_token: "VAULT_TOKEN"
         secret_path: "secretsv2"
+      auth:
+        type: NONE
       # Git Repo details which will be used by GitOps/Flux.
       # Do not check-in git_access_token
       gitops:
@@ -144,6 +146,7 @@ network:
           subject: "O=OEMIPFS,OU=OEMIPFS,London,C=GB" # This is the node subject.
           type: member         # value can be validator or bootnode ( or ipfs, for vitalAM)
           nodeHost: oem        # peer name of substrate node for IPFS API-WS connection
+          persona: cust
           p2p:
             port: 30333
             ambassador: 15015       #Port exposed on ambassador service (use one port per org if using single cluster)
@@ -174,6 +177,8 @@ network:
         url: "http://VAULT_URL:VAULT_PORT"
         root_token: "VAULT_TOKEN"
         secret_path: "secretsv2"
+      auth:
+        type: NONE
       # Git Repo details which will be used by GitOps/Flux.
       # IMPORTANT: Do not check-in your password, the git_access_token!
       gitops:
@@ -196,6 +201,7 @@ network:
           subject: "O=Tier1,OU=Tier1,L=47.38/8.54/Zurich,C=CH"  # This is the node identity. L=lat/long is mandatory for supplychain sample app
           type: member         # value can be validator or bootnode ( or ipfs, for vitalAM)
           nodeHost: tierone    # peer name of substrate node for IPFS API-WS connection
+          persona: am
           p2p:
             port: 30333
             ambassador: 15020       #Port exposed on ambassador service (use one port per org if using single cluster)
@@ -247,6 +253,8 @@ network:
         url: "http://VAULT_URL:VAULT_PORT"
         root_token: "VAULT_TOKEN"
         secret_path: "secretsv2"
+      auth:
+        type: NONE
       # Git Repo details which will be used by GitOps/Flux.
       # IMPORTANT: Do not check-in your password, the git_access_token!
       gitops:
@@ -268,6 +276,7 @@ network:
           subject: "O=Tier2,OU=Tier2,L=40.73/-74/New York,C=US" # This is the node identity. L=lat/long is mandatory for supplychain sample app
           type: member         # value can be validator or bootnode ( or ipfs, for vitalAM)
           nodeHost: tiertwo    # peer name of substrate node for IPFS API-WS connection
+          persona: lab
           p2p:
             port: 30333
             ambassador: 15030       #Port exposed on ambassador service (use one port per org if using single cluster)
