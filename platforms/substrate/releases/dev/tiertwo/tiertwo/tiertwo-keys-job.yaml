@@ -1,0 +1,37 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: tiertwo-keys-job
+  namespace: tiertwo-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  interval: 1m
+  releaseName: tiertwo-keys-job
+  chart:
+    spec:
+      interval: 1m
+      sourceRef:
+        kind: GitRepository
+        name: flux-dev
+        namespace: flux-dev
+      chart: platforms/substrate/charts/substrate-key-mgmt
+  values:
+    node:
+      name: tiertwo
+      image: ghcr.io/digicatapult/dscp-node:v4.2.1
+      pullPolicy: IfNotPresent
+      command: ./dscp-node
+      type: member
+    metadata:
+      name: tiertwo-keys-job
+      namespace: tiertwo-subs
+    initContainer:
+      image: ghcr.io/hyperledger/alpine-utils:1.0
+      pullPolicy: IfNotPresent
+    vault:
+      address: http://vault.internal.dev.intelipoc.com:20002
+      role: vault-role
+      authpath: substratetiertwo
+      serviceaccountname: vault-auth
+      certsecretprefix: secretsv2/data/tiertwo-subs
