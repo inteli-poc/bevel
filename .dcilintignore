@@ -15,3 +15,6 @@ platforms/r3-corda/images/networkmap/**
 
 # Postgresql chart from bitnami repo
 examples/dscp-app/charts/postgresql
+
+# Created by Flux V2
+**/gotk-components.yaml
