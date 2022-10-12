@@ -4,10 +4,8 @@ name: DCI Lint
 on:
   push:
     branches: [main, develop]
-    # Ignore the releases and charts as that is deployed by Flux
+    # Ignore the releases folders
     paths-ignore:
-      - 'docs/**'
-      - '**/charts/**'
       - '**/releases/**'
 
   pull_request:
