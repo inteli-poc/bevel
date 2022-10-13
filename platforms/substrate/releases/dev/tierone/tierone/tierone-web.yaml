@@ -27,7 +27,7 @@ spec:
         clientID: PI0zLbksZgYnAVMU1BDKjMQ1CZ86ctio
         authAudience: https://inteli-poc.com/api
         apiScheme: https
-        apiHost: tierone-api.vitalam.intelipoc.com
+        apiHost: tierone-inteli-api.vitalam.intelipoc.com
         apiPort: 443
         substrateHost: "tierone"
         substratePort: 9944         
