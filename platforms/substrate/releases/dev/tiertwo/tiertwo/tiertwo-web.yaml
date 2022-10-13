@@ -27,7 +27,7 @@ spec:
         clientID: y02oD2Ya6P1Le0T69XMF5KPKWkIB7sAo
         authAudience: https://inteli-poc.com/api
         apiScheme: https
-        apiHost: tiertwo-api.vitalam.intelipoc.com
+        apiHost: tiertwo-inteli-api.vitalam.intelipoc.com
         apiPort: 443
         substrateHost: "tiertwo"
         substratePort: 9944         
