@@ -27,8 +27,8 @@ spec:
         clientID: {{ auth_clientId }}
         authAudience: {{ auth_audience }}
         apiScheme: https
-        apiHost: {{ name }}-api.{{ org.external_url_suffix }}
-        apiPort: {{ peer.api.ambassador }}
+        apiHost: {{ name }}-inteli-api.{{ org.external_url_suffix }}
+        apiPort: {{ peer.inteli_api.ambassador }}
         substrateHost: "{{ name }}"
         substratePort: {{ peer.ws.port }}         
         inteliDemoPersona: {{ peer.persona }}
