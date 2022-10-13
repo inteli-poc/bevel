@@ -74,18 +74,3 @@ vault:
   role:
   # authPath provide the auth path configured to be used. Default is /kubernetes
   authpath:
-
-# This will be the proxy/ingress provider. Can have values "ambassador" or "haproxy"
-# Eg. provider: "ambassador"
-proxy:
-  provider:
-  # This will be the name of the organization
-  # Eg. name: carrier
-  name:
-  # External URL of the organization
-  # Eg. external_url_suffix: test.dscp.example.com
-  external_url_suffix:
-  # provide the external port
-  port: 443
-  # Provide the tag for certificate issuer
-  issuedFor: 

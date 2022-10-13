@@ -16,7 +16,7 @@ spec:
   ingressClassName: {{ .Values.ingress.className }}
   {{- end }}
   rules:
-    - host: {{ $fullName }}.{{ .Values.proxy.external_url_suffix }}
+    - host: {{ $fullName }}
       http:
         paths:
           {{- range $ingressPaths }}

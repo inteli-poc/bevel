@@ -12,7 +12,7 @@ network:
   # Network level configuration specifies the attributes required for each organization
   # to join an existing network.
   type: substrate
-  version: v4.2.1  #this is the version of Substrate docker image that will be deployed.
+  version: v4.2.2  #this is the version of Substrate docker image that will be deployed.
 
   #Environment section for Kubernetes setup
   env:
@@ -166,7 +166,6 @@ network:
             apiPort: 5001
           api:
             port: 80
-            ambassador: 443
           postgresql:
             port: 5432
             user: postgres
@@ -174,7 +173,6 @@ network:
           id_service:
             db_name: "id-service"
             port: 3001
-            ambassador: 443
           inteli_api:
             db_name: "inteli-api"
             port: 3000
@@ -244,7 +242,6 @@ network:
             apiPort: 5001
           api:
             port: 80
-            ambassador: 443
           postgresql:
             port: 5432
             user: postgres
@@ -252,7 +249,6 @@ network:
           id_service:
             db_name: "id-service"
             port: 3001
-            ambassador: 443
           inteli_api:
             db_name: "inteli-api"
             port: 3000
@@ -341,7 +337,6 @@ network:
             apiPort: 5001
           api:
             port: 80
-            ambassador: 443
           postgresql:
             port: 5432
             user: postgres
@@ -349,7 +344,6 @@ network:
           id_service:
             db_name: "id-service"
             port: 3001
-            ambassador: 443
           inteli_api:
             db_name: "inteli-api"
             port: 3000

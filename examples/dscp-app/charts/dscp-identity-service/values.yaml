@@ -36,3 +36,10 @@ postgresql:
   postgresqlPassword: 
 dscpNode:
   enabled: false
+vault:
+  alpineutils: ghcr.io/hyperledger/alpine-utils:1.0
+  address:
+  secretprefix:
+  serviceaccountname:
+  role:
+  authpath:

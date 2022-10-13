@@ -31,7 +31,7 @@ spec:
       ipfsStatusPollPeriodMs: 10000
       ipfsStatusTimeoutMs: 2000
       auth:
-        type: {{ auth_type }}
+        type: NONE
         jwksUri: {{ auth_jwksUri }}
         audience: {{ auth_audience }}
         issuer: {{ auth_issuer }}
@@ -60,10 +60,3 @@ spec:
       serviceaccountname: vault-auth
       role: vault-role
       authpath: substrate{{ org.name | lower }}
-
-    proxy:
-      provider: {{ network.env.proxy }}
-      name: {{ org.name | lower }} 
-      external_url_suffix: {{ org.external_url_suffix }}
-      port: {{ peer.api.ambassador }}
-      issuedFor: {{ org.name | lower }}
