@@ -60,10 +60,3 @@ spec:
       serviceaccountname: vault-auth
       role: vault-role
       authpath: substratetierone
-
-    proxy:
-      provider: ambassador
-      name: tierone 
-      external_url_suffix: vitalam.intelipoc.com
-      port: 443
-      issuedFor: tierone
