@@ -27,7 +27,7 @@ spec:
         clientID: wODA1nb3lAqnwdXqpaXr9f01xYSFmSxx
         authAudience: https://inteli-poc.com/api
         apiScheme: https
-        apiHost: oem-api.vitalam.intelipoc.com
+        apiHost: oem-inteli-api.vitalam.intelipoc.com
         apiPort: 443
         substrateHost: "oem"
         substratePort: 9944         
