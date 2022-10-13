@@ -61,10 +61,3 @@ spec:
       serviceaccountname: vault-auth
       role: vault-role
       authpath: substrateoem
-
-    proxy:
-      provider: ambassador
-      name: oem 
-      external_url_suffix: vitalam.intelipoc.com
-      port: 443
-      issuedFor: oem
