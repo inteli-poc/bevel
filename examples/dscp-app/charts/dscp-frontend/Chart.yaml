@@ -1,11 +1,12 @@
 ##############################################################################################
-#  This Chart is a fork from https://github.com/digicatapult/inteli-demo/tree/main/helm/inteli-demo
-#  Please update if needed
+#  Copyright Accenture. All Rights Reserved.
+#
+#  SPDX-License-Identifier: Apache-2.0
 ##############################################################################################
 
 apiVersion: v2
 name: dscp-frontend
-appVersion: '2.1.1'
-description: A Helm chart for inteli-demo
-version: '2.1.1'
+appVersion: '1'
+description: A Helm chart for inteli-frontend
+version: '1'
 type: application
