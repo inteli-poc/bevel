@@ -19,23 +19,9 @@ spec:
   values:
     fullNameOverride: {{ name }}-web
     config:
-      port: 80      
+      port: 4000      
       logLevel: info      
-      enableLivenessProbe: true
-      applicationConfig:
-        authDomain: {{ auth_issuer | urlsplit('hostname') }}
-        clientID: {{ auth_clientId }}
-        authAudience: {{ auth_audience }}
-        apiScheme: https
-        apiHost: {{ name }}-inteli-api.{{ org.external_url_suffix }}
-        apiPort: {{ peer.inteli_api.ambassador }}
-        substrateHost: "{{ name }}"
-        substratePort: {{ peer.ws.port }}         
-        inteliDemoPersona: {{ peer.persona }}
-        inteliCustIdentity: {{ cust_peer_id }}
-        inteliAmIdentity: {{ am_peer_id }}
-        inteliLabIdentity: {{ lab_peer_id }}
-        inteliAmlabIdentity: {{ amlab_peer_id | default(lab_peer_id) }}
+      enableLivenessProbe: false
     ingress: 
       enabled: false
       className: "gce"
@@ -43,9 +29,10 @@ spec:
         - /
     replicaCount: 1
     image:
-      repository: ghcr.io/inteli-poc/inteli-demo
+      repository: ghcr.io/inteli-poc/inteli-frontend
       pullPolicy: Always
-      tag: 'v3.0.1'
+      tag: 'v0.0.65e2369'
+    
 
     vault:
       alpineutils: ghcr.io/hyperledger/alpine-utils:1.0

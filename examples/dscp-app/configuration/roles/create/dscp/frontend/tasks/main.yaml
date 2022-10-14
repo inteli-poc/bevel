@@ -11,7 +11,7 @@
   vars:
     component_type: "Pod"
     namespace: "{{ component_ns }}"
-    component_name: "{{ peer.name }}-api"
+    component_name: "{{ peer.name }}-inteli-api"
     kubernetes: "{{ org.k8s }}"
     label_selectors:
       - name = {{ component_name }}
@@ -20,7 +20,17 @@
     loop_var: peer
   when: 
     - peer.api is defined
-    - peer.persona is defined
+    - peer.frontend is defined
+
+# This task creates the docker pull credentials for image registry
+- name: "Create docker credentials secret"
+  include_role:
+    name: "create/shared_k8s_secrets"
+  vars: 
+    namespace: "{{ component_ns }}"    
+    check: "docker_credentials"
+    component_name: "{{ org.name }}"
+    kubernetes: "{{ org.k8s }}"
 
 # Create api values file for the peer nodes
 - name: "Create frontend values file for all peers"
@@ -36,7 +46,7 @@
     loop_var: peer
   when: 
     - peer.api is defined
-    - peer.persona is defined
+    - peer.frontend is defined
 
 # Push the api deployment files to repository
 - name: "Push the created deployment files to repository"
@@ -47,21 +57,3 @@
     gitops: "{{ component_gitops }}"
     GIT_RESET_PATH: "platforms/substrate/configuration"
     msg: "[ci skip] Pushing deployment files for dscp frontend"
-
-# Wait for api Pod to run
-- name: "Waiting for api pod in {{ component_ns }}"
-  include_role:
-    name: "{{ playbook_dir }}/../../../platforms/shared/configuration/roles/check/helm_component"
-  vars:
-    component_type: "Pod"
-    namespace: "{{ component_ns }}"
-    component_name: "{{ peer.name }}-web"
-    kubernetes: "{{ org.k8s }}"
-    label_selectors:
-      - name = {{ component_name }}
-  loop: "{{ org.services.peers }}"
-  loop_control:
-    loop_var: peer
-  when: 
-    - peer.api is defined
-    - peer.persona is defined

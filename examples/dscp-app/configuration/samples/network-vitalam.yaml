@@ -166,6 +166,8 @@ network:
             apiPort: 5001
           api:
             port: 80
+          frontend:
+            ambassador: 443
           postgresql:
             port: 5432
             user: postgres
@@ -242,6 +244,8 @@ network:
             apiPort: 5001
           api:
             port: 80
+          frontend:
+            ambassador: 443
           postgresql:
             port: 5432
             user: postgres

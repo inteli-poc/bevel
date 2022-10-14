@@ -122,18 +122,6 @@
       loop_var: org
     when: 
       - network.type == 'substrate'
-
-  - name: "Get the identities for each VitalAM role"
-    include_role:
-      name: "setup/identities"
-    vars:
-      component_ns: "{{ org.name | lower }}-subs"
-      vault: "{{ org.vault }}"
-    loop: "{{ network['organizations'] }}"
-    loop_control:
-      loop_var: org
-    when: 
-      - network.type == 'substrate'
   
   # Create frontend values file for the dscp nodes
   - name: "Creating frontend values file for dscp nodes"
@@ -143,9 +131,6 @@
       component_ns: "{{ org.name | lower }}-subs"
       component_gitops: "{{ org.gitops }}"
       component_vault: "{{ org.vault }}"
-      auth_audience: "{{ org.auth.audience }}"
-      auth_issuer: "{{ org.auth.issuer }}"
-      auth_clientId: "{{ org.auth.clientId }}"
       values_dir: "{{ playbook_dir }}/../../../{{ org.gitops.release_dir }}/{{ org.name | lower }}"
     loop: "{{ network['organizations'] }}"
     loop_control:

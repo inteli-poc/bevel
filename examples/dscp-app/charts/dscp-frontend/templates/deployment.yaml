@@ -1,29 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "inteli-demo.fullname" . }}
+  name: {{ include "inteli-frontend.fullname" . }}
   labels:
-    {{- include "inteli-demo.labels" . | nindent 4 }}
+    {{- include "inteli-frontend.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      name: {{ include "inteli-demo.fullname" . }}
+      name: {{ include "inteli-frontend.fullname" . }}
   replicas: {{ .Values.replicaCount }}
   template:
     metadata:
-      annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
       labels:
-        name: {{ include "inteli-demo.fullname" . }}
+        name: {{ include "inteli-frontend.fullname" . }}
     spec:
-      {{- include "inteli-demo.imagePullSecrets" . | indent 6 }}
+      {{- if .Values.image.pullSecrets }}
+      imagePullSecrets:
+      - name: {{ $.Values.image.pullSecrets }}
+      {{- end }}
       containers:
-        - name: inteli-demo
+        - name: inteli-frontend
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-          env:
-            - name: REACT_APP_API_URL
-              value: "{{ .Values.config.applicationConfig.apiUrl }}"
           ports:
             - containerPort: {{ .Values.config.port }}
               name: http
@@ -38,11 +36,3 @@ spec:
             timeoutSeconds: 3
             periodSeconds: 10
           {{- end }}
-          volumeMounts:
-            - name: application-config
-              mountPath: /inteli-demo/config.js
-              subPath: config.js
-      volumes:
-        - name: application-config
-          configMap:
-            name: {{ include "inteli-demo.fullname" . }}-config

@@ -1,10 +1,10 @@
-{{ $fullname :=  include "inteli-demo.fullname" . }}
+{{ $fullname :=  include "inteli-frontend.fullname" . }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "inteli-demo.fullname" . }}
+  name: {{ include "inteli-frontend.fullname" . }}
   labels:
-    {{- include "inteli-demo.labels" . | nindent 4 }}
+    {{- include "inteli-frontend.labels" . | nindent 4 }}
   {{- if eq $.Values.proxy.provider "ambassador" }}
   annotations:
     getambassador.io/config: |
@@ -28,7 +28,7 @@ metadata:
   {{- end }}
 spec:
   selector:
-    name: {{ include "inteli-demo.fullname" . }}
+    name: {{ include "inteli-frontend.fullname" . }}
   type: NodePort
   ports:
     - protocol: 'TCP'
