@@ -1,0 +1,42 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: {{ include "inteli-api.fullname" . }}
+spec:
+  image: {{ .Values.image.repository }}
+  interval: 1m0s
+  {{- if .Values.image.pullSecrets }}
+  secretRef:
+    name: {{ $.Values.image.pullSecrets }}
+  {{- end }}
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: {{ include "inteli-api.fullname" . }}
+spec:
+  imageRepositoryRef:
+    name: {{ include "inteli-api.fullname" . }}
+  policy:
+    semver:
+      range: 1.0.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1alpha1
+kind: ImageUpdateAutomation
+metadata:
+  name: {{ include "inteli-api.fullname" . }}
+spec:
+  interval: 1m0s
+  sourceRef:
+    kind: GitRepository
+    name: flux-dev
+  git:
+    checkout:
+      branch: "*"
+    commit:
+      author:
+        email: fluxcdbot@particule.io
+        name: fluxcdbot
+      messageTemplate: 'update image'
+  update:
+    strategy: Setters
