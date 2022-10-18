@@ -37,6 +37,6 @@ spec:
       author:
         email: fluxcdbot@particule.io
         name: fluxcdbot
-      messageTemplate: '{{range .Updated.Images}}{{println .}}{{end}}'
+      messageTemplate: 'update image'
   update:
     strategy: Setters
