@@ -27,6 +27,7 @@ metadata:
   name: {{ include "inteli-api.fullname" . }}
 spec:
   checkout:
+    branch: *
     gitRepositoryRef:
       name: flux-dev
   commit:
