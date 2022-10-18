@@ -26,14 +26,17 @@ kind: ImageUpdateAutomation
 metadata:
   name: {{ include "inteli-api.fullname" . }}
 spec:
-  checkout:
-    branch: "*"
-    gitRepositoryRef:
-      name: flux-dev
-  commit:
-    authorEmail: fluxcdbot@particule.io
-    authorName: fluxcdbot
-    messageTemplate: 'update image'
   interval: 1m0s
+  sourceRef:
+    kind: GitRepository
+    name: flux-dev
+  git:
+    checkout:
+      branch: "*"
+    commit:
+      author:
+        email: fluxcdbot@particule.io
+        name: fluxcdbot
+      messageTemplate: '{{range .Updated.Images}}{{println .}}{{end}}'
   update:
     strategy: Setters
