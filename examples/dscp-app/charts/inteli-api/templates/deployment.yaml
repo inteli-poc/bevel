@@ -57,7 +57,7 @@ spec:
                   key: dbPassword
       containers:
         - name: {{ include "inteli-api.fullname" . }}
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag }} # {"$imagepolicy": "{{ include "inteli-api.fullname" . }}"}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           {{- if .Values.deployment.livenessProbe.enabled }}
           livenessProbe:
