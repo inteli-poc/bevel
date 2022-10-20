@@ -20,7 +20,7 @@ spec:
       pullSecrets: regcred
       
       pollingInterval: 1m0s
-      policy: ^1.x
+      policy: 1.x.x
 
     git:
       fluxrepo: flux-dev
