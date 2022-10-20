@@ -28,7 +28,7 @@ spec:
       dscpApiPort: 80
       
     image:
-      repository: ghcr.io/inteli-poc/dscp-chain-watcher
+      repository: ghcr.io/inteli-poc/dscp-chain-watcher # {"$imagepolicy": "flux-dev:dscp-chain-watcher:name"}
       pullPolicy: IfNotPresent
-      tag: 'v1.0.2daf80e'
+      tag: 'v1.0.2daf80e' # {"$imagepolicy": "flux-dev:dscp-chain-watcher:tag"}
       pullSecrets: 
