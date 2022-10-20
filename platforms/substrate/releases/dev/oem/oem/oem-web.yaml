@@ -19,23 +19,9 @@ spec:
   values:
     fullNameOverride: oem-web
     config:
-      port: 80      
+      port: 4000      
       logLevel: info      
-      enableLivenessProbe: true
-      applicationConfig:
-        authDomain: inteli-poc.eu.auth0.com
-        clientID: wODA1nb3lAqnwdXqpaXr9f01xYSFmSxx
-        authAudience: https://inteli-poc.com/api
-        apiScheme: https
-        apiHost: oem-inteli-api.vitalam.intelipoc.com
-        apiPort: 443
-        substrateHost: "oem"
-        substratePort: 9944         
-        inteliDemoPersona: cust
-        inteliCustIdentity: 5FueJvjmuZHV1ac11JDQeXQ1jsnUTUWfCLvcd2Bm45sPcRnW
-        inteliAmIdentity: 5HNSVrPMz7aEGF69QoD8aoNCt8KpX8YyXCVeqJtBC5SpJEMj
-        inteliLabIdentity: 5H3G5a5xJNg5xgPLLjkRXLBicTjMzkFAtFQcRbUmeaw6Fip3
-        inteliAmlabIdentity: 5H3G5a5xJNg5xgPLLjkRXLBicTjMzkFAtFQcRbUmeaw6Fip3
+      enableLivenessProbe: false
     ingress: 
       enabled: false
       className: "gce"
@@ -43,9 +29,10 @@ spec:
         - /
     replicaCount: 1
     image:
-      repository: ghcr.io/inteli-poc/inteli-demo
+      repository: ghcr.io/inteli-poc/inteli-frontend  # {"$imagepolicy": "flux-dev:inteli-frontend:name"}
       pullPolicy: Always
-      tag: 'v3.0.1'
+      tag: 'v0.0.65e2369' # {"$imagepolicy": "flux-dev:inteli-frontend:tag"}
+    
 
     vault:
       alpineutils: ghcr.io/hyperledger/alpine-utils:1.0
