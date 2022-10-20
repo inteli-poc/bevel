@@ -8,11 +8,13 @@
 # This tasks generate flux-automation helmrelease file
 - name: "Create value file for flux-automation"
   include_role:
-    name: "{{ playbook_dir }}/../../../platforms/shared/configuration/roles/create/shared_helm_component"
+    name: "helm_component"
   vars:  
     type: "fluxautomation"
+    name: "flux-{{ network.env.type }}"
     component_name: "{{ image.name }}"
     component_branch: "{{ org.gitops.branch }}"
     component_repo: "{{ image.repo }}"
     component_policy: "{{ image.policy }}"
-    values_dir: "{{ playbook_dir }}/../../../{{ org.gitops.release_dir }}/"
+    charts_dir: "platforms/shared/charts"
+    values_dir: "{{ playbook_dir }}/../../../{{ org.gitops.release_dir }}"

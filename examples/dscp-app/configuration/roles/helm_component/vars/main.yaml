@@ -12,3 +12,4 @@ helm_templates:
   dscp-id-service: dscp-id-service.tpl
   inteli-api: inteli-api.tpl
   dscp-chain-watcher: dscp-chain-watcher.tpl
+  fluxautomation: flux_automation.tpl

@@ -12,3 +12,4 @@ charts:
   dscp-id-service: dscp-identity-service
   inteli-api: inteli-api
   dscp-chain-watcher: dscp-chain-watcher
+  fluxautomation: flux-imageautomation
