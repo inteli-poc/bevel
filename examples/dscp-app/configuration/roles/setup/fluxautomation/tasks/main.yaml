@@ -6,7 +6,7 @@
 
 ---
 # Create the HelmRelease files for the image automation
-- name: Get nodeid details from Vault
+- name: Create helmrelease files for flux automation
   include_tasks: nested_main.yaml
   loop: "{{ network.docker.autodeploy }}"
   loop_control:

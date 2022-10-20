@@ -8,7 +8,7 @@
 # This tasks generate flux-automation helmrelease file
 - name: "Create value file for flux-automation"
   include_role:
-    name: "{{ playbook_dir }}/../..../platforms/shared/configuration/roles/create/shared_helm_component"
+    name: "{{ playbook_dir }}/../../../platforms/shared/configuration/roles/create/shared_helm_component"
   vars:  
     type: "fluxautomation"
     component_name: "{{ image.name }}"
