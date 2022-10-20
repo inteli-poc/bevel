@@ -6,4 +6,3 @@
 
 helm_templates:
   vault_k8s_mgmt: vault_kubernetes_job.tpl
-  fluxautomation: flux_automation.tpl
