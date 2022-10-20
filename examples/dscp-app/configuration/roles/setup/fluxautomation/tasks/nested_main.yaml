@@ -11,7 +11,7 @@
     name: "helm_component"
   vars:  
     type: "fluxautomation"
-    name: "flux-{{ network.env.type }}"
+    name: "auto"
     component_name: "{{ image.name }}"
     component_branch: "{{ org.gitops.branch }}"
     component_repo: "{{ image.repo }}"

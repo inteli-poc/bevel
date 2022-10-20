@@ -17,7 +17,8 @@
   include_role:
     name: "create/shared_k8s_secrets"
   vars: 
-    namespace: "flux-{{ network.env.type }}"    
+    namespace: "flux-{{ network.env.type }}"
+    component_name: "flux-{{ network.env.type }}"
     check: "docker_credentials"
     kubernetes: "{{ org.k8s }}"
   when:
