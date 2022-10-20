@@ -33,8 +33,19 @@ network:
   # Do not check-in docker_password.
   docker:
     url: "ghcr.io"
-    #username: "docker_username"
-    #password: "docker_password"
+    username: "docker_username"
+    password: "docker_password"
+    # Add the images that you want to autodeploy here. Ensure the helmrelease contains corresponding # {"$imagepolicy": "flux-{{ network.env.type }}:<image-name>:tag"}
+    autodeploy:
+      - name: dscp-chain-watcher
+        repo: ghcr.io/inteli-poc/dscp-chain-watcher
+        policy: 1.x.x
+      - name: inteli-frontend
+        repo: ghcr.io/inteli-poc/inteli-frontend
+        policy: 0.x.x
+      - name: inteli-api
+        repo: ghcr.io/inteli-poc/inteli-api
+        policy: 1.x.x
   
   # Following are the configurations for the common Substrate network
   config:
