@@ -4,6 +4,18 @@
 #  SPDX-License-Identifier: Apache-2.0
 ##############################################################################################
 
-helm_templates:
-  vault_k8s_mgmt: vault_kubernetes_job.tpl
-  fluxautomation: flux_automation.tpl
+# Default values
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  name:
+  repository:
+  pullSecrets:
+  pollingInterval: 1m0s
+  policy: 1.0.x
+
+git:
+  fluxrepo:
+  branch:
+  commitMessage: "Updated image"

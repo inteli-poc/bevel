@@ -29,9 +29,9 @@ spec:
         - /
     replicaCount: 1
     image:
-      repository: ghcr.io/inteli-poc/inteli-frontend
+      repository: ghcr.io/inteli-poc/inteli-frontend  # {"$imagepolicy": "flux-{{ network.env.type }}:inteli-frontend:name"}
       pullPolicy: Always
-      tag: 'v0.0.65e2369'
+      tag: 'v0.0.65e2369' # {"$imagepolicy": "flux-{{ network.env.type }}:inteli-frontend:tag"}
     
 
     vault:

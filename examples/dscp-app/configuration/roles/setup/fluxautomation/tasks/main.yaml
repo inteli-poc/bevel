@@ -1,0 +1,22 @@
+##############################################################################################
+#  Copyright Accenture. All Rights Reserved.
+#
+#  SPDX-License-Identifier: Apache-2.0
+##############################################################################################
+
+---
+# Create the HelmRelease files for the image automation
+- name: Get nodeid details from Vault
+  include_tasks: nested_main.yaml
+  loop: "{{ network.docker.autodeploy }}"
+  loop_control:
+    loop_var: image
+
+#Git Push : Pushes the above generated files to git directory 
+- name: Git Push
+  include_role: 
+    name: "{{ playbook_dir }}/../../../platforms/shared/configuration/roles/git_push"
+  vars:
+    GIT_DIR: "{{ playbook_dir }}/../../../"    
+    GIT_RESET_PATH: "examples/dscp-app/configuration"
+    msg: "[ci skip] Pushing fluxautomation files"

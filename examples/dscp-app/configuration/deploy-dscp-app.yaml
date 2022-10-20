@@ -137,3 +137,11 @@
       loop_var: org
     when: 
       - network.type == 'substrate' 
+
+  #Git Push : Pushes the above generated files to git directory 
+  - name: Setup flux automation for the images
+    include_role: 
+      name: "setup/fluxautomation"
+    loop: "{{ network['organizations'] }}"
+    loop_control:
+      loop_var: org
