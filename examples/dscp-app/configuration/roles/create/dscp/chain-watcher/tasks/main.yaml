@@ -1,0 +1,30 @@
+##############################################################################################
+#  Copyright Accenture. All Rights Reserved.
+#
+#  SPDX-License-Identifier: Apache-2.0
+##############################################################################################
+# Create chain-watcher values file for the peer nodes
+- name: "Create chain-watcher values file for all peers"
+  include_role:
+    name: helm_component
+  vars:
+    type: "dscp-chain-watcher"
+    component_name: "{{ peer.name }}-chain-watcher"
+    name: "{{ peer.name }}"
+    charts_dir: "examples/dscp-app/charts"
+    dscp_api_addr: "{{ peer.name }}-api"
+    db_host_addr: "{{ peer.name }}-postgresql"
+  loop: "{{ org.services.peers }}"
+  loop_control:
+    loop_var: peer
+  when: (peer.postgresql is defined) and (peer.inteli_api is defined)
+
+# Push the chain-watcher deployment files to repository
+- name: "Push the created deployment files to repository"
+  include_role: 
+    name: "{{ playbook_dir }}/../../../platforms/shared/configuration/roles/git_push"
+  vars:
+    GIT_DIR: "{{ playbook_dir }}/../../../"
+    gitops: "{{ component_gitops }}"
+    GIT_RESET_PATH: "platforms/substrate/configuration"
+    msg: "[ci skip] Pushing deployment files for chain-watcher"

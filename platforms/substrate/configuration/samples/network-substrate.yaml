@@ -12,7 +12,7 @@ network:
   # Network level configuration specifies the attributes required for each organization
   # to join an existing network.
   type: substrate
-  version: v3.0.0  #this is the version of Substrate docker image that will be deployed.
+  version: latest  #this is the version of Substrate docker image that will be deployed.
 
   #Environment section for Kubernetes setup
   env:
@@ -43,9 +43,11 @@ network:
     #  Production systems should generate proper certificates and configure truststores accordingly.
     subject: "CN=DLT Root CA,OU=DLT,O=DLT,L=London,C=GB"
     # Provide the docker image which will be used for the Substrate Nodes in this network. (will be downloaded from docker.url)
-    node_image: "parity/substrate"
+    node_image: "paritytech/substrate-playground-template-node-template"
     # Provide the command which is used to start the node
-    command: "substrate"     # Please ensure the command corresponds to the node_image above    
+    command: "substrate"     # Please ensure the command corresponds to the node_image above, for eg, target/debug/node-template    
+    # provide a chain name for Substrate nodes
+    chain: "substrate-gcp"
     # NOTE for the below paths, the directories should exist
     bootnodes: "/BUILD_DIR/substrate_bootnodes" # Location where bootnodes information is read or saved if empty
     genesis: "/BUILD_DIR/substrate_genesis"   # Location where information is read or saved if empty
@@ -56,6 +58,7 @@ network:
     - organization:
       name: carrier
       unit: Carrier
+      type: superuser
       external_url_suffix: subs.inteli-poc.com   # This is the url suffix that will be added in DNS recordset. Must be different for different clusters
       cloud_provider: gcp   # Options: aws, azure, gcp
       aws:
@@ -89,15 +92,15 @@ network:
       services:
         peers:
         - peer:
-          name: carrier
+          name: carrier-bn
           subject: "O=Carrier,OU=Carrier,L=51.50/-0.13/London,C=GB" # This is the node subject. L=lat/long is mandatory for supplychain sample app
           type: bootnode         # value can be validator or bootnode ( or ipfs, for vitalAM)
           p2p:
             port: 30333
             ambassador: 15010       #Port exposed on ambassador service (use one port per org if using single cluster)
           rpc:
-            port: 9933          
-          ws-rpc:
+            port: 9933
+          ws:
             port: 9944
         - peer:
           name: validator1
@@ -105,10 +108,10 @@ network:
           type: validator         # value can be validator or bootnode ( or ipfs, for vitalAM)
           p2p:
             port: 30333
-            ambassador: 15012       #Port exposed on ambassador service (use one port per org if using single cluster)
+            ambassador: 15011       #Port exposed on ambassador service (use one port per org if using single cluster)
           rpc:
-            port: 9933         
-          ws-rpc:
+            port: 9933
+          ws:
             port: 9944
         - peer:
           name: validator2
@@ -116,27 +119,22 @@ network:
           type: validator         # value can be validator or bootnode ( or ipfs, for vitalAM)
           p2p:
             port: 30333
-            ambassador: 15014       #Port exposed on ambassador service (use one port per org if using single cluster)
+            ambassador: 15012       #Port exposed on ambassador service (use one port per org if using single cluster)
           rpc:
-            port: 9933         
-          ws-rpc:
+            port: 9933
+          ws:
             port: 9944
         - peer:
-          name: carrier-ipfs
+          name: carrier
           subject: "O=CarrierIPFS,OU=CarrierIPFS,London,C=GB" # This is the node subject.
-          type: ipfs-bootnode         # value can be validator or bootnode ( or ipfs, for vitalAM)
-          swarm:
-            port: 4001
-            ambassador: 15016       #Port exposed on ambassador service (use one port per org if using single cluster)
-          api:
-            port: 5001
-        - peer:
-          name: carrier-ipfs
-          subject: "O=CarrierIPFS,OU=CarrierIPFS,London,C=GB" # This is the node subject.
-          type: ipfs         # value can be validator or bootnode ( or ipfs, for vitalAM)
-          swarm:
-            port: 4001
-            ambassador: 15014       #Port exposed on ambassador service (use one port per org if using single cluster)
+          type: member         # value can be validator or bootnode ( or ipfs, for vitalAM)
+          p2p:
+            port: 30333
+            ambassador: 15015       #Port exposed on ambassador service (use one port per org if using single cluster)
+          rpc:
+            port: 9933
+          ws:
+            port: 9944
           api:
             port: 5001
 
@@ -185,19 +183,21 @@ network:
             port: 30333
             ambassador: 15020       #Port exposed on ambassador service (use one port per org if using single cluster)
           rpc:
-            port: 9933          
-          ws-rpc:
+            port: 9933
+          ws:
             port: 9944
+          api:
+            port: 5001
         - peer:
           name: validator3
           subject: "O=Validator3,OU=Validator3,L=47.38/8.54/Zurich,C=CH" # This is the node subject. L=lat/long is mandatory for supplychain sample app
           type: validator         # value can be validator or bootnode ( or ipfs, for vitalAM)
           p2p:
             port: 30333
-            ambassador: 15021       #Port exposed on ambassador service (use one port per org if using single cluster)
+            ambassador: 15022       #Port exposed on ambassador service (use one port per org if using single cluster)
           rpc:
-            port: 9933         
-          ws-rpc:
+            port: 9933
+          ws:
             port: 9944
         - peer:
           name: validator4
@@ -205,20 +205,11 @@ network:
           type: validator         # value can be validator or bootnode ( or ipfs, for vitalAM)
           p2p:
             port: 30333
-            ambassador: 15022       #Port exposed on ambassador service (use one port per org if using single cluster)
-          rpc:
-            port: 9933           
-          ws-rpc:
-            port: 9944
-        - peer:
-          name: manufacturer-ipfs
-          subject: "O=ManufacturerIPFS,OU=ManufacturerIPFS,L=Zurich,C=CH"  # This is the node identity.
-          type: ipfs         # value can be validator or bootnode ( or ipfs, for vitalAM)
-          swarm:
-            port: 4001
             ambassador: 15023       #Port exposed on ambassador service (use one port per org if using single cluster)
-          api:
-            port: 5001
+          rpc:
+            port: 9933
+          ws:
+            port: 9944
 
     - organization:
       name: store
@@ -263,16 +254,9 @@ network:
             port: 30333
             ambassador: 15030       #Port exposed on ambassador service (use one port per org if using single cluster)
           rpc:
-            port: 9933         
-          ws-rpc:
+            port: 9933
+          ws:
             port: 9944
-        - peer:
-          name: store-ipfs
-          subject: "O=StoreIPFS,OU=StoreIPFS,L=New York,C=US"  # This is the node identity.
-          type: ipfs         # value can be validator or bootnode ( or ipfs, for vitalAM)
-          swarm:
-            port: 4001
-            ambassador: 15013       #Port exposed on ambassador service (use one port per org if using single cluster)
           api:
             port: 5001
 
@@ -317,17 +301,10 @@ network:
           type: member         # value can be validator or bootnode ( or ipfs, for vitalAM)
           p2p:
             port: 30333
-            ambassador: 15020       #Port exposed on ambassador service (use one port per org if using single cluster)
+            ambassador: 15040       #Port exposed on ambassador service (use one port per org if using single cluster)
           rpc:
             port: 9933          
-          ws-rpc:
+          ws:
             port: 9944
-        - peer:
-          name: warehouse-ipfs
-          subject: "O=WarehouseIPFS,OU=WarehouseIPFS,L=Boston,C=US"  # This is the node identity.
-          type: ipfs         # value can be validator or bootnode ( or ipfs, for vitalAM)
-          swarm:
-            port: 4001
-            ambassador: 15013       #Port exposed on ambassador service (use one port per org if using single cluster)
           api:
             port: 5001

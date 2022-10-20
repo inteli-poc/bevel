@@ -1,4 +1,4 @@
-apiVersion: helm.fluxcd.io/v1
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: {{ component_name }}
@@ -6,11 +6,16 @@ metadata:
   annotations:
     fluxcd.io/automated: "false"
 spec:
+  interval: 1m
   releaseName: {{ component_name }}
   chart:
-    git: {{ git_url }}
-    ref: {{ git_branch }}
-    path: {{ charts_dir }}/vault-k8s-mgmt
+    spec:
+      interval: 1m
+      sourceRef:
+        kind: GitRepository
+        name: flux-{{ network.env.type }}
+        namespace: flux-{{ network.env.type }}
+      chart: {{ charts_dir }}/vault-k8s-mgmt
   values:
     metadata:
       name: {{ name }}
@@ -27,7 +32,9 @@ spec:
       policydata: {{ policydata | to_nice_json }}
       secret_path: {{ vault.secret_path }}
       serviceaccountname: vault-auth
+{% if network.docker.password is defined %}    
       imagesecretname: regcred
+{% endif %}
     
     k8s:
       kubernetes_url: {{ kubernetes_url }}

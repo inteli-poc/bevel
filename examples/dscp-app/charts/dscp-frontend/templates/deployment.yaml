@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "inteli-frontend.fullname" . }}
+  labels:
+    {{- include "inteli-frontend.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      name: {{ include "inteli-frontend.fullname" . }}
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        name: {{ include "inteli-frontend.fullname" . }}
+    spec:
+      {{- if .Values.image.pullSecrets }}
+      imagePullSecrets:
+      - name: {{ $.Values.image.pullSecrets }}
+      {{- end }}
+      containers:
+        - name: inteli-frontend
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          ports:
+            - containerPort: {{ .Values.config.port }}
+              name: http
+              protocol: TCP
+          {{- if .Values.config.enableLivenessProbe }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            failureThreshold: 5
+            timeoutSeconds: 3
+            periodSeconds: 10
+          {{- end }}

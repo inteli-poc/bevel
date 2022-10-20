@@ -125,6 +125,9 @@ spec:
         args:
         - |-
           #!/usr/bin/env bash
+
+          {{- if ne $.Values.node.image "docker.io/paritytech/substrate-playground-template-node-template:latest" }}
+          
           apt-get update && apt-get install -y jq curl;
           if [[ $? > 0 ]]
           then
@@ -135,8 +138,9 @@ spec:
             export PATH=$PATH:.;
           else
             echo "jq and curl was installed using apt-get."
-          fi;         
-
+          fi;
+          {{- end }}
+        
           validateVaultResponse () {
             if echo ${2} | grep "errors"; then
               echo "ERROR: unable to retrieve ${1}: ${2}"
@@ -162,33 +166,57 @@ spec:
               echo "Certificates already present in the vault. Skipping.."
               exit 0
           fi
+
           command={{ $.Values.node.command }}
 
           echo "Generate nodekey"
           node_id=$($command key generate-node-key --file node_key 2>&1)
 
-          echo "Generate aura key for block production and store it in json file"
+          echo "Generate aura key"
           $command key generate --scheme Sr25519 --output-type json >> auraKeygenOutput.json
           AURA_SEED=$(jq -r '.secretSeed' auraKeygenOutput.json)
           AURA_ADDR=$(jq -r '.ss58Address' auraKeygenOutput.json)
 
-          echo "Generate separategrandpa key" 
-          $command key generate --scheme Ed25519 --output-type json >> grandpaKeygenOutput.json 
+          echo "Generate grandpa key"
+          $command key generate --scheme Ed25519 --output-type json >> grandpaKeygenOutput.json
           GRANDPA_SEED=$(jq -r '.secretSeed' grandpaKeygenOutput.json)
           GRANDPA_ADDR=$(jq -r '.ss58Address' grandpaKeygenOutput.json)
 
-          echo "
-            {
-              \"data\": {
-              \"node_id\": \"$node_id\",
-              \"node_key\": \"$(cat node_key)\",
-              \"aura_seed\": \"$AURA_SEED\",
-              \"aura_addr\": \"$AURA_ADDR\",
-              \"grandpa_seed\": \"$GRANDPA_SEED\",
-              \"grandpa_addr\": \"$GRANDPA_ADDR\",
-              \"aura_file_b64\": \"$(cat auraKeygenOutput.json | base64 -w 0)\",
-              \"grandpa_file_b64\":\"$(cat grandpaKeygenOutput.json | base64 -w 0)\"
-           }}" > finalJSON.json
+          {{- if eq .Values.node.type "member" }}
+            echo "Generate Account key for member/owner node"
+            $command key generate --scheme Sr25519 --output-type Json >> accKeygenOutput.json          
+            ACCOUNT_SEED=$(jq -r '.secretSeed' accKeygenOutput.json)
+            ACCOUNT_ADDR=$(jq -r '.ss58Address' accKeygenOutput.json)
+
+            echo "
+              {
+                \"data\": {
+                \"node_id\": \"$node_id\",
+                \"node_key\": \"$(cat node_key)\",
+                \"aura_seed\": \"$AURA_SEED\",
+                \"aura_addr\": \"$AURA_ADDR\",
+                \"grandpa_seed\": \"$GRANDPA_SEED\",
+                \"grandpa_addr\": \"$GRANDPA_ADDR\",
+                \"account_seed\": \"$ACCOUNT_SEED\",
+                \"account_addr\": \"$ACCOUNT_ADDR\",
+                \"account_file_b64\": \"$(cat accKeygenOutput.json | base64 -w 0)\",
+                \"aura_file_b64\": \"$(cat auraKeygenOutput.json | base64 -w 0)\",
+                \"grandpa_file_b64\":\"$(cat grandpaKeygenOutput.json | base64 -w 0)\"
+            }}" > finalJSON.json
+           {{- else }}
+            echo "
+              {
+                \"data\": {
+                \"node_id\": \"$node_id\",
+                \"node_key\": \"$(cat node_key)\",
+                \"aura_seed\": \"$AURA_SEED\",
+                \"aura_addr\": \"$AURA_ADDR\",
+                \"grandpa_seed\": \"$GRANDPA_SEED\",
+                \"grandpa_addr\": \"$GRANDPA_ADDR\",
+                \"aura_file_b64\": \"$(cat auraKeygenOutput.json | base64 -w 0)\",
+                \"grandpa_file_b64\":\"$(cat grandpaKeygenOutput.json | base64 -w 0)\"
+            }}" > finalJSON.json
+           {{- end }}
 
           KUBE_SA_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
           echo "Getting secrets from Vault Server: ${VAULT_ADDR}"
