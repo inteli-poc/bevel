@@ -61,9 +61,9 @@ spec:
       port: 
 
     image:
-      repository: ghcr.io/inteli-poc/inteli-api
+      repository: ghcr.io/inteli-poc/inteli-api # {"$imagepolicy": "flux-dev:inteli-api:name"}
       pullPolicy: IfNotPresent
-      tag: 'v1.0.0'
+      tag: 'v1.0.0' # {"$imagepolicy": "flux-dev:inteli-api:tag"}
       pullSecrets: 
 
     postgresql:
