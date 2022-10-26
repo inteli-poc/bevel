@@ -24,7 +24,7 @@ spec:
   imageRepositoryRef:
     name: {{ .Values.image.name }}
   filterTags:
-    pattern: {{ .Values.image.policy }}
+    pattern: '{{ .Values.image.policy }}'
   policy:
     numerical:
       order: asc
