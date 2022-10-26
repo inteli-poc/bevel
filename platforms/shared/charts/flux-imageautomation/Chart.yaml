@@ -5,7 +5,7 @@
 ##############################################################################################
 
 apiVersion: v2
-appVersion: "0.1.1"
+appVersion: "0.1.2"
 description: A Helm3 chart for Ingress for Fabric
 name: flux-imageautomation
-version: 0.1.1
+version: 0.1.2
