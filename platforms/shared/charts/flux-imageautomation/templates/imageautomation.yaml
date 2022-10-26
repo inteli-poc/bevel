@@ -23,8 +23,8 @@ metadata:
 spec:
   imageRepositoryRef:
     name: {{ .Values.image.name }}
-  #filterTags:
-  #  pattern: '{{ .Values.image.policy }}'
+  filterTags:
+    pattern: '{{ .Values.image.pattern }}'
   policy:
     semver:
       range: '{{ .Values.image.policy }}'

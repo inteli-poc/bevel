@@ -21,7 +21,7 @@ spec:
       
       pollingInterval: 1m0s
       policy: ^1.x.x-0
-
+      pattern: v1.*.*-[a-fA-F0-9]+
     git:
       fluxrepo: flux-dev
       branch: develop

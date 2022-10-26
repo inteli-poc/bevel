@@ -39,13 +39,16 @@ network:
     autodeploy:
       - name: dscp-chain-watcher
         repo: ghcr.io/inteli-poc/dscp-chain-watcher
-        policy: 1.x.x
+        pattern: v1.*.*-[a-fA-F0-9]+
+        policy: ^1.x.x-0
       - name: inteli-frontend
         repo: ghcr.io/inteli-poc/inteli-frontend
-        policy: 0.x.x
+        pattern: v1.*.*-[a-fA-F0-9]+
+        policy: ^1.x.x-0
       - name: inteli-api
         repo: ghcr.io/inteli-poc/inteli-api
-        policy: 1.x.x
+        pattern: v1.*.*-[a-fA-F0-9]+
+        policy: ^1.x.x-0
   
   # Following are the configurations for the common Substrate network
   config:

@@ -22,7 +22,7 @@ spec:
 {% endif %}      
       pollingInterval: 1m0s
       policy: {{ component_policy }}
-
+      pattern: {{ component_pattern }}
     git:
       fluxrepo: flux-{{ network.env.type }}
       branch: {{ component_branch }}
