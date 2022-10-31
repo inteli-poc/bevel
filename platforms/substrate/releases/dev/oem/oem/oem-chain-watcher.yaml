@@ -26,8 +26,11 @@ spec:
       dbName: inteli-api
       dscpApiHost: oem-api.oem-subs
       dscpApiPort: 80
+      idServiceHost: oem-id-service.oem-subs
+      idServicePort: 3001
+      
     image:
       repository: ghcr.io/inteli-poc/dscp-chain-watcher # {"$imagepolicy": "flux-dev:dscp-chain-watcher:name"}
       pullPolicy: IfNotPresent
-      tag: 'v1.1.0-d6feb7f' # {"$imagepolicy": "flux-dev:dscp-chain-watcher:tag"}
-      pullSecrets:
+      tag: 'v1.0.2daf80e' # {"$imagepolicy": "flux-dev:dscp-chain-watcher:tag"}
+      pullSecrets: 
