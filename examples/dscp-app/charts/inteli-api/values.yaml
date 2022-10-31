@@ -9,6 +9,7 @@ config:
   dbPort: 
   identityServiceHost: 
   identityServicePort: 
+  externalAddress: 
   auth:
     type: 
     jwksUri: 

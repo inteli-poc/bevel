@@ -4,21 +4,22 @@
 #  SPDX-License-Identifier: Apache-2.0
 ##############################################################################################
 # Create inteli-api values file for the peer nodes
-- name: "Create inteli-api values file for all peers"
-  include_role:
-    name: helm_component
-  vars:
-    type: "inteli-api"
-    component_name: "{{ peer.name }}-inteli-api"
-    name: "{{ peer.name }}"
-    charts_dir: "examples/dscp-app/charts"
-    db_address: "{{ peer.name }}-postgresql"
-    dscp_api_addr: "{{ peer.name }}-api"
-    id_service_addr: "{{ peer.name }}-id-service"
-  loop: "{{ org.services.peers }}"
-  loop_control:
-    loop_var: peer
-  when: (peer.postgresql is defined) and (peer.inteli_api is defined)
+# - name: "Create inteli-api values file for all peers"
+#   include_role:
+#     name: helm_component
+#   vars:
+#     type: "inteli-api"
+#     component_name: "{{ peer.name }}-inteli-api"
+#     external_addr: "https://{{ component_name }}.{{ external_suffix }}"
+#     name: "{{ peer.name }}"
+#     charts_dir: "examples/dscp-app/charts"
+#     db_address: "{{ peer.name }}-postgresql"
+#     dscp_api_addr: "{{ peer.name }}-api"
+#     id_service_addr: "{{ peer.name }}-id-service"
+#   loop: "{{ org.services.peers }}"
+#   loop_control:
+#     loop_var: peer
+#   when: (peer.postgresql is defined) and (peer.inteli_api is defined)
 
 # Push the inteli-api deployment files to repository
 - name: "Push the created deployment files to repository"

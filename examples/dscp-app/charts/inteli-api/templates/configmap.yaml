@@ -20,4 +20,5 @@ data:
   {{- end }}
   identityServiceHost: {{ .Values.config.identityServiceHost }}
   identityServicePort: {{ .Values.config.identityServicePort | quote }}
+  externalAddress: {{ .Values.config.externalAddress }}
   authType: {{ .Values.config.auth.type }}

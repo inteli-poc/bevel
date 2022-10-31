@@ -31,6 +31,7 @@ spec:
       logLevel: info
       identityServiceHost: {{ id_service_addr }}.{{ component_ns }}
       identityServicePort: {{ peer.id_service.port }}
+      externalAddress: {{ external_addr }}
       auth:
         type: {{ auth_type }}
         jwksUri: {{ auth_jwksUri }}

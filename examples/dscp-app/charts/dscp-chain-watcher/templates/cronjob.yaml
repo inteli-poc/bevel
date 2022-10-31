@@ -65,11 +65,11 @@ spec:
                     key: dbPassword
               - name: IDENTITY_SERVICE_HOST
                 valueFrom:
-                  secretKeyRef:
-                    name: {{ include "chain-watcher.fullname" . }}-secret
+                  configMapKeyRef:
+                    name: {{ include "chain-watcher.fullname" . }}-config
                     key: idServiceHost
               - name: IDENTITY_SERVICE_PORT
                 valueFrom:
-                  secretKeyRef:
-                    name: {{ include "chain-watcher.fullname" . }}-secret
+                  configMapKeyRef:
+                    name: {{ include "chain-watcher.fullname" . }}-config
                     key: idServicePort
