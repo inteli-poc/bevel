@@ -63,3 +63,13 @@ spec:
                   secretKeyRef:
                     name: {{ include "chain-watcher.fullname" . }}-secret
                     key: dbPassword
+              - name: IDENTITY_SERVICE_HOST
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ include "chain-watcher.fullname" . }}-secret
+                    key: idServiceHost
+              - name: IDENTITY_SERVICE_PORT
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ include "chain-watcher.fullname" . }}-secret
+                    key: idServicePort
