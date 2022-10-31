@@ -8,6 +8,8 @@ config:
   dbName: 
   dscpApiHost:
   dscpApiPort: 
+  idServiceHost:
+  idServicePort:
 
 image:
   repository: ghcr.io/inteli-poc/dscp-chain-watcher

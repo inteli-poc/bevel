@@ -26,6 +26,8 @@ spec:
       dbName: {{ peer.inteli_api.db_name }}
       dscpApiHost: {{ dscp_api_addr }}.{{ component_ns }}
       dscpApiPort: {{ peer.api.port }}
+      idServiceHost: {{ peer.name }}-id-service.{{ component_ns }}
+      idServicePort: {{ peer.id_service.port }}
       
     image:
       repository: ghcr.io/inteli-poc/dscp-chain-watcher # {"$imagepolicy": "flux-{{ network.env.type }}:dscp-chain-watcher:name"}
