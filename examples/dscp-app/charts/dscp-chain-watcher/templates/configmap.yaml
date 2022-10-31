@@ -15,4 +15,4 @@ data:
   dbPort: {{ .Values.config.dbPort | quote }}
   dbName: {{ .Values.config.dbName }}
   idServiceHost: {{ .Values.config.idServiceHost }}
-  idServicePost: {{ .Values.config.idServicePort | quote }}
+  idServicePort: {{ .Values.config.idServicePort | quote }}
