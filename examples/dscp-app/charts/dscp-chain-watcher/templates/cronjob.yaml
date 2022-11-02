@@ -88,7 +88,7 @@ spec:
                   validateVaultResponse "secret (${vault_secret_key})" "${LOOKUP_SECRET_RESPONSE}" "LOOKUPSECRETRESPONSE"
                   gcpKey=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["gcpkey"]')
                                 
-                  echo -n "${gcpKey}" > ${MOUNT_PATH}/gcpKey
+                  echo -n "${gcpKey}" > ${MOUNT_PATH}/gcpKey.json
           {{- end }}
           containers:
             - name: {{ include "chain-watcher.fullname" . }}-cron-job
@@ -102,7 +102,9 @@ spec:
               - |-
                 #!/usr/bin/env sh
 
-                export GOOGLE_APPLICATION_CREDENTIALS=$(cat /secret/gcpKey);
+                export GOOGLE_APPLICATION_CREDENTIALS=$(cat /secret/gcpKey.json);
+
+                tail -f /dev/null
 
                 node ./index.js
               env:
