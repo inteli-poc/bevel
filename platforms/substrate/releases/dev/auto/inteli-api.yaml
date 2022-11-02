@@ -20,8 +20,14 @@ spec:
       pullSecrets: regcred
       
       pollingInterval: 1m0s
-      policy: {'numerical': {'order': 'asc'}}
-      filter: {'pattern': 'v1.*.*-[0-9a-fA-F0-9]+-(?P<ts>.*)', 'extract': '$ts'}
+      policy: 
+        numerical:
+          order: asc
+
+      filter: 
+        extract: $ts
+        pattern: v1.*.*-[0-9a-fA-F0-9]+-(?P<ts>.*)
+
     git:
       fluxrepo: flux-dev
       branch: develop
