@@ -102,9 +102,7 @@ spec:
               - |-
                 #!/usr/bin/env sh
 
-                export GOOGLE_APPLICATION_CREDENTIALS=$(cat /secret/gcpKey.json);
-
-                tail -f /dev/null
+                export GOOGLE_APPLICATION_CREDENTIALS=/secret/gcpKey.json
 
                 node ./index.js
               env:
