@@ -31,5 +31,5 @@ spec:
     image:
       repository: ghcr.io/inteli-poc/dscp-chain-watcher # {"$imagepolicy": "flux-dev:dscp-chain-watcher:name"}
       pullPolicy: IfNotPresent
-      tag: 'v1.1.0-d6feb7f' # {"$imagepolicy": "flux-dev:dscp-chain-watcher:tag"}
+      tag: 'v1.1.0-1ee9ae1' # {"$imagepolicy": "flux-dev:dscp-chain-watcher:tag"}
       pullSecrets:
