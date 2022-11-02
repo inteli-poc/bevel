@@ -40,7 +40,7 @@
     charts_dir: "examples/dscp-app/charts"
     dscp_api_addr: "{{ peer.name }}-api"
     db_host_addr: "{{ peer.name }}-postgresql"
-    createInit: ""
+    createInit: "false"
   loop: "{{ org.services.peers }}"
   loop_control:
     loop_var: peer
