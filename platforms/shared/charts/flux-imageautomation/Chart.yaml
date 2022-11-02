@@ -5,7 +5,7 @@
 ##############################################################################################
 
 apiVersion: v2
-appVersion: "0.2.1"
+appVersion: "0.2.2"
 description: A Helm chart for Image Automation using Flux V2
 name: flux-imageautomation
-version: 0.2.1
+version: 0.2.2
