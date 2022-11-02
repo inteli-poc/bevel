@@ -16,8 +16,8 @@ image:
   filter: 
     pattern: v1.*.*-[a-fA-F0-9]+
   policy: 
-    semver:
-      range: ^1.x.x-0
+    # semver:
+    #   range: ^1.x.x-0
 
 git:
   fluxrepo:

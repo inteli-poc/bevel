@@ -24,9 +24,9 @@ spec:
   imageRepositoryRef:
     name: {{ .Values.image.name }}
   filterTags: 
-    {{ .Values.image.filter | to_yaml | indent(4) }}
+    {{- toYaml $.Values.image.filter | nindent 4 }}
   policy: 
-    {{ .Values.image.policy to_yaml | indent(6) }}
+    {{- toYaml $.Values.image.policy | nindent 4 }}
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImageUpdateAutomation
