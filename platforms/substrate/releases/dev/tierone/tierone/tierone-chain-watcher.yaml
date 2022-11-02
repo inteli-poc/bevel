@@ -42,4 +42,4 @@ spec:
       serviceaccountname: vault-auth
       role: vault-role
       authpath: substratetierone
-      createInitContainer: 
+      createInitContainer: false
