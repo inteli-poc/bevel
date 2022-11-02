@@ -23,11 +23,8 @@ metadata:
 spec:
   imageRepositoryRef:
     name: {{ .Values.image.name }}
-  filterTags:
-    pattern: '{{ .Values.image.pattern }}'
-  policy:
-    semver:
-      range: '{{ .Values.image.policy }}'
+  filterTags: {{ .Values.image.filter }}
+  policy: {{ .Values.image.policy }}
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImageUpdateAutomation
