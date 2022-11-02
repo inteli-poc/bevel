@@ -16,3 +16,11 @@ image:
   pullPolicy: IfNotPresent
   tag: 'v1.0.2'
   pullSecrets: 
+
+vault:
+  alpineutils:
+  address:
+  secretprefix:
+  serviceaccountname:
+  role:
+  authpath:

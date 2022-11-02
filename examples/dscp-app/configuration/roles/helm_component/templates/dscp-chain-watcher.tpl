@@ -32,5 +32,13 @@ spec:
     image:
       repository: ghcr.io/inteli-poc/dscp-chain-watcher # {"$imagepolicy": "flux-{{ network.env.type }}:dscp-chain-watcher:name"}
       pullPolicy: IfNotPresent
-      tag: 'v1.0.2daf80e' # {"$imagepolicy": "flux-{{ network.env.type }}:dscp-chain-watcher:tag"}
+      tag: 'v1.1.0-456ddf7-1667382478' # {"$imagepolicy": "flux-{{ network.env.type }}:dscp-chain-watcher:tag"}
       pullSecrets: 
+
+    vault:
+      alpineutils: ghcr.io/hyperledger/alpine-utils:1.0
+      address: {{ component_vault.url }}
+      secretprefix: {{ component_vault.secret_path | default('secretsv2') }}/data/{{ component_ns }}
+      serviceaccountname: vault-auth
+      role: vault-role
+      authpath: substrate{{ org.name | lower }}

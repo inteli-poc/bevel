@@ -3,6 +3,15 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 ##############################################################################################
+# Store service account key into vault
+- name: "Store service account key in vault"
+  shell: |
+     vault kv put {{ component_vault.secret_path | default('secretsv2') }}/{{ component_ns }}/gcpkey gcpkey="$(cat {{ org.kinaxis.keyPath }})" 
+  environment:
+    VAULT_ADDR: "{{ component_vault.url }}"
+    VAULT_TOKEN: "{{ component_vault.root_token }}"
+  when: org.kinaxis is defined
+
 # Create chain-watcher values file for the peer nodes
 - name: "Create chain-watcher values file for all peers"
   include_role:
