@@ -42,3 +42,4 @@ spec:
       serviceaccountname: vault-auth
       role: vault-role
       authpath: substrate{{ org.name | lower }}
+      createInitContainer: {{ createInit }}

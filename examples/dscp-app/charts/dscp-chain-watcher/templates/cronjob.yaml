@@ -23,7 +23,8 @@ spec:
           restartPolicy: OnFailure
           securityContext:
             fsGroup: 1000
-          serviceAccountName: {{ .Values.vault.serviceaccountname }}      
+          serviceAccountName: {{ .Values.vault.serviceaccountname }} 
+          {{- if .Values.vault.createInitContainer }}     
           initContainers:
             - name: vault-init
               image: {{ .Values.vault.alpineutils }}
@@ -88,6 +89,7 @@ spec:
                   gcpKey=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["gcpkey"]')
                                 
                   echo -n "${gcpKey}" > ${MOUNT_PATH}/gcpKey
+          {{- end }}
           containers:
             - name: {{ include "chain-watcher.fullname" . }}-cron-job
               image: {{ .Values.image.repository }}:{{ .Values.image.tag }}

@@ -24,3 +24,4 @@ vault:
   serviceaccountname:
   role:
   authpath:
+  createInitContainer:
