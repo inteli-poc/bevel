@@ -95,6 +95,8 @@ network:
         issuer: "https://inteli-poc.eu.auth0.com/"      # # Issuer Domain of the Auth0 API, Don't forget the ending /
         tokenUrl: "https://inteli-poc.eu.auth0.com/oauth/token" # Auth0 API endpoint that issues an Authorisation (Bearer) access token
         clientId: "ORG1_CLIENT_ID"        # Client Id for accessing the API and Frontend Auths
+      kinaxis:
+        keyPath: "/path/to/key" # ensure you have a service account key.json with push access to gcp buckets stored in the specified path
       
       # Git Repo details which will be used by GitOps/Flux.
       # Do not check-in git_access_token
