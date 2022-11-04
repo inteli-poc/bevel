@@ -224,11 +224,17 @@ network:
       # these are the Auth0 API values that will be used for authentication to substrate api endpoints. Eg. tokenUrl: https://example.eu.auth0.com/oauth/token
       auth:
         type: JWT
-        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json"  # JSON Web Key Set containing public keys used by the Auth0 API
-        audience: "https://inteli-poc.com/api"  # Identifier of the Auth0 API
-        issuer: "https://inteli-poc.eu.auth0.com/"      # # Issuer Domain of the Auth0 API, Don't forget the ending /
+        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json" # JSON Web Key Set containing public keys used by the Auth0 API
+        audience: "https://inteli-poc.com/api" # Identifier of the Auth0 API
+        issuer: "https://inteli-poc.eu.auth0.com/"  # Issuer Domain of the Auth0 API, Don't forget the ending /
         tokenUrl: "https://inteli-poc.eu.auth0.com/oauth/token" # Auth0 API endpoint that issues an Authorisation (Bearer) access token
-        clientId: "ORG2_CLIENT_ID"        # Client Id for accessing the API and Frontend Auths
+        clientId: "1KBiXFF5x3WOu4alBxQO56jC2Ookwlpe" # Client Id for accessing the API and Frontend Auths
+        secret: "hZfRB9x5xl9R-5o1vyhB3LSwEXgVxOsgQsLYlKzCYvHzcbrfRc4XO8Ke76xneikv"
+      frontendAuth:
+        enabled: true # toggle to enable/disable frontend auth
+        domain: "inteli-poc.eu.auth0.com" # domain of the auth0 tenant
+        clientId: "XwrjoneSUUufU9mleoTGOXJNTfmqXbu3" # Client Id for accessing the API and Frontend Auths
+        scope: "read:current_user update:current_user_metadata" # scope for frontend tokens
 
       # Git Repo details which will be used by GitOps/Flux.
       # IMPORTANT: Do not check-in your password, the git_access_token!
@@ -322,11 +328,17 @@ network:
       # these are the Auth0 API values that will be used for authentication to substrate api endpoints. Eg. tokenUrl: https://example.eu.auth0.com/oauth/token
       auth:
         type: JWT
-        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json"  # JSON Web Key Set containing public keys used by the Auth0 API
-        audience: "https://inteli-poc.com/api"  # Identifier of the Auth0 API
-        issuer: "https://inteli-poc.eu.auth0.com/"      # # Issuer Domain of the Auth0 API, Don't forget the ending /
+        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json" # JSON Web Key Set containing public keys used by the Auth0 API
+        audience: "https://inteli-poc.com/api" # Identifier of the Auth0 API
+        issuer: "https://inteli-poc.eu.auth0.com/"  # Issuer Domain of the Auth0 API, Don't forget the ending /
         tokenUrl: "https://inteli-poc.eu.auth0.com/oauth/token" # Auth0 API endpoint that issues an Authorisation (Bearer) access token
-        clientId: "ORG3_CLIENT_ID"        # Client Id for accessing the API and Frontend Auths
+        clientId: "1KBiXFF5x3WOu4alBxQO56jC2Ookwlpe" # Client Id for accessing the API and Frontend Auths
+        secret: "hZfRB9x5xl9R-5o1vyhB3LSwEXgVxOsgQsLYlKzCYvHzcbrfRc4XO8Ke76xneikv"
+      frontendAuth:
+        enabled: true # toggle to enable/disable frontend auth
+        domain: "inteli-poc.eu.auth0.com" # domain of the auth0 tenant
+        clientId: "XwrjoneSUUufU9mleoTGOXJNTfmqXbu3" # Client Id for accessing the API and Frontend Auths
+        scope: "read:current_user update:current_user_metadata" # scope for frontend tokens
 
       # Git Repo details which will be used by GitOps/Flux.
       # IMPORTANT: Do not check-in your password, the git_access_token!
