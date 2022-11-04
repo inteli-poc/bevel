@@ -22,6 +22,14 @@ spec:
       port: 4000      
       logLevel: info      
       enableLivenessProbe: false
+      inteliApiAddr: {{ inteliApiAddr }}
+      logo: inteli.svg
+      kinaxisUrl: https://na1.kinaxis.net/web/ACCD01_DEM01/
+    auth:
+      frontendDomain: {{ org.frontendAuth.domain }}
+      frontendScope: {{ org.frontendAuth.scope }}
+      inteliApiAudience: {{ org.auth.audience }}
+      inteliApiTokenUrl: {{ org.auth.tokenUrl }}
     ingress: 
       enabled: false
       className: "gce"
@@ -31,13 +39,13 @@ spec:
     image:
       repository: ghcr.io/inteli-poc/inteli-frontend  # {"$imagepolicy": "flux-{{ network.env.type }}:inteli-frontend:name"}
       pullPolicy: Always
-      tag: 'v0.0.65e2369' # {"$imagepolicy": "flux-{{ network.env.type }}:inteli-frontend:tag"}
+      tag: 'v1.1.0-14e8c09-1667564363' # {"$imagepolicy": "flux-{{ network.env.type }}:inteli-frontend:tag"}
     
 
     vault:
       alpineutils: ghcr.io/hyperledger/alpine-utils:1.0
       address: {{ component_vault.url }}
-      secretprefix: {{ component_vault.secret_path | default('secretsv2') }}/data/{{ component_ns }}/{{ peer.name }}
+      secretprefix: {{ component_vault.secret_path | default('secretsv2') }}/data/{{ component_ns }}
       serviceaccountname: vault-auth
       role: vault-role
       authpath: substrate{{ org.name | lower }}
