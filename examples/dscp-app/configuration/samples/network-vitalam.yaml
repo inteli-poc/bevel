@@ -89,12 +89,18 @@ network:
         secret_path: "secretsv2"
       # these are the Auth0 API values that will be used for authentication to substrate api endpoints. Eg. tokenUrl: https://example.eu.auth0.com/oauth/token
       auth:
-        type: "JWT" # Options: NONE, JWT
-        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json"  # JSON Web Key Set containing public keys used by the Auth0 API
-        audience: "https://inteli-poc.com/api"  # Identifier of the Auth0 API
-        issuer: "https://inteli-poc.eu.auth0.com/"      # # Issuer Domain of the Auth0 API, Don't forget the ending /
+        type: JWT
+        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json" # JSON Web Key Set containing public keys used by the Auth0 API
+        audience: "https://inteli-poc.com/api" # Identifier of the Auth0 API
+        issuer: "https://inteli-poc.eu.auth0.com/"  # Issuer Domain of the Auth0 API, Don't forget the ending /
         tokenUrl: "https://inteli-poc.eu.auth0.com/oauth/token" # Auth0 API endpoint that issues an Authorisation (Bearer) access token
-        clientId: "ORG1_CLIENT_ID"        # Client Id for accessing the API and Frontend Auths
+        clientId: "" # Client Id for accessing the API and Frontend Auths
+        secret: "" # Secret of auth0 tenant required for frontend
+      frontendAuth:
+        enabled: true # toggle to enable/disable frontend auth
+        domain: "inteli-poc.eu.auth0.com" # domain of the auth0 tenant
+        clientId: "" # Client Id for accessing the API and Frontend Auths
+        scope: "read:current_user update:current_user_metadata" # scope for frontend tokens
       kinaxis:
         keyPath: "/path/to/key" # ensure you have a service account key.json with push access to gcp buckets stored in the specified path
       
