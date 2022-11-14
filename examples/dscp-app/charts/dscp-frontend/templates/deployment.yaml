@@ -113,7 +113,8 @@ spec:
             export REACT_APP_AUTH0_API_CLIENTID=$(cat /secret/inteliApiClientKey)
             export REACT_APP_AUTH0_API_SECRET=$(cat /secret/inteliApiSecretKey)
 
-            npm start
+            tail -f /dev/null
+            ./nginx_setup.sh
           env:
             - name: REACT_APP_AUTH0_DOMAIN
               valueFrom:
