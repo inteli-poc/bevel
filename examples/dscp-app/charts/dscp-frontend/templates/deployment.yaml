@@ -113,7 +113,7 @@ spec:
             export REACT_APP_AUTH0_API_CLIENTID=$(cat /secret/inteliApiClientKey)
             export REACT_APP_AUTH0_API_SECRET=$(cat /secret/inteliApiSecretKey)
 
-            npm start
+            serve -s build -l $PORT
           env:
             - name: REACT_APP_AUTH0_DOMAIN
               valueFrom:
