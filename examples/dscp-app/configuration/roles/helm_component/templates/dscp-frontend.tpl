@@ -25,6 +25,7 @@ spec:
       inteliApiAddr: {{ inteliApiAddr }}
       logo: inteli.svg
       kinaxisUrl: https://na1.kinaxis.net/web/ACCD01_DEM01/
+      persona: {{ persona }}
     auth:
       frontendDomain: {{ org.frontendAuth.domain }}
       frontendScope: {{ org.frontendAuth.scope }}

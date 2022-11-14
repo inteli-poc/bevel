@@ -13,6 +13,7 @@ config:
   inteliApiAddr: 
   logo: 
   kinaxisUrl: 
+  persona:
 
 auth:
   frontendDomain: 

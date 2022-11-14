@@ -51,6 +51,7 @@
     name: "{{ peer.name }}"
     charts_dir: "examples/dscp-app/charts"
     inteliApiAddr: "https://{{ peer.name }}-inteli-api.{{ org.external_url_suffix }}/v1/"
+    persona: "{{ org.persona }}"
   loop: "{{ org.services.peers }}"
   loop_control:
     loop_var: peer

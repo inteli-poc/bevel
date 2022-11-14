@@ -17,3 +17,4 @@ data:
   frontendPort: {{ .Values.config.port | quote }}
   logoPath: {{ .Values.config.logo }}
   kinaxisUrl: {{ .Values.config.kinaxisUrl }}
+  persona: {{ .Values.config.persona }}
