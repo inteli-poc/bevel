@@ -25,6 +25,7 @@ spec:
       inteliApiAddr: https://tiertwo-inteli-api.vitalam.intelipoc.com/v1/
       logo: inteli.svg
       kinaxisUrl: https://na1.kinaxis.net/web/ACCD01_DEM01/
+      persona: supplier
     auth:
       frontendDomain: inteli-poc.eu.auth0.com
       frontendScope: read:current_user update:current_user_metadata
