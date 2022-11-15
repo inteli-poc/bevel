@@ -25,11 +25,11 @@ spec:
       inteliApiAddr: https://tiertwo-inteli-api.vitalam.intelipoc.com/v1/
       logo: inteli.svg
       kinaxisUrl: https://na1.kinaxis.net/web/ACCD01_DEM01/
-      persona: supplier
+      persona: ThirdParty
     auth:
       frontendDomain: inteli-poc.eu.auth0.com
       frontendScope: read:current_user update:current_user_metadata
-      inteliApiAudience: https://inteli-poc-tierone.com/api
+      inteliApiAudience: https://inteli-poc-tiertwo.com/api
       inteliApiTokenUrl: https://inteli-poc.eu.auth0.com/oauth/token
     ingress:
       enabled: false
@@ -38,7 +38,7 @@ spec:
         - /
     replicaCount: 1
     image:
-      repository: ghcr.io/inteli-poc/inteli-frontend # {"$imagepolicy": "flux-dev:inteli-frontend:name"}
+      repository: ghcr.io/inteli-poc/inteli-frontend  # {"$imagepolicy": "flux-dev:inteli-frontend:name"}
       pullPolicy: Always
       tag: 'v1.1.0-a2a91dc-1668516972' # {"$imagepolicy": "flux-dev:inteli-frontend:tag"}
     vault:

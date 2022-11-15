@@ -14,13 +14,13 @@ spec:
         kind: GitRepository
         name: flux-{{ network.env.type }}
         namespace: flux-{{ network.env.type }}
-      chart: {{ charts_dir }}/dscp-frontend    
+      chart: {{ charts_dir }}/dscp-frontend
   releaseName: {{ name }}-web
   values:
     fullNameOverride: {{ name }}-web
     config:
-      port: 4000      
-      logLevel: info      
+      port: 4000
+      logLevel: info
       enableLivenessProbe: false
       inteliApiAddr: {{ inteliApiAddr }}
       logo: inteli.svg
@@ -31,7 +31,7 @@ spec:
       frontendScope: {{ org.frontendAuth.scope }}
       inteliApiAudience: {{ org.auth.audience }}
       inteliApiTokenUrl: {{ org.auth.tokenUrl }}
-    ingress: 
+    ingress:
       enabled: false
       className: "gce"
       paths:
@@ -41,8 +41,6 @@ spec:
       repository: ghcr.io/inteli-poc/inteli-frontend  # {"$imagepolicy": "flux-{{ network.env.type }}:inteli-frontend:name"}
       pullPolicy: Always
       tag: 'v1.1.0-14e8c09-1667564363' # {"$imagepolicy": "flux-{{ network.env.type }}:inteli-frontend:tag"}
-    
-
     vault:
       alpineutils: ghcr.io/hyperledger/alpine-utils:1.0
       address: {{ component_vault.url }}
@@ -50,9 +48,8 @@ spec:
       serviceaccountname: vault-auth
       role: vault-role
       authpath: substrate{{ org.name | lower }}
-
     proxy:
       provider: {{ network.env.proxy }}
-      name: {{ org.name | lower }} 
-      external_url_suffix: {{ org.external_url_suffix }}      
+      name: {{ org.name | lower }}
+      external_url_suffix: {{ org.external_url_suffix }}
       issuedFor: {{ org.name | lower }}
