@@ -38,9 +38,9 @@ spec:
         - /
     replicaCount: 1
     image:
-      repository: ghcr.io/inteli-poc/inteli-frontend  # {"$imagepolicy": "flux-dev:inteli-frontend:name"}
+      repository: ghcr.io/inteli-poc/inteli-frontend # {"$imagepolicy": "flux-dev:inteli-frontend:name"}
       pullPolicy: Always
-      tag: 'v1.1.0-a2a91dc-1668516972' # {"$imagepolicy": "flux-dev:inteli-frontend:tag"}
+      tag: 'v1.1.0-6ae3ba9-1668521617' # {"$imagepolicy": "flux-dev:inteli-frontend:tag"}
     vault:
       alpineutils: ghcr.io/hyperledger/alpine-utils:1.0
       address: http://vault.internal.dev.intelipoc.com:20002
