@@ -33,7 +33,7 @@ spec:
       identityServicePort: 3001
       externalAddress: https://tiertwo-inteli-api.vitalam.intelipoc.com
       auth:
-        type: NONE
+        type: AES
         jwksUri: https://inteli-poc.eu.auth0.com/.well-known/jwks.json
         audience: https://inteli-poc-tierone.com/api
         issuer: https://inteli-poc.eu.auth0.com/
