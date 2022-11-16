@@ -64,6 +64,9 @@ spec:
 {% if bootnode_data is defined %}
         - "--bootnodes '{{ bootnode_data[1:] | join(',') }}'"
 {% endif %}
+{% if peer.type == 'member' %}
+        - "--pruning=archive"
+{% endif %}
       keys:
         - type: "gran"
           scheme: "ed25519"
