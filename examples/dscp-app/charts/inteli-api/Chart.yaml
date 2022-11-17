@@ -4,7 +4,8 @@
 ##############################################################################################
 apiVersion: v2
 name: inteli-api
-appVersion: '1.28.2'
+appVersion: '1.28.1'
 description: A Helm chart for inteli-api
-version: '1.28.2'
+version: '1.28.1'
 type: application
+

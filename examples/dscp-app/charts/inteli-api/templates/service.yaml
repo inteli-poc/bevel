@@ -57,16 +57,3 @@ spec:
   selector:
     acme.cert-manager.io/http01-solver: "true"
     issuedFor: "{{ .Values.proxy.issuedFor }}"
-{{- if eq .Values.config.auth.type "AES" }}
----
-apiVersion: getambassador.io/v2
-kind: FilterPolicy
-metadata:
-  name: {{ include "inteli-api.fullname" . }}-filterpolicy
-spec:
-  rules:
-  - host: {{ .Values.proxy.name }}-inteli-api.{{ .Values.proxy.external_url_suffix }}
-    path: "/v1/"               # * applies filter policy to all requests
-    filters:
-    - name: "jwt-filter"    # This filter has been created when Ambassador was created
-{{- end }}
