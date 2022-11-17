@@ -33,16 +33,18 @@ spec:
       identityServicePort: 3001
       externalAddress: https://tiertwo-inteli-api.vitalam.intelipoc.com
       auth:
-        type: AES
+        type: JWT
         jwksUri: https://inteli-poc.eu.auth0.com/.well-known/jwks.json
-        audience: https://inteli-poc-tierone.com/api
+        audience: https://inteli-poc-tiertwo.com/api
         issuer: https://inteli-poc.eu.auth0.com/
         tokenUrl: https://inteli-poc.eu.auth0.com/oauth/token
+
     deployment:
       annotations: {}
       livenessProbe:
-        enabled: false
+        enabled: true
       replicaCount: 1
+
     ingress:
       enabled: false
       annotations: {}
@@ -53,23 +55,28 @@ spec:
         - /v1/order
         - /v1/part
         - /v1/recipe
+
     service:
       annotations: {}
       enabled: false
-      port:
+      port: 
+
     image:
       repository: ghcr.io/inteli-poc/inteli-api # {"$imagepolicy": "flux-dev:inteli-api:name"}
       pullPolicy: IfNotPresent
-      tag: 'v1.1.0-c70a39b-1668699581' # {"$imagepolicy": "flux-dev:inteli-api:tag"}
-      pullSecrets:
+      tag: 'v1.0.0' # {"$imagepolicy": "flux-dev:inteli-api:tag"}
+      pullSecrets: 
+
     postgresql:
       enabled: false
       postgresqlDatabase: inteli-api
       postgresqlUsername: postgres
       postgresqlPassword: postgres123
+
+
     proxy:
       provider: ambassador
-      name: tiertwo
+      name: tiertwo 
       external_url_suffix: vitalam.intelipoc.com
       port: 443
       issuedFor: tiertwo
