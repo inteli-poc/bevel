@@ -39,16 +39,28 @@ network:
     autodeploy:
       - name: dscp-chain-watcher
         repo: ghcr.io/inteli-poc/dscp-chain-watcher
-        pattern: v1.*.*-[a-fA-F0-9]+
-        policy: ^1.x.x-0
+        filter:
+          pattern: v1.*.*-[0-9a-fA-F0-9]+-(?P<ts>.*)
+          extract: $ts
+        policy: 
+          numerical:
+            order: asc
       - name: inteli-frontend
         repo: ghcr.io/inteli-poc/inteli-frontend
-        pattern: v1.*.*-[a-fA-F0-9]+
-        policy: ^1.x.x-0
+        filter:
+          pattern: v1.*.*-[0-9a-fA-F0-9]+-(?P<ts>.*)
+          extract: $ts
+        policy: 
+          numerical:
+            order: asc
       - name: inteli-api
         repo: ghcr.io/inteli-poc/inteli-api
-        pattern: v1.*.*-[a-fA-F0-9]+
-        policy: ^1.x.x-0
+        filter:
+          pattern: v1.*.*-[0-9a-fA-F0-9]+-(?P<ts>.*)
+          extract: $ts
+        policy: 
+          numerical:
+            order: asc
   
   # Following are the configurations for the common Substrate network
   config:
@@ -96,12 +108,11 @@ network:
         issuer: "https://inteli-poc.eu.auth0.com/"  # Issuer Domain of the Auth0 API, Don't forget the ending /
         tokenUrl: "https://inteli-poc.eu.auth0.com/oauth/token" # Auth0 API endpoint that issues an Authorisation (Bearer) access token
         clientId: "" # Client Id for accessing the API and Frontend Auths
-        secret: "" # Secret of auth0 tenant required for frontend
       frontendAuth:
         enabled: true # toggle to enable/disable frontend auth
         domain: "inteli-poc.eu.auth0.com" # domain of the auth0 tenant
         clientId: "" # Client Id for accessing the API and Frontend Auths
-        scope: "read:current_user update:current_user_metadata" # scope for frontend tokens
+        scope: "read:messages" # scope for frontend tokens
       kinaxis:
         keyPath: "/path/to/key" # ensure you have a service account key.json with push access to gcp buckets stored in the specified path
       
@@ -226,16 +237,15 @@ network:
       auth:
         type: JWT
         jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json" # JSON Web Key Set containing public keys used by the Auth0 API
-        audience: "https://inteli-poc.com/api" # Identifier of the Auth0 API
+        audience: "https://inteli-poc-tierone.com/api" # Identifier of the Auth0 API
         issuer: "https://inteli-poc.eu.auth0.com/"  # Issuer Domain of the Auth0 API, Don't forget the ending /
         tokenUrl: "https://inteli-poc.eu.auth0.com/oauth/token" # Auth0 API endpoint that issues an Authorisation (Bearer) access token
-        clientId: "1KBiXFF5x3WOu4alBxQO56jC2Ookwlpe" # Client Id for accessing the API and Frontend Auths
-        secret: "hZfRB9x5xl9R-5o1vyhB3LSwEXgVxOsgQsLYlKzCYvHzcbrfRc4XO8Ke76xneikv"
+        clientId: "" # Client Id for accessing the API and Frontend Auths
       frontendAuth:
         enabled: true # toggle to enable/disable frontend auth
         domain: "inteli-poc.eu.auth0.com" # domain of the auth0 tenant
-        clientId: "XwrjoneSUUufU9mleoTGOXJNTfmqXbu3" # Client Id for accessing the API and Frontend Auths
-        scope: "read:current_user update:current_user_metadata" # scope for frontend tokens
+        clientId: "" # Client Id for accessing the API and Frontend Auths
+        scope: "read:messages" # scope for frontend tokens
 
       # Git Repo details which will be used by GitOps/Flux.
       # IMPORTANT: Do not check-in your password, the git_access_token!
@@ -330,16 +340,15 @@ network:
       auth:
         type: JWT
         jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json" # JSON Web Key Set containing public keys used by the Auth0 API
-        audience: "https://inteli-poc.com/api" # Identifier of the Auth0 API
+        audience: "https://inteli-poc-tiertwo.com/api" # Identifier of the Auth0 API
         issuer: "https://inteli-poc.eu.auth0.com/"  # Issuer Domain of the Auth0 API, Don't forget the ending /
         tokenUrl: "https://inteli-poc.eu.auth0.com/oauth/token" # Auth0 API endpoint that issues an Authorisation (Bearer) access token
-        clientId: "1KBiXFF5x3WOu4alBxQO56jC2Ookwlpe" # Client Id for accessing the API and Frontend Auths
-        secret: "hZfRB9x5xl9R-5o1vyhB3LSwEXgVxOsgQsLYlKzCYvHzcbrfRc4XO8Ke76xneikv"
+        clientId: "" # Client Id for accessing the API and Frontend Auths
       frontendAuth:
         enabled: true # toggle to enable/disable frontend auth
         domain: "inteli-poc.eu.auth0.com" # domain of the auth0 tenant
-        clientId: "XwrjoneSUUufU9mleoTGOXJNTfmqXbu3" # Client Id for accessing the API and Frontend Auths
-        scope: "read:current_user update:current_user_metadata" # scope for frontend tokens
+        clientId: "" # Client Id for accessing the API and Frontend Auths
+        scope: "read:messages" # scope for frontend tokens
 
       # Git Repo details which will be used by GitOps/Flux.
       # IMPORTANT: Do not check-in your password, the git_access_token!
@@ -366,7 +375,7 @@ network:
             port: 30333
             ambassador: 15030       #Port exposed on ambassador service (use one port per org if using single cluster)
           rpc:
-            port: 9933            
+            port: 9933
           ws:
             port: 9944
           ipfs:
@@ -375,6 +384,8 @@ network:
             apiPort: 5001
           api:
             port: 80
+          frontend:
+            ambassador: 443
           postgresql:
             port: 5432
             user: postgres
