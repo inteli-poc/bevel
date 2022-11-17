@@ -12,7 +12,6 @@ data:
   frontendDomain: {{ .Values.auth.frontendDomain }}
   frontendScope: {{ .Values.auth.frontendScope }}
   inteliApiAudience: {{ .Values.auth.inteliApiAudience }}
-  inteliApiTokenUrl: {{ .Values.auth.inteliApiTokenUrl }}
   inteliApiAddress: {{ .Values.config.inteliApiAddr }}
   frontendPort: {{ .Values.config.port | quote }}
   logoPath: {{ .Values.config.logo }}

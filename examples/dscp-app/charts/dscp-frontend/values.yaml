@@ -19,7 +19,6 @@ auth:
   frontendDomain: 
   frontendScope:
   inteliApiAudience:
-  inteliApiTokenUrl:
 
 ingress: 
   enabled: false

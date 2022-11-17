@@ -81,12 +81,7 @@ spec:
                 jq -r 'if .errors then . else . end')
               validateVaultResponse "secret (${vault_secret_key})" "${LOOKUP_SECRET_RESPONSE}" "LOOKUPSECRETRESPONSE"
               frontendClientKey=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["frontendClientId"]')
-              inteliApiClientKey=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["inteliApiClientId"]')
-              inteliApiSecretKey=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["inteliApiSecret"]')
-                            
               echo -n "${frontendClientKey}" > ${MOUNT_PATH}/frontendClientKey
-              echo -n "${inteliApiClientKey}" > ${MOUNT_PATH}/inteliApiClientKey
-              echo -n "${inteliApiSecretKey}" > ${MOUNT_PATH}/inteliApiSecretKey
       containers:
         - name: inteli-frontend
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
@@ -110,8 +105,6 @@ spec:
             #!/usr/bin/env sh
 
             export REACT_APP_AUTH0_CLIENTID=$(cat /secret/frontendClientKey)
-            export REACT_APP_AUTH0_API_CLIENTID=$(cat /secret/inteliApiClientKey)
-            export REACT_APP_AUTH0_API_SECRET=$(cat /secret/inteliApiSecretKey)
 
             npm run build
             serve -s build -p $PORT
@@ -131,11 +124,6 @@ spec:
                 configMapKeyRef:
                   name: {{ include "inteli-frontend.fullname" . }}-config
                   key: inteliApiAudience
-            - name: REACT_APP_AUTH0_API_TOKENURL
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "inteli-frontend.fullname" . }}-config
-                  key: inteliApiTokenUrl
             - name: REACT_APP_BASE_URL
               valueFrom:
                 configMapKeyRef:

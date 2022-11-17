@@ -30,7 +30,6 @@ spec:
       frontendDomain: {{ org.frontendAuth.domain }}
       frontendScope: {{ org.frontendAuth.scope }}
       inteliApiAudience: {{ org.auth.audience }}
-      inteliApiTokenUrl: {{ org.auth.tokenUrl }}
     ingress:
       enabled: false
       className: "gce"
