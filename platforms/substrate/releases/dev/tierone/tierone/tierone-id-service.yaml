@@ -30,7 +30,7 @@ spec:
       auth:
         type: NONE
         jwksUri: https://inteli-poc.eu.auth0.com/.well-known/jwks.json
-        audience: https://inteli-poc.com/api
+        audience: https://inteli-poc-tierone.com/api
         issuer: https://inteli-poc.eu.auth0.com/
         tokenUrl: https://inteli-poc.eu.auth0.com/oauth/token
     ingress:
