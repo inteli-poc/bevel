@@ -41,7 +41,7 @@ spec:
     deployment:
       annotations: {}
       livenessProbe:
-        enabled: true
+        enabled: false
       replicaCount: 1
     ingress:
       enabled: false
