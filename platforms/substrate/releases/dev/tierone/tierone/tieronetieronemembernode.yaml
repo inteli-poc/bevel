@@ -59,7 +59,7 @@ spec:
         - "--rpc-cors=all"
         - "--unsafe-ws-external"
         - "--unsafe-rpc-external"
-        - "--bootnodes '/dns4/oem-bn.subs.intelipoc.com/tcp/15010/p2p/12D3KooWBrp6vPuouxQJb9xwZSUyCNFRXjmvSftWXCzrPKBjAkWy'"
+        - "--bootnodes '/dns4/oem-bn.vitalam.intelipoc.com/tcp/15010/p2p/12D3KooWFi1QJCQf73tD6jpPh5b9YaH3uaCgrfUmNESZAwUhrq3L'"
         - "--pruning=archive"
       keys:
         - type: "gran"
