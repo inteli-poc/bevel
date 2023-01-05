@@ -26,7 +26,7 @@ spec:
 
       filter: 
         extract: $ts
-        pattern: v1.3.1-[0-9a-fA-F0-9]+-(?P<ts>.*)
+        pattern: v1.*.*-[0-9a-fA-F0-9]+-(?P<ts>.*)
 
     git:
       fluxrepo: flux-dev
