@@ -38,13 +38,11 @@ spec:
         audience: https://inteli-poc-tierone.com/api
         issuer: https://inteli-poc.eu.auth0.com/
         tokenUrl: https://inteli-poc.eu.auth0.com/oauth/token
-
     deployment:
       annotations: {}
       livenessProbe:
         enabled: true
       replicaCount: 1
-
     ingress:
       enabled: false
       annotations: {}
@@ -55,28 +53,23 @@ spec:
         - /v1/order
         - /v1/part
         - /v1/recipe
-
     service:
       annotations: {}
       enabled: false
-      port: 
-
+      port:
     image:
       repository: ghcr.io/inteli-poc/inteli-api # {"$imagepolicy": "flux-dev:inteli-api:name"}
       pullPolicy: IfNotPresent
-      tag: 'v1.0.0' # {"$imagepolicy": "flux-dev:inteli-api:tag"}
-      pullSecrets: 
-
+      tag: 'v1.3.1-4265401-1673345284' # {"$imagepolicy": "flux-dev:inteli-api:tag"}
+      pullSecrets:
     postgresql:
       enabled: false
       postgresqlDatabase: inteli-api
       postgresqlUsername: postgres
       postgresqlPassword: postgres123
-
-
     proxy:
       provider: ambassador
-      name: tierone 
+      name: tierone
       external_url_suffix: vitalam.intelipoc.com
       port: 443
       issuedFor: tierone
