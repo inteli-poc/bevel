@@ -113,6 +113,7 @@ network:
         domain: "inteli-poc.eu.auth0.com" # domain of the auth0 tenant
         clientId: "" # Client Id for accessing the API and Frontend Auths
         scope: "read:messages" # scope for frontend tokens
+        mapKey: "Google Maps API Key" # API key for use of the google map
       kinaxis:
         keyPath: "/path/to/key" # ensure you have a service account key.json with push access to gcp buckets stored in the specified path
       
@@ -246,6 +247,7 @@ network:
         domain: "inteli-poc.eu.auth0.com" # domain of the auth0 tenant
         clientId: "" # Client Id for accessing the API and Frontend Auths
         scope: "read:messages" # scope for frontend tokens
+        mapKey: "Google Maps API Key" # API key for use of the google map
 
       # Git Repo details which will be used by GitOps/Flux.
       # IMPORTANT: Do not check-in your password, the git_access_token!
@@ -349,6 +351,7 @@ network:
         domain: "inteli-poc.eu.auth0.com" # domain of the auth0 tenant
         clientId: "" # Client Id for accessing the API and Frontend Auths
         scope: "read:messages" # scope for frontend tokens
+        mapKey: "Google Maps API Key" # API key for use of the google map
 
       # Git Repo details which will be used by GitOps/Flux.
       # IMPORTANT: Do not check-in your password, the git_access_token!

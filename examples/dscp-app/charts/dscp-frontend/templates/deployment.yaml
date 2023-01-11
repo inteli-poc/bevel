@@ -81,7 +81,9 @@ spec:
                 jq -r 'if .errors then . else . end')
               validateVaultResponse "secret (${vault_secret_key})" "${LOOKUP_SECRET_RESPONSE}" "LOOKUPSECRETRESPONSE"
               frontendClientKey=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["frontendClientId"]')
+              mapKey=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["mapKey"]')
               echo -n "${frontendClientKey}" > ${MOUNT_PATH}/frontendClientKey
+              echo -n "${mapKey}" > ${MOUNT_PATH}/mapKey
       containers:
         - name: inteli-frontend
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
@@ -105,6 +107,7 @@ spec:
             #!/usr/bin/env sh
 
             export REACT_APP_AUTH0_CLIENTID=$(cat /secret/frontendClientKey)
+            export REACT_APP_GMAPS_KEY=$(cat /secret/mapKey)
 
             npm run build
             serve -s build -p $PORT
