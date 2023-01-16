@@ -15,7 +15,7 @@ metadata:
       prefix: /      
       host: {{ .Values.proxy.name }}-inteli-api.{{ .Values.proxy.external_url_suffix }}
       service: {{ $fullname }}:{{ .Values.config.port }}
-      timeout_ms: 20000
+      timeout_ms: 200000
       tls: false      
       ---
       apiVersion: ambassador/v2
