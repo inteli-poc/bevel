@@ -27,9 +27,9 @@ spec:
       externalIpfsPort: {{ peer.ipfs.apiPort }} 
       enableLivenessProbe: true
       substrateStatusPollPeriodMs: 10000
-      substrateStatusTimeoutMs: 2000
+      substrateStatusTimeoutMs: 20000
       ipfsStatusPollPeriodMs: 10000
-      ipfsStatusTimeoutMs: 2000
+      ipfsStatusTimeoutMs: 20000
       auth:
         type: NONE
         jwksUri: {{ auth_jwksUri }}
