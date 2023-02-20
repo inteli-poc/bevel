@@ -21,8 +21,10 @@ spec:
       pullSecrets: regcred
 {% endif %}      
       pollingInterval: 1m0s
-      policy: {{ component_policy }}
-
+      policy: 
+        {{ component_policy | to_nice_yaml | indent(6) }}
+      filter: 
+        {{ component_filter | to_nice_yaml | indent(8) }}
     git:
       fluxrepo: flux-{{ network.env.type }}
       branch: {{ component_branch }}

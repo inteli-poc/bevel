@@ -10,6 +10,7 @@
   vars:
     type: "inteli-api"
     component_name: "{{ peer.name }}-inteli-api"
+    external_addr: "https://{{ component_name }}.{{ external_suffix }}"
     name: "{{ peer.name }}"
     charts_dir: "examples/dscp-app/charts"
     db_address: "{{ peer.name }}-postgresql"

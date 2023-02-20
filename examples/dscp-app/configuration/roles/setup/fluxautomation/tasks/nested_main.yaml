@@ -16,5 +16,6 @@
     component_branch: "{{ org.gitops.branch }}"
     component_repo: "{{ image.repo }}"
     component_policy: "{{ image.policy }}"
+    component_filter: "{{ image.filter }}"
     charts_dir: "platforms/shared/charts"
     values_dir: "{{ playbook_dir }}/../../../{{ org.gitops.release_dir }}"

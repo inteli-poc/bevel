@@ -98,6 +98,7 @@
     vars:
       component_ns: "{{ org.name | lower }}-subs"
       component_gitops: "{{ org.gitops }}"
+      external_suffix: "{{ org.external_url_suffix }}"
       auth_type: "{{ org.auth.type }}"
       auth_jwksUri: "{{ org.auth.jwksUri }}"
       auth_audience: "{{ org.auth.audience }}"
@@ -117,6 +118,7 @@
       component_ns: "{{ org.name | lower }}-subs"
       component_gitops: "{{ org.gitops }}"
       values_dir: "{{ playbook_dir }}/../../../{{ org.gitops.release_dir }}/{{ org.name | lower }}"
+      component_vault: "{{ org.vault }}"
     loop: "{{ network['organizations'] }}"
     loop_control:
       loop_var: org
@@ -138,7 +140,7 @@
     when: 
       - network.type == 'substrate' 
 
-  #Git Push : Pushes the above generated files to git directory 
+  # Add Flux V2 Image automation
   - name: Setup flux automation for the images
     include_role: 
       name: "setup/fluxautomation"

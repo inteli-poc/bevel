@@ -10,7 +10,15 @@ config:
   #E.g. logLevel: info
   logLevel: info  
   enableLivenessProbe: false
+  inteliApiAddr: 
+  logo: 
+  kinaxisUrl: 
+  persona:
 
+auth:
+  frontendDomain: 
+  frontendScope:
+  inteliApiAudience:
 
 ingress: 
   enabled: false

@@ -3,8 +3,17 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 ##############################################################################################
-# Create chain-watcher values file for the peer nodes
-- name: "Create chain-watcher values file for all peers"
+# Store service account key into vault
+- name: "Store service account key in vault"
+  shell: |
+     vault kv put {{ component_vault.secret_path | default('secretsv2') }}/{{ component_ns }}/gcpkey gcpkey="$(cat {{ org.kinaxis.keyPath }})" 
+  environment:
+    VAULT_ADDR: "{{ component_vault.url }}"
+    VAULT_TOKEN: "{{ component_vault.root_token }}"
+  when: org.kinaxis is defined
+
+# Create chain-watcher values file for oem node
+- name: "Create chain-watcher values file for oem peer"
   include_role:
     name: helm_component
   vars:
@@ -14,10 +23,28 @@
     charts_dir: "examples/dscp-app/charts"
     dscp_api_addr: "{{ peer.name }}-api"
     db_host_addr: "{{ peer.name }}-postgresql"
+    createInit: "true"
   loop: "{{ org.services.peers }}"
   loop_control:
     loop_var: peer
-  when: (peer.postgresql is defined) and (peer.inteli_api is defined)
+  when: (peer.postgresql is defined) and (peer.inteli_api is defined) and (org.kinaxis is defined)
+
+# Create chain-watcher values file for all other peer nodes
+- name: "Create chain-watcher values file for all other peers"
+  include_role:
+    name: helm_component
+  vars:
+    type: "dscp-chain-watcher"
+    component_name: "{{ peer.name }}-chain-watcher"
+    name: "{{ peer.name }}"
+    charts_dir: "examples/dscp-app/charts"
+    dscp_api_addr: "{{ peer.name }}-api"
+    db_host_addr: "{{ peer.name }}-postgresql"
+    createInit: "false"
+  loop: "{{ org.services.peers }}"
+  loop_control:
+    loop_var: peer
+  when: (peer.postgresql is defined) and (peer.inteli_api is defined) and (org.kinaxis is not defined)
 
 # Push the chain-watcher deployment files to repository
 - name: "Push the created deployment files to repository"

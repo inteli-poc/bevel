@@ -146,6 +146,11 @@ spec:
                 configMapKeyRef:
                   name: {{ include "inteli-api.fullname" . }}-config
                   key: identityServicePort
+            - name: EXTERNAL_ORIGIN
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "inteli-api.fullname" . }}-config
+                  key: externalAddress
             - name: AUTH_TYPE
               valueFrom:
                 configMapKeyRef:

@@ -39,13 +39,28 @@ network:
     autodeploy:
       - name: dscp-chain-watcher
         repo: ghcr.io/inteli-poc/dscp-chain-watcher
-        policy: 1.x.x
+        filter:
+          pattern: v1.*.*-[0-9a-fA-F0-9]+-(?P<ts>.*)
+          extract: $ts
+        policy: 
+          numerical:
+            order: asc
       - name: inteli-frontend
         repo: ghcr.io/inteli-poc/inteli-frontend
-        policy: 0.x.x
+        filter:
+          pattern: v1.*.*-[0-9a-fA-F0-9]+-(?P<ts>.*)
+          extract: $ts
+        policy: 
+          numerical:
+            order: asc
       - name: inteli-api
         repo: ghcr.io/inteli-poc/inteli-api
-        policy: 1.x.x
+        filter:
+          pattern: v1.*.*-[0-9a-fA-F0-9]+-(?P<ts>.*)
+          extract: $ts
+        policy: 
+          numerical:
+            order: asc
   
   # Following are the configurations for the common Substrate network
   config:
@@ -69,6 +84,7 @@ network:
     - organization:
       name: oem
       unit: OEM
+      persona: Buyer
       type: superuser
       external_url_suffix: dscp.inteli-poc.com   # This is the url suffix that will be added in DNS recordset. Must be different for different clusters
       cloud_provider: gcp   # Options: aws, azure, gcp
@@ -86,12 +102,20 @@ network:
         secret_path: "secretsv2"
       # these are the Auth0 API values that will be used for authentication to substrate api endpoints. Eg. tokenUrl: https://example.eu.auth0.com/oauth/token
       auth:
-        type: "JWT" # Options: NONE, JWT
-        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json"  # JSON Web Key Set containing public keys used by the Auth0 API
-        audience: "https://inteli-poc.com/api"  # Identifier of the Auth0 API
-        issuer: "https://inteli-poc.eu.auth0.com/"      # # Issuer Domain of the Auth0 API, Don't forget the ending /
+        type: JWT
+        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json" # JSON Web Key Set containing public keys used by the Auth0 API
+        audience: "https://inteli-poc.com/api" # Identifier of the Auth0 API
+        issuer: "https://inteli-poc.eu.auth0.com/"  # Issuer Domain of the Auth0 API, Don't forget the ending /
         tokenUrl: "https://inteli-poc.eu.auth0.com/oauth/token" # Auth0 API endpoint that issues an Authorisation (Bearer) access token
-        clientId: "ORG1_CLIENT_ID"        # Client Id for accessing the API and Frontend Auths
+        clientId: "" # Client Id for accessing the API and Frontend Auths
+      frontendAuth:
+        enabled: true # toggle to enable/disable frontend auth
+        domain: "inteli-poc.eu.auth0.com" # domain of the auth0 tenant
+        clientId: "" # Client Id for accessing the API and Frontend Auths
+        scope: "read:messages" # scope for frontend tokens
+        mapKey: "Google Maps API Key" # API key for use of the google map
+      kinaxis:
+        keyPath: "/path/to/key" # ensure you have a service account key.json with push access to gcp buckets stored in the specified path
       
       # Git Repo details which will be used by GitOps/Flux.
       # Do not check-in git_access_token
@@ -163,7 +187,6 @@ network:
           subject: "O=OEMIPFS,OU=OEMIPFS,London,C=GB" # This is the node subject.
           type: member         # value can be validator or bootnode ( or ipfs, for vitalAM)
           nodeHost: oem        # peer name of substrate node for IPFS API-WS connection
-          persona: cust
           p2p:
             port: 30333
             ambassador: 15015       #Port exposed on ambassador service (use one port per org if using single cluster)
@@ -195,6 +218,7 @@ network:
     - organization:
       name: tierone
       unit: Tier1
+      persona: Supplier
       external_url_suffix: dscp.inteli-poc.com
       
       cloud_provider: gcp   # Options: aws, azure, gcp
@@ -213,11 +237,17 @@ network:
       # these are the Auth0 API values that will be used for authentication to substrate api endpoints. Eg. tokenUrl: https://example.eu.auth0.com/oauth/token
       auth:
         type: JWT
-        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json"  # JSON Web Key Set containing public keys used by the Auth0 API
-        audience: "https://inteli-poc.com/api"  # Identifier of the Auth0 API
-        issuer: "https://inteli-poc.eu.auth0.com/"      # # Issuer Domain of the Auth0 API, Don't forget the ending /
+        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json" # JSON Web Key Set containing public keys used by the Auth0 API
+        audience: "https://inteli-poc-tierone.com/api" # Identifier of the Auth0 API
+        issuer: "https://inteli-poc.eu.auth0.com/"  # Issuer Domain of the Auth0 API, Don't forget the ending /
         tokenUrl: "https://inteli-poc.eu.auth0.com/oauth/token" # Auth0 API endpoint that issues an Authorisation (Bearer) access token
-        clientId: "ORG2_CLIENT_ID"        # Client Id for accessing the API and Frontend Auths
+        clientId: "" # Client Id for accessing the API and Frontend Auths
+      frontendAuth:
+        enabled: true # toggle to enable/disable frontend auth
+        domain: "inteli-poc.eu.auth0.com" # domain of the auth0 tenant
+        clientId: "" # Client Id for accessing the API and Frontend Auths
+        scope: "read:messages" # scope for frontend tokens
+        mapKey: "Google Maps API Key" # API key for use of the google map
 
       # Git Repo details which will be used by GitOps/Flux.
       # IMPORTANT: Do not check-in your password, the git_access_token!
@@ -241,7 +271,6 @@ network:
           subject: "O=Tier1,OU=Tier1,L=47.38/8.54/Zurich,C=CH"  # This is the node identity. L=lat/long is mandatory for supplychain sample app
           type: member         # value can be validator or bootnode ( or ipfs, for vitalAM)
           nodeHost: tierone    # peer name of substrate node for IPFS API-WS connection
-          persona: am
           p2p:
             port: 30333
             ambassador: 15020       #Port exposed on ambassador service (use one port per org if using single cluster)
@@ -294,6 +323,7 @@ network:
     - organization:
       name: tiertwo
       unit: Tier2
+      persona: ThirdParty
       external_url_suffix: dscp.inteli-poc.com
       cloud_provider: gcp   # Options: aws, azure, gcp
       
@@ -311,11 +341,17 @@ network:
       # these are the Auth0 API values that will be used for authentication to substrate api endpoints. Eg. tokenUrl: https://example.eu.auth0.com/oauth/token
       auth:
         type: JWT
-        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json"  # JSON Web Key Set containing public keys used by the Auth0 API
-        audience: "https://inteli-poc.com/api"  # Identifier of the Auth0 API
-        issuer: "https://inteli-poc.eu.auth0.com/"      # # Issuer Domain of the Auth0 API, Don't forget the ending /
+        jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json" # JSON Web Key Set containing public keys used by the Auth0 API
+        audience: "https://inteli-poc-tiertwo.com/api" # Identifier of the Auth0 API
+        issuer: "https://inteli-poc.eu.auth0.com/"  # Issuer Domain of the Auth0 API, Don't forget the ending /
         tokenUrl: "https://inteli-poc.eu.auth0.com/oauth/token" # Auth0 API endpoint that issues an Authorisation (Bearer) access token
-        clientId: "ORG3_CLIENT_ID"        # Client Id for accessing the API and Frontend Auths
+        clientId: "" # Client Id for accessing the API and Frontend Auths
+      frontendAuth:
+        enabled: true # toggle to enable/disable frontend auth
+        domain: "inteli-poc.eu.auth0.com" # domain of the auth0 tenant
+        clientId: "" # Client Id for accessing the API and Frontend Auths
+        scope: "read:messages" # scope for frontend tokens
+        mapKey: "Google Maps API Key" # API key for use of the google map
 
       # Git Repo details which will be used by GitOps/Flux.
       # IMPORTANT: Do not check-in your password, the git_access_token!
@@ -338,12 +374,11 @@ network:
           subject: "O=Tier2,OU=Tier2,L=40.73/-74/New York,C=US" # This is the node identity. L=lat/long is mandatory for supplychain sample app
           type: member         # value can be validator or bootnode ( or ipfs, for vitalAM)
           nodeHost: tiertwo    # peer name of substrate node for IPFS API-WS connection
-          persona: lab
           p2p:
             port: 30333
             ambassador: 15030       #Port exposed on ambassador service (use one port per org if using single cluster)
           rpc:
-            port: 9933            
+            port: 9933
           ws:
             port: 9944
           ipfs:
@@ -352,6 +387,8 @@ network:
             apiPort: 5001
           api:
             port: 80
+          frontend:
+            ambassador: 443
           postgresql:
             port: 5432
             user: postgres
