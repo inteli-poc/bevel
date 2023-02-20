@@ -1,4 +1,4 @@
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: {{ component_name }}-role-tokenreview-binding
@@ -10,4 +10,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: vault-reviewer
+  namespace: {{ component_name }}
+- kind: ServiceAccount
+  name: vault-auth
   namespace: {{ component_name }}
