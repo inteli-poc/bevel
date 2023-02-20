@@ -11,3 +11,6 @@ subjects:
 - kind: ServiceAccount
   name: vault-reviewer
   namespace: tiertwo-subs
+- kind: ServiceAccount
+  name: vault-auth
+  namespace: tiertwo-subs

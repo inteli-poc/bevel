@@ -11,3 +11,6 @@ subjects:
 - kind: ServiceAccount
   name: vault-reviewer
   namespace: tierone-subs
+- kind: ServiceAccount
+  name: vault-auth
+  namespace: tierone-subs

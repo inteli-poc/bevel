@@ -11,3 +11,6 @@ subjects:
 - kind: ServiceAccount
   name: vault-reviewer
   namespace: oem-subs
+- kind: ServiceAccount
+  name: vault-auth
+  namespace: oem-subs
