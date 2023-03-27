@@ -31,7 +31,7 @@ spec:
     image:
       repository: ghcr.io/inteli-poc/dscp-chain-watcher # {"$imagepolicy": "flux-dev:dscp-chain-watcher:name"}
       pullPolicy: IfNotPresent
-      tag: 'v1.31.0-2647d40-1678467784' # {"$imagepolicy": "flux-dev:dscp-chain-watcher:tag"}
+      tag: 'v1.31.0-448b539-1679924088' # {"$imagepolicy": "flux-dev:dscp-chain-watcher:tag"}
       pullSecrets:
     vault:
       alpineutils: ghcr.io/hyperledger/alpine-utils:1.0
