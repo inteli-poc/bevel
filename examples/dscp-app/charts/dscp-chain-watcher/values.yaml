@@ -10,6 +10,8 @@ config:
   dscpApiPort: 
   idServiceHost:
   idServicePort:
+  inteliApiHost:
+  inteliApiPort:
 
 image:
   repository: ghcr.io/inteli-poc/dscp-chain-watcher

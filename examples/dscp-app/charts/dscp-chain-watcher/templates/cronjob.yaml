@@ -151,6 +151,16 @@ spec:
                     configMapKeyRef:
                       name: {{ include "chain-watcher.fullname" . }}-config
                       key: idServicePort
+                - name: INTELI_API_HOST
+                  valueFrom:
+                    configMapKeyRef:
+                      name: {{ include "chain-watcher.fullname" . }}-config
+                      key: inteliApiHost
+                - name: INTELI_API_PORT
+                  valueFrom:
+                    configMapKeyRef:
+                      name: {{ include "chain-watcher.fullname" . }}-config
+                      key: inteliApiPort
           volumes:
             - name: config
               emptyDir:

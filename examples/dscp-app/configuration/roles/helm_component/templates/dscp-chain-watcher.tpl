@@ -28,11 +28,13 @@ spec:
       dscpApiPort: {{ peer.api.port }}
       idServiceHost: {{ peer.name }}-id-service.{{ component_ns }}
       idServicePort: {{ peer.id_service.port }}
+      inteliApiHost: {{ name }}-{{ peer.inteli_api.db_name }}.{{ component_ns }}
+      inteliApiPort: {{ peer.inteli_api.port }}
       
     image:
       repository: ghcr.io/inteli-poc/dscp-chain-watcher # {"$imagepolicy": "flux-{{ network.env.type }}:dscp-chain-watcher:name"}
       pullPolicy: IfNotPresent
-      tag: 'v1.1.0-456ddf7-1667382478' # {"$imagepolicy": "flux-{{ network.env.type }}:dscp-chain-watcher:tag"}
+      tag: 'v1.31.0-57ffb4f-1681484176' # {"$imagepolicy": "flux-{{ network.env.type }}:dscp-chain-watcher:tag"}
       pullSecrets: 
 
     vault:

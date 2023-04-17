@@ -16,3 +16,5 @@ data:
   dbName: {{ .Values.config.dbName }}
   idServiceHost: {{ .Values.config.idServiceHost }}
   idServicePort: {{ .Values.config.idServicePort | quote }}
+  inteliApiHost: {{ .Values.config.inteliApiHost }}
+  InteliApiPort: {{ .Values.config.inteliApiPort | quote }}
