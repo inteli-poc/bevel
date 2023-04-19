@@ -40,8 +40,6 @@ spec:
                 value: {{ .Values.vault.authpath }}
               - name: VAULT_APP_ROLE
                 value: {{ .Values.vault.role }}
-              - name: MOUNT_PATH
-                value: "/secret"
               - name: AUDIENCE
                 value: {{ .Values.config.inteliApiAudience }}
               - name: GRANT_TYPE
@@ -52,6 +50,8 @@ spec:
                 value: {{ .Values.config.inteliApiHost }}
               - name: INTELI_PORT
                 value: {{ .Values.config.inteliApiPort }}
+              - name: MOUNT_PATH
+                value: "/secret"
               command: ["sh", "-c"]
               args:
               - |-
@@ -179,13 +179,13 @@ spec:
                       key: dscpApiPort
                 - name: DB_USERNAME
                   valueFrom:
-                    configMapKeyRef:
-                      name: {{ include "chain-watcher.fullname" . }}-config
+                    secretKeyRef:
+                      name: {{ include "chain-watcher.fullname" . }}-secret
                       key: dbUsername
                 - name: DB_PASSWORD
                   valueFrom:
-                    configMapKeyRef:
-                      name: {{ include "chain-watcher.fullname" . }}-config
+                    secretKeyRef:
+                      name: {{ include "chain-watcher.fullname" . }}-secret
                       key: dbPassword
                 - name: IDENTITY_SERVICE_HOST
                   valueFrom:
