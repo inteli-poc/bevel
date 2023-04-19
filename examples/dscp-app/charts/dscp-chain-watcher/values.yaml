@@ -18,6 +18,7 @@ config:
   inteliApiAudience:
   inteliApiGrant:
   inteliApiTokenAddr:
+  fetchGcpKey:
 
 image:
   repository: ghcr.io/inteli-poc/dscp-chain-watcher
@@ -32,4 +33,3 @@ vault:
   serviceaccountname:
   role:
   authpath:
-  createInitContainer:

@@ -35,6 +35,7 @@ spec:
       inteliApiAudience: {{ org.auth.audience }}
       inteliApiGrant: {{ org.auth.grantType }}
       inteliApiTokenAddr: {{ org.auth.tokenUrl }}
+      fetchGcpKey: {{ fetch_gcp_key }}
       
     image:
       repository: ghcr.io/inteli-poc/dscp-chain-watcher # {"$imagepolicy": "flux-{{ network.env.type }}:dscp-chain-watcher:name"}
@@ -49,4 +50,3 @@ spec:
       serviceaccountname: vault-auth
       role: vault-role
       authpath: substrate{{ org.name | lower }}
-      createInitContainer: {{ createInit }}

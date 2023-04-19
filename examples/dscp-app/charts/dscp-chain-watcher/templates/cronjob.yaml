@@ -53,6 +53,8 @@ spec:
                   configMapKeyRef:
                     name: {{ include "chain-watcher.fullname" . }}-config
                     key: inteliApiPort
+              - name: FETCH_GCP_KEY
+                value: {{ .Values.config.fetchGcpKey }}
               - name: MOUNT_PATH
                 value: "/secret"
               command: ["sh", "-c"]
@@ -90,17 +92,19 @@ spec:
                   validateVaultResponse 'vault login token' "${VAULT_CLIENT_TOKEN}"
                   echo "Logged into Vault"
       
-                  vault_secret_key="${VAULT_SECRET_PREFIX}/gcpkey"
+                  if [ "${FETCH_GCP_KEY}" == "true" ]; then
+                    vault_secret_key="${VAULT_SECRET_PREFIX}/gcpkey"
 
-                  echo "Getting the gcp key from vault: $vault_secret_key"          
-                  LOOKUP_SECRET_RESPONSE=$(curl -sS \
-                    --header "X-Vault-Token:${VAULT_CLIENT_TOKEN}" \
-                    ${VAULT_ADDR}/v1/${vault_secret_key} | \
-                    jq -r 'if .errors then . else . end')
-                  validateVaultResponse "secret (${vault_secret_key})" "${LOOKUP_SECRET_RESPONSE}" "LOOKUPSECRETRESPONSE"
-                  gcpKey=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["gcpkey"]')
-                                
-                  echo -n "${gcpKey}" > ${MOUNT_PATH}/gcpKey.json
+                    echo "Getting the gcp key from vault: $vault_secret_key"          
+                    LOOKUP_SECRET_RESPONSE=$(curl -sS \
+                      --header "X-Vault-Token:${VAULT_CLIENT_TOKEN}" \
+                      ${VAULT_ADDR}/v1/${vault_secret_key} | \
+                      jq -r 'if .errors then . else . end')
+                    validateVaultResponse "secret (${vault_secret_key})" "${LOOKUP_SECRET_RESPONSE}" "LOOKUPSECRETRESPONSE"
+                    gcpKey=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["gcpkey"]')
+                                  
+                    echo -n "${gcpKey}" > ${MOUNT_PATH}/gcpKey.json
+                  fi
 
                   vault_secret_key_auth="${VAULT_SECRET_PREFIX}/inteliAuth"
 
