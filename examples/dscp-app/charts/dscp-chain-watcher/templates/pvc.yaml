@@ -11,7 +11,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: chain-watcher-pvc
+  storageClassName: manual
   resources:
     requests:
       storage: 256Mi
