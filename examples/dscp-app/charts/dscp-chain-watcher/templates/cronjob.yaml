@@ -54,7 +54,10 @@ spec:
                     name: {{ include "chain-watcher.fullname" . }}-config
                     key: inteliApiPort
               - name: FETCH_GCP_KEY
-                value: {{ .Values.config.fetchGcpKey }}
+                valueFrom:
+                  configMapKeyRef:
+                    name: {{ include "chain-watcher.fullname" . }}-config
+                    key: fetchGcpKey
               - name: MOUNT_PATH
                 value: "/secret"
               command: ["sh", "-c"]
