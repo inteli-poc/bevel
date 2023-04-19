@@ -18,6 +18,8 @@ spec:
   releaseName: tierone-chain-watcher
   values:
     fullnameOverride: tierone-chain-watcher
+    metadata:
+      namespace: tierone-subs
     config:
       dbHost: tierone-postgresql.tierone-subs
       dbPort: 5432
