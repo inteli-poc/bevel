@@ -18,6 +18,3 @@ data:
   idServicePort: {{ .Values.config.idServicePort | quote }}
   inteliApiHost: {{ .Values.config.inteliApiHost }}
   inteliApiPort: {{ .Values.config.inteliApiPort | quote }}
-  inteliApiAudience: {{ .Values.config.inteliApiAudience }}
-  inteliApiGrant: {{ .Values.config.inteliApiGrant }}
-  inteliApiTokenAddr: {{ .Values.config.inteliApiTokenAddr }}
