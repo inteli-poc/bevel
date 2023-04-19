@@ -46,6 +46,8 @@ spec:
                 value: {{ .Values.config.inteliApiGrant }}
               - name: TOKEN_ADDR
                 value: {{ .Values.config.inteliApiTokenAddr }}
+              - name: INTELI_HOST
+                value: {{ .Values.config.inteliApiHost }}
               - name: MOUNT_PATH
                 value: "/secret"
               command: ["sh", "-c"]
