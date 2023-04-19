@@ -30,6 +30,9 @@ spec:
       idServicePort: 3001
       inteliApiHost: tierone-inteli-api.tierone-subs
       inteliApiPort: 3000
+      inteliApiAudience: https://inteli-poc-tierone.com/api
+      inteliApiGrant: client_credentials
+      inteliApiTokenAddr: https://inteli-poc.eu.auth0.com/oauth/token
       
     image:
       repository: ghcr.io/inteli-poc/dscp-chain-watcher # {"$imagepolicy": "flux-dev:dscp-chain-watcher:name"}
