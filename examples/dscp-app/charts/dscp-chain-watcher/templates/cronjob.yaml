@@ -179,13 +179,13 @@ spec:
                       key: dscpApiPort
                 - name: DB_USERNAME
                   valueFrom:
-                    secretKeyRef:
-                      name: {{ include "chain-watcher.fullname" . }}-secret
+                    configMapKeyRef:
+                      name: {{ include "chain-watcher.fullname" . }}-config
                       key: dbUsername
                 - name: DB_PASSWORD
                   valueFrom:
-                    secretKeyRef:
-                      name: {{ include "chain-watcher.fullname" . }}-secret
+                    configMapKeyRef:
+                      name: {{ include "chain-watcher.fullname" . }}-config
                       key: dbPassword
                 - name: IDENTITY_SERVICE_HOST
                   valueFrom:

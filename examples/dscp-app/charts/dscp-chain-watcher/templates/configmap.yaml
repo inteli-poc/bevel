@@ -21,3 +21,5 @@ data:
   inteliApiAudience: {{ .Values.config.inteliApiAudience }}
   inteliApiGrant: {{ .Values.config.inteliApiGrant }}
   inteliApiTokenAddr: {{ .Values.config.inteliApiTokenAddr }}
+  dbUsername: {{ .Values.config.dbUsername }}
+  dbPassword: {{ .Values.config.dbPassword }}
