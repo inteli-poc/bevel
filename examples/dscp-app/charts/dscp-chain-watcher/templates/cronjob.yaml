@@ -11,6 +11,10 @@ metadata:
   labels:
     app.kubernetes.io/name: {{ include "chain-watcher.fullname" . }}-cron-job
 spec:
+  volumes:
+    - name: config
+      persistentVolumeClaim:
+        claimName: chain-watcher-pvc
   schedule: "*/1 22 * * *" #Everyday at 22:01
   jobTemplate:
     spec:
@@ -30,8 +34,8 @@ spec:
               image: {{ .Values.vault.alpineutils }}
               imagePullPolicy: Always
               volumeMounts:
-              - name: config
-                mountPath: /secret
+                - name: config
+                  mountPath: /secret
               env:
               - name: VAULT_ADDR
                 value: {{ .Values.vault.address }}
@@ -143,8 +147,8 @@ spec:
               image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
               imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
               volumeMounts:
-              - name: config
-                mountPath: /secret
+                - name: config
+                  mountPath: /secret
               command: ["sh", "-c"]
               args:
               - |-
@@ -210,7 +214,3 @@ spec:
                     configMapKeyRef:
                       name: {{ include "chain-watcher.fullname" . }}-config
                       key: inteliApiPort
-          volumes:
-            - name: config
-              persistentVolumeClaim:
-                claimName: chain-watcher-pvc
