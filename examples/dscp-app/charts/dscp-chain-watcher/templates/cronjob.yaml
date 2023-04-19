@@ -128,14 +128,14 @@ spec:
                           exit 0
                       else
                           echo "response not ok - generating new token - ERROR: $checkResponse"
-                          jq -n -j --arg ID ${CLIENT_ID} --arg SECRET ${CLIENT_SECRET} --arg AUDIENCE ${AUDIENCE} --arg GRANT ${GRANT_TYPE} '{"client_id": $ID, "client_secret": $SECRET, "audience": $AUDIENCE, "grant_type": $GRANT}' > data.json
+                          jq -n -j --arg ID ${CLIENT_ID} --arg SECRET ${CLIENT_SECRET} --arg AUDIENCE ${AUDIENCE} --arg GRANT ${GRANT_TYPE} '{"client_id": $ID, "client_secret": $SECRET, "audience": $AUDIENCE, "grant_type": $GRANT}' > ${MOUNT_PATH}/data.json
                           curl -s -X POST -H "Content-Type: application/json" -d @${MOUNT_PATH}/data.json ${TOKEN_ADDR} | jq '.access_token' | tr -d '"' > ${MOUNT_PATH}/token.txt
                       fi
 
                   else
                       #Generate token and mount
                       echo "token is not present - generating token file"
-                      jq -n -j --arg ID ${CLIENT_ID} --arg SECRET ${CLIENT_SECRET} --arg AUDIENCE ${AUDIENCE} --arg GRANT ${GRANT_TYPE} '{"client_id": $ID, "client_secret": $SECRET, "audience": $AUDIENCE, "grant_type": $GRANT}' > data.json
+                      jq -n -j --arg ID ${CLIENT_ID} --arg SECRET ${CLIENT_SECRET} --arg AUDIENCE ${AUDIENCE} --arg GRANT ${GRANT_TYPE} '{"client_id": $ID, "client_secret": $SECRET, "audience": $AUDIENCE, "grant_type": $GRANT}' > ${MOUNT_PATH}/data.json
                       curl -s -X POST -H "Content-Type: application/json" -d @${MOUNT_PATH}/data.json ${TOKEN_ADDR} | jq '.access_token' | tr -d '"' > ${MOUNT_PATH}/token.txt
                   fi
           containers:
