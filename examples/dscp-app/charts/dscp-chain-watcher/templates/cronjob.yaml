@@ -49,7 +49,10 @@ spec:
               - name: INTELI_HOST
                 value: {{ .Values.config.inteliApiHost }}
               - name: INTELI_PORT
-                value: {{ .Values.config.inteliApiPort }}
+                valueFrom:
+                  configMapKeyRef:
+                    name: {{ include "chain-watcher.fullname" . }}-config
+                    key: inteliApiPort
               - name: MOUNT_PATH
                 value: "/secret"
               command: ["sh", "-c"]
