@@ -18,6 +18,8 @@ spec:
   releaseName: tiertwo-chain-watcher
   values:
     fullnameOverride: tiertwo-chain-watcher
+    metadata:
+      namespace: tiertwo-subs
     config:
       dbHost: tiertwo-postgresql.tiertwo-subs
       dbPort: 5432
