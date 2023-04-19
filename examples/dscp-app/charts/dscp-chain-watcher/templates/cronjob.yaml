@@ -40,6 +40,8 @@ spec:
                 value: {{ .Values.vault.authpath }}
               - name: VAULT_APP_ROLE
                 value: {{ .Values.vault.role }}
+              - name: AUDIENCE
+                value: {{ .Values.config.inteliApiAudience }}
               - name: GRANT_TYPE
                 value: {{ .Values.config.inteliApiGrant }}
               - name: TOKEN_ADDR
