@@ -11,10 +11,6 @@ metadata:
   labels:
     app.kubernetes.io/name: {{ include "chain-watcher.fullname" . }}-cron-job
 spec:
-  volumes:
-    - name: config
-      persistentVolumeClaim:
-        claimName: chain-watcher-pvc
   schedule: "*/1 22 * * *" #Everyday at 22:01
   jobTemplate:
     spec:
@@ -214,3 +210,7 @@ spec:
                     configMapKeyRef:
                       name: {{ include "chain-watcher.fullname" . }}-config
                       key: inteliApiPort
+          volumes:
+            - name: config
+              persistentVolumeClaim:
+                claimName: chain-watcher-pvc
