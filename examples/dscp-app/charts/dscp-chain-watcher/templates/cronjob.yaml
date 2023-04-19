@@ -40,16 +40,6 @@ spec:
                 value: {{ .Values.vault.authpath }}
               - name: VAULT_APP_ROLE
                 value: {{ .Values.vault.role }}
-              - name: AUDIENCE
-                value: {{ .Values.config.inteliApiAudience }}
-              - name: GRANT_TYPE
-                value: {{ .Values.config.inteliApiGrant }}
-              - name: TOKEN_ADDR
-                value: {{ .Values.config.inteliApiTokenAddr }}
-              - name: INTELI_HOST
-                value: {{ .Values.config.inteliApiHost }}
-              - name: INTELI_PORT
-                value: {{ .Values.config.inteliApiPort }}
               - name: MOUNT_PATH
                 value: "/secret"
               command: ["sh", "-c"]
