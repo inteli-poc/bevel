@@ -35,6 +35,7 @@ spec:
       inteliApiAudience: https://inteli-poc-tiertwo.com/api
       inteliApiGrant: client_credentials
       inteliApiTokenAddr: https://inteli-poc.eu.auth0.com/oauth/token
+      fetchGcpKey: false
       
     image:
       repository: ghcr.io/inteli-poc/dscp-chain-watcher # {"$imagepolicy": "flux-dev:dscp-chain-watcher:name"}
@@ -49,4 +50,3 @@ spec:
       serviceaccountname: vault-auth
       role: vault-role
       authpath: substratetiertwo
-      createInitContainer: false
