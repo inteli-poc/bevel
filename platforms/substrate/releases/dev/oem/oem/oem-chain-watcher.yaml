@@ -18,6 +18,8 @@ spec:
   releaseName: oem-chain-watcher
   values:
     fullnameOverride: oem-chain-watcher
+    metadata:
+      namespace: oem-subs
     config:
       dbHost: oem-postgresql.oem-subs
       dbPort: 5432

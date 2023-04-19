@@ -1,5 +1,8 @@
 fullnameOverride:
 
+metadata:
+  namespace:
+
 config:
   dbHost:
   dbPort:

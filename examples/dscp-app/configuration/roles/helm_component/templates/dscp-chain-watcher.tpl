@@ -18,6 +18,8 @@ spec:
   releaseName: {{ name }}-chain-watcher
   values:
     fullnameOverride: {{ name }}-chain-watcher
+    metadata:
+      namespace: {{ component_ns }}
     config:
       dbHost: {{ db_host_addr }}.{{ component_ns }}
       dbPort: {{ peer.postgresql.port }}
