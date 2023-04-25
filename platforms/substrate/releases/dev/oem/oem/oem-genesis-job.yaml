@@ -1,0 +1,55 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: oem-genesis-job
+  namespace: oem-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  interval: 1m
+  releaseName: oem-genesis-job
+  chart:
+    spec:
+      interval: 1m
+      sourceRef:
+        kind: GitRepository
+        name: flux-uat
+        namespace: flux-uat
+      chart: platforms/substrate/charts/substrate-genesis
+  values:
+    node:
+      name: oem-genesis-job
+      image: ghcr.io/digicatapult/dscp-node
+      imageTag: v4.2.2
+      pullPolicy: IfNotPresent
+      command: ./dscp-node
+    metadata:
+      name: oem-genesis-job
+      namespace: oem-subs
+    vault:
+      address: http://vault.internal.uat.intelipoc.com:20004
+      role: vault-role
+      authpath: substrateoem
+      serviceaccountname: vault-auth
+      certsecretprefix: secretsv2/oem-subs
+    chain: inteli-gcp
+    aura_keys: ['5DDHuiaKrojjTy9Hyy5BNtyi4E3beZ9nstkDkSEZvo98P157', '5DkoxKGxpS8F3HT8LtgeUw11BnqcwE5dUSJwPTG6N2FsHgFQ', '5E6kLmEBDQ2Kahj29MUm7nVNUKXzrgNEPcik7Riho2UFxkrH']
+    grandpa_keys: ['5G1yw7nZymHdcaMCZyyRJBh1jZe9qibkHbkgKjqDKwCgYYmj', '5Eq6jTBozR2j5igXCDtxR3TAY4bUXDTi978Yo2nj1ej8FZR8', '5GCWWVmjUazP5K8TU7WUQJTYGwm2QTLxyou5gbrjFncAEUW7']
+    members: 
+      -   account_id: 5HHN1WKCAzENEXUJUfUXY3LBvSGSdrpbEYh8uhEsfbw8HZew
+          balance: 1152921504606846976
+          nodes:
+          - 002408011220EE892402F5C618F6CDBFE582AE1B39284251B90D650C4F6DB146DA1004CD8F40
+          - 002408011220DDB42912493C33AC774D58FC373ECDCB87D5D83A082DB1A3210A34C7B9458209
+          - 0024080112203CF3DC2690185558A87BF3FB102DBEFE16EEF568F8AF8A081C2C9ADA37EFEF97
+          - 002408011220DDE7592925DDB0B32B87F2BA66310E889EF4959A22F6E3D70CC28B08E20968C3
+          - 0024080112203278152BF990835DB7AA78DF88BEB0430FAE3C8390608061BA8BEFAE15260269
+      -   account_id: 5H12mjBknQxCq7pnfoCgyp5bdfXXA76CiJVLmF6viPs7PTvp
+          balance: 1152921504606846976
+          nodes:
+          - 0024080112205D9343307B7F312D71545BA5BBD87BF2A9E1F9A8C7E5A5B00C983CC0068AE9A1
+          - 002408011220BAD4F9B96D4AE1748431EEB3823EC3594944466522F2969DBCC6820B7F6309B0
+      -   account_id: 5EcgKXtPVibz5qX6AVEVrp6t6gkK21xtTvciZGRUXdDBrq9n
+          balance: 1152921504606846976
+          nodes:
+          - 002408011220342FB4DDABEA104636F14DB5BA75FFA308133431A361CAE198C3C5662980978B
