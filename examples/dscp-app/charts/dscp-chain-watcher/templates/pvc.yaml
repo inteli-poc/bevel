@@ -3,10 +3,15 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 ##############################################################################################
-
-apiVersion: v2
-name: dscp-chain-watcher
-appVersion: '1.2.3'
-description: A Helm chart for dscp-chain-watcher
-version: '1.2.3'
-type: application
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: chain-watcher-pvc
+  namespace: {{ .Values.metadata.namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 256Mi

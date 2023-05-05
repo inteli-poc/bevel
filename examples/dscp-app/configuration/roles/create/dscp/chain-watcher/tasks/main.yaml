@@ -3,14 +3,23 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 ##############################################################################################
-# Store service account key into vault
-- name: "Store service account key in vault"
+# Store gcp key into vault
+- name: "Store gcp key in vault"
   shell: |
      vault kv put {{ component_vault.secret_path | default('secretsv2') }}/{{ component_ns }}/gcpkey gcpkey="$(cat {{ org.kinaxis.keyPath }})" 
   environment:
     VAULT_ADDR: "{{ component_vault.url }}"
     VAULT_TOKEN: "{{ component_vault.root_token }}"
   when: org.kinaxis is defined
+
+  # Store inteli-api auth0 keys into vault
+- name: "Store inteli-api auth0 keys in vault"
+  shell: |
+     vault kv put {{ component_vault.secret_path | default('secretsv2') }}/{{ component_ns }}/inteliAuth clientId="{{ org.auth.clientId }}" clientSecret="{{ org.auth.secret }}"
+  environment:
+    VAULT_ADDR: "{{ component_vault.url }}"
+    VAULT_TOKEN: "{{ component_vault.root_token }}"
+  when: org.auth is defined
 
 # Create chain-watcher values file for oem node
 - name: "Create chain-watcher values file for oem peer"
@@ -23,7 +32,7 @@
     charts_dir: "examples/dscp-app/charts"
     dscp_api_addr: "{{ peer.name }}-api"
     db_host_addr: "{{ peer.name }}-postgresql"
-    createInit: "true"
+    fetch_gcp_key: "true"
   loop: "{{ org.services.peers }}"
   loop_control:
     loop_var: peer
@@ -40,7 +49,7 @@
     charts_dir: "examples/dscp-app/charts"
     dscp_api_addr: "{{ peer.name }}-api"
     db_host_addr: "{{ peer.name }}-postgresql"
-    createInit: "false"
+    fetch_gcp_key: "false"
   loop: "{{ org.services.peers }}"
   loop_control:
     loop_var: peer

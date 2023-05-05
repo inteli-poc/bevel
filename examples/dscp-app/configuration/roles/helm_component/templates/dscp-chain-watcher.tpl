@@ -18,6 +18,8 @@ spec:
   releaseName: {{ name }}-chain-watcher
   values:
     fullnameOverride: {{ name }}-chain-watcher
+    metadata:
+      namespace: {{ component_ns }}
     config:
       dbHost: {{ db_host_addr }}.{{ component_ns }}
       dbPort: {{ peer.postgresql.port }}
@@ -28,11 +30,17 @@ spec:
       dscpApiPort: {{ peer.api.port }}
       idServiceHost: {{ peer.name }}-id-service.{{ component_ns }}
       idServicePort: {{ peer.id_service.port }}
+      inteliApiHost: {{ name }}-{{ peer.inteli_api.db_name }}.{{ component_ns }}
+      inteliApiPort: {{ peer.inteli_api.port }}
+      inteliApiAudience: {{ org.auth.audience }}
+      inteliApiGrant: {{ org.auth.grantType }}
+      inteliApiTokenAddr: {{ org.auth.tokenUrl }}
+      fetchGcpKey: {{ fetch_gcp_key }}
       
     image:
       repository: ghcr.io/inteli-poc/dscp-chain-watcher # {"$imagepolicy": "flux-{{ network.env.type }}:dscp-chain-watcher:name"}
       pullPolicy: IfNotPresent
-      tag: 'v1.1.0-456ddf7-1667382478' # {"$imagepolicy": "flux-{{ network.env.type }}:dscp-chain-watcher:tag"}
+      tag: 'v1.31.0-57ffb4f-1681484176' # {"$imagepolicy": "flux-{{ network.env.type }}:dscp-chain-watcher:tag"}
       pullSecrets: 
 
     vault:
@@ -42,4 +50,3 @@ spec:
       serviceaccountname: vault-auth
       role: vault-role
       authpath: substrate{{ org.name | lower }}
-      createInitContainer: {{ createInit }}
