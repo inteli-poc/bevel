@@ -34,7 +34,7 @@ spec:
         - "--migrate"
       ipfsSwarmAddrFilters: null
       ipfsLogLevel: info
-      ipfsBootNodeAddress: /dns4/oem-ipfs-bn-ipfs-swarm.oem-subs.svc.cluster.local/tcp/4001/p2p/12D3KooWQayuYT8uixkHFVhDJ5CuWk2zFyUhdQyQZUEJHboGLMZE
+      ipfsBootNodeAddress: /dns4/oem-ipfs-bn-ipfs-swarm.oem-subs.svc.cluster.local/tcp/4001/p2p/12D3KooWE2miGSPYWv5z9hvyDFMdyQFNfCj7qceP61EwDzPF4kdM
       
     service:
       swarm:
