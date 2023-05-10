@@ -36,11 +36,13 @@ spec:
       inteliApiGrant: client_credentials
       inteliApiTokenAddr: https://inteli-poc.eu.auth0.com/oauth/token
       fetchGcpKey: true
+      
     image:
       repository: ghcr.io/inteli-poc/dscp-chain-watcher # {"$imagepolicy": "flux-dev:dscp-chain-watcher:name"}
       pullPolicy: IfNotPresent
       tag: 'v1.31.0-6c225c4-1682597619' # {"$imagepolicy": "flux-dev:dscp-chain-watcher:tag"}
-      pullSecrets:
+      pullSecrets: 
+
     vault:
       alpineutils: ghcr.io/hyperledger/alpine-utils:1.0
       address: http://vault.internal.dev.intelipoc.com:20002
