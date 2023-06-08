@@ -1,0 +1,55 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: oem-genesis-job
+  namespace: oem-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  interval: 1m
+  releaseName: oem-genesis-job
+  chart:
+    spec:
+      interval: 1m
+      sourceRef:
+        kind: GitRepository
+        name: flux-uat
+        namespace: flux-uat
+      chart: platforms/substrate/charts/substrate-genesis
+  values:
+    node:
+      name: oem-genesis-job
+      image: ghcr.io/digicatapult/dscp-node
+      imageTag: v4.2.2
+      pullPolicy: IfNotPresent
+      command: ./dscp-node
+    metadata:
+      name: oem-genesis-job
+      namespace: oem-subs
+    vault:
+      address: http://vault.internal.uat.intelipoc.com:20004
+      role: vault-role
+      authpath: substrateoem
+      serviceaccountname: vault-auth
+      certsecretprefix: secretsv2/oem-subs
+    chain: inteli-gcp
+    aura_keys: ['5C85XjFz6uHf44UBtZPuwsCh3mroEyXfqiEijcPzoS5odDCp', '5GNZjkhECT1dH6di3W6BiF8SBJ1uCRXKXyG6qej3Tasodoij', '5ExYbgB9iqXFZ6ZQQ4nyY7FHnAaw4oMGaixafd1ctgBvUNmw']
+    grandpa_keys: ['5CFJM5YpwNsTiw2351z25n6c7Y3uPLvYzTgjMWjJetnKc2BU', '5DQq7stjeZXaVyH5aqeawyJkDQ1NE4wvPuTZg3nbBwuTTq4N', '5GQX4wsev52RKKvNGBVDgFvQeqRszMYXZHJqmiSwJ6GDqYGi']
+    members: 
+      -   account_id: 5CfoJBEdnWqN88Sw2xemhwvqNpt34FFUdND9kdqTxp96uMgr
+          balance: 1152921504606846976
+          nodes:
+          - 0024080112206A9B9512D3326E42E0EB703235494F51A6E99A1AD563530120C4E0F46092C169
+          - 002408011220809FBB70998EFF3A6B546BB8AB2887C70415770AB9B895FC41B922B13F5D6468
+          - 0024080112208879CA9A610BA30126D0FBF5708BD13B1314E51BF0E1A42CF22DA5872A13C118
+          - 002408011220842A3BCF58D9742DC785D694E1AEF252C5158854224D8F486F037A469E9FFD16
+          - 00240801122036073DAFBA65A2B6FC535FCEC43526642375D117DFE3DD8AEB5C5A000103FB02
+      -   account_id: 5Git9TXkvaF2vjGaej7zRRz497YauMsQ2jjkUxqGaDDHSzzZ
+          balance: 1152921504606846976
+          nodes:
+          - 0024080112203B6EDD6DB6957FD19C2BBFFB359ECDD4D5473D82DF7127E136CF962229C03F26
+          - 00240801122036679423310A2D0D0DA165A1736C9B6465DF92DCD1A96B6FD8E3426144C80645
+      -   account_id: 5Dqr8FUU3ZH8LdfQd12YVfQinURKMzCiGJTWiThn4hqvgtuz
+          balance: 1152921504606846976
+          nodes:
+          - 0024080112200A9B233CD39BE1E9AFCC5FAEF8CC05B0BE4862DE0B9989E4E57ED4C142128E5B
