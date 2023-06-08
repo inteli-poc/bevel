@@ -70,6 +70,7 @@ network:
     subject: "CN=DLT Root CA,OU=DLT,O=DLT,L=London,C=GB"
     # Provide the docker image which will be used for the Substrate Nodes in this network. (will be downloaded from docker.url)
     node_image: "digicatapult/dscp-node"
+    # Provide the command which is used to start the node
     command: "./dscp-node"
     # provide a chain name for Substrate nodes
     chain: "inteli-gcp"
@@ -102,7 +103,7 @@ network:
         secret_path: "secretsv2"
       # these are the Auth0 API values that will be used for authentication to substrate api endpoints. Eg. tokenUrl: https://example.eu.auth0.com/oauth/token
       auth:
-        type: JWT
+        type: NONE #NONE or JWT - Depending on if auth is enabled or not
         jwksUri: "https://inteli-poc.eu.auth0.com/.well-known/jwks.json" # JSON Web Key Set containing public keys used by the Auth0 API
         audience: "https://inteli-poc.com/api" # Identifier of the Auth0 API
         issuer: "https://inteli-poc.eu.auth0.com/"  # Issuer Domain of the Auth0 API, Don't forget the ending /
