@@ -43,7 +43,7 @@ network:
     #  Production systems should generate proper certificates and configure truststores accordingly.
     subject: "CN=DLT Root CA,OU=DLT,O=DLT,L=London,C=GB"
     # Provide the docker image which will be used for the Substrate Nodes in this network. (will be downloaded from docker.url)
-    node_image: "digicatapult/dscp-node"
+    node_image: "inteli-poc/dscp-node"
     # Provide the command which is used to start the node
     command: "./dscp-node"     # Please ensure the command corresponds to the node_image above
     # provide a chain name for Substrate nodes

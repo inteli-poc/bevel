@@ -19,7 +19,7 @@ spec:
   values:
     node:
       name: tiertwo
-      image: ghcr.io/digicatapult/dscp-node:v4.2.2
+      image: ghcr.io/inteli-poc/dscp-node:v4.2.2
       pullPolicy: IfNotPresent
       command: ./dscp-node
       type: member

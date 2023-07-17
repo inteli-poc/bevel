@@ -19,7 +19,7 @@ spec:
 
   values:
     image:
-      repository: ghcr.io/digicatapult/dscp-node
+      repository: ghcr.io/inteli-poc/dscp-node
       tag: v4.2.2
       pullPolicy: IfNotPresent
     imagePullSecrets: 
