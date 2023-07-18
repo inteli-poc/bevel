@@ -103,7 +103,7 @@ spec:
           GENESIS=$(echo $GENESIS | jq '.genesis.runtime.aura.authorities |= []')
           GENESIS=$(echo $GENESIS | jq '.genesis.runtime.grandpa.authorities |= []')
           GENESIS=$(echo $GENESIS | jq '.genesis.runtime.balances.balances |= []')
-          {{- if eq $.Values.node.image "ghcr.io/digicatapult/dscp-node" }}
+          {{- if eq $.Values.node.image "ghcr.io/inteli-poc/dscp-node" }}
            GENESIS=$(echo $GENESIS | jq '.genesis.runtime.nodeAuthorization.nodes |= []')
            GENESIS=$(echo $GENESIS | jq '.genesis.runtime.membership.members |= []')
           {{- end }}
@@ -131,7 +131,7 @@ spec:
           GENESIS=$(echo "$GENESIS" | jq --arg grandpa {{.}} '.genesis.runtime.grandpa.authorities += [[$grandpa, 1]]')
           {{- end }}
           
-          {{- if eq $.Values.node.image "ghcr.io/digicatapult/dscp-node" }}
+          {{- if eq $.Values.node.image "ghcr.io/inteli-poc/dscp-node" }}
           echo "Adding member accounts and their balances to genesis"
           {{- range $idx, $member := .Values.members }}
           GENESIS=$(echo $GENESIS | jq --arg account_id {{ $member.account_id }} --arg balance {{ $member.balance }} '.genesis.runtime.balances.balances += [[$account_id, ($balance | tonumber)]]')
