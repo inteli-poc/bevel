@@ -1,0 +1,37 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: tierone-vaultk8s-job
+  namespace: tierone-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: tierone-vaultk8s-job
+  interval: 1m
+  chart:
+   spec:
+    chart: platforms/shared/charts/bevel-vault-mgmt
+    sourceRef:
+      kind: GitRepository
+      name: flux-dscp
+      namespace: flux-dscp
+  values:
+    nameOverride: tierone-vaultk8s-job
+    global:
+      serviceAccountName: vault-auth
+      cluster:
+        cloudNativeServices: false
+        kubernetesUrl: https://inteli-dev-dns-bynnikgu.hcp.uksouth.azmk8s.io:443
+      vault:
+        type: hashicorp
+        role: vault-role
+        address: http://inteli-vault.sub.blockchaincloudpoc-develop.com
+        authPath: dscptierone
+        network: substrate
+        secretEngine: secretsv2
+        secretPrefix: "data/tierone"
+        tls:
+    image:
+      repository: ghcr.io/hyperledger/bevel-alpine
+      tag: latest
+      pullSecret: "regcred"
