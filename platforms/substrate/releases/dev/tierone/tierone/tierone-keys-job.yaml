@@ -1,0 +1,37 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: tierone-keys-job
+  namespace: tierone-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  interval: 1m
+  releaseName: tierone-keys-job
+  chart:
+    spec:
+      interval: 1m
+      sourceRef:
+        kind: GitRepository
+        name: flux-dscp
+        namespace: flux-dscp
+      chart: platforms/substrate/charts/substrate-key-mgmt
+  values:
+    node:
+      name: tierone
+      image: ghcr.io/inteli-poc/dscp-node:v4.3.1
+      pullPolicy: IfNotPresent
+      command: ./dscp-node
+      type: member
+    metadata:
+      name: tierone-keys-job
+      namespace: tierone-subs
+    initContainer:
+      image: ghcr.io/hyperledger/alpine-utils:1.0
+      pullPolicy: IfNotPresent
+    vault:
+      address: http://inteli-vault.sub.blockchaincloudpoc-develop.com
+      role: vault-role
+      authpath: dscptierone
+      serviceaccountname: vault-auth
+      certsecretprefix: secretsv2/data/tierone
