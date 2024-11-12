@@ -1,0 +1,34 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: dscp-chain-watcher-auto
+  namespace: flux-dscp
+spec:
+  releaseName: dscp-chain-watcher-auto
+  interval: 1m
+  chart:
+   spec:
+    chart: platforms/shared/charts/flux-imageautomation
+    sourceRef:
+      kind: GitRepository
+      name: flux-dscp
+      namespace: flux-dscp
+  values:
+    image:
+      name: dscp-chain-watcher
+      repository: ghcr.io/inteli-poc/dscp-chain-watcher
+      pullSecrets: regcred
+      
+      pollingInterval: 1m0s
+      policy: 
+        numerical:
+          order: asc
+
+      filter: 
+        extract: $ts
+        pattern: v1.*.*-[0-9a-fA-F0-9]+-(?P<ts>.*)
+
+    git:
+      fluxrepo: flux-dscp
+      branch: 1-azure-inteli-devenv
+      commitMessage: "Updated image"
