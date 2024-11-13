@@ -27,9 +27,9 @@
       path: "./build"
       state: absent
 
-  - name: "Pull from 1-azure-inteli-devenv"
+  - name: "git pull origin inteli-stage-v1"
     shell: |
-      git pull origin2 1-azure-inteli-devenv
+      git pull origin inteli-stage-v1
 
   # Create namespace
   - name: "Create namespace"
