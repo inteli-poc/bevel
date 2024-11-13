@@ -27,9 +27,9 @@
       path: "./build"
       state: absent
 
-  - name: "git pull origin inteli-stage-v1"
-    shell: |
-      git pull origin inteli-stage-v1
+  # - name: "git pull origin inteli-stage-v1"
+  #   shell: |
+  #     git pull origin inteli-stage-v1
 
   # Create namespace
   - name: "Create namespace"
