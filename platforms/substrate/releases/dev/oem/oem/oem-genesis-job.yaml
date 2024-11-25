@@ -1,0 +1,55 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: oem-genesis-job
+  namespace: oem-subs
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  interval: 1m
+  releaseName: oem-genesis-job
+  chart:
+    spec:
+      interval: 1m
+      sourceRef:
+        kind: GitRepository
+        name: flux-dscp
+        namespace: flux-dscp
+      chart: platforms/substrate/charts/substrate-genesis
+  values:
+    node:
+      name: oem-genesis-job
+      image: ghcr.io/inteli-poc/dscp-node
+      imageTag: v4.3.1
+      pullPolicy: IfNotPresent
+      command: ./dscp-node
+    metadata:
+      name: oem-genesis-job
+      namespace: oem-subs
+    vault:
+      address: http://inteli-vault.dev.intelipoc.com
+      role: vault-role
+      authpath: dscpoem
+      serviceaccountname: vault-auth
+      certsecretprefix: secretsv2/oem
+    chain: inteli
+    aura_keys: ['5EJSfa4TFddRtqTezTZpFnMAtmEycyt9EnPitQxpHmKhaitJ', '5GisQaM5fj2mXNZeVQmad7Ro3TDNVpuphSbaKi3ono1hRDTX', '5E77DxGhgHPsfSSgs7xJD4bnPJibzdPcYbQatABHyNhLTNXL']
+    grandpa_keys: ['5D17f3noek2q863HhcHPnrfoGk35Fe3j3aexgT7CcwwDnjod', '5FqCeRZffaRqbbfzrSvyA1dZVWbXgusPEUvm7kcZ34ZL5kQA', '5FzeCzyZx7VtKF2VZCEupeoBH57EKuU6zk4aioqobjmb7LuR']
+    members: 
+      -   account_id: 5CV27eP17xXrhLPtXD237GPdrWhSCRsST5BrLhLZCxj9RCHm
+          balance: 1152921504606846976
+          nodes:
+          - 0024080112200B1417273E431520B843B1C812CF6DD40A166F5B2FFDB79034135180E57ABA83
+          - 0024080112209D08A7755632E33AEADA3831D82054E276BE70E3BED280470C8B10E98C6E34FD
+          - 0024080112204F1003FF476F47AC028A875CDA752B061758539B72FEF9E542F404FDBC0F2C26
+          - 002408011220E67F14CE3B32836A01884B2957B9884A4C113CFAC212D85497C110FA273157E9
+          - 00240801122048FCDF58A7CF3976A9D61B226C6401C61835695A8E54B41A9E734321B4612AD1
+      -   account_id: 5H1SNN7AsCd3rXtfhVoYWkfVY8caqvWXuJiURtGS4m7oDNW4
+          balance: 1152921504606846976
+          nodes:
+          - 002408011220831F20DC1BDE029F3F4D9DD11F4C202CB6C14A05AE014C34520D19BF659F8951
+          - 00240801122082D2392D6664ECA6E16276C3A7B96A50DEFA0A85DB1A9BD7D35BC53EDAD7B44C
+      -   account_id: 5HQEPcYBisgn3XD8NxnTfK3GhaqCCwtmGzJ7hv2J9cPwCbau
+          balance: 1152921504606846976
+          nodes:
+          - 0024080112209EF1D328BFD97D8AF9D8865C663DD64208AE17D506E02D3077FFDBC098EDFF5B
