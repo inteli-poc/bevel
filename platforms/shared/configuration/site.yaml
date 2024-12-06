@@ -10,15 +10,15 @@
 ##############################################################################
 
 # This playbook will validate the network yaml using ajv
-# - import_playbook: validate-network-schema.yaml  
+# - import_playbook: validate-network-schema.yaml
 #   when: reset is undefined or reset == 'false'
 
 # Setup controller environment
 # - import_playbook: setup-environment.yaml
 
-# Setup Flux, Proxy and Cert manager on each organization cluster
-- import_playbook: setup-k8s-environment.yaml 
-  when: reset is undefined or reset == 'false'
+# # Setup Flux, Proxy and Cert manager on each organization cluster
+# - import_playbook: setup-k8s-environment.yaml 
+#   when: reset is undefined or reset == 'false'
 
 ############################################
 # Playbook for Hyperledger Fabric Operations
