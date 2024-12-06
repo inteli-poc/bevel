@@ -127,7 +127,7 @@ jobs:
           mkdir -p ~/bin
           export PATH=$PATH:~/bin
           pip3 install openshift=='0.13.1'
-          pip install ansible jmespath jinja2-time
+          pip3 install ansible jmespath jinja2-time
           ansible-galaxy collection install -r platforms/shared/configuration/requirements.yaml
           
           # Deploy the BEVEL's R3-CORDA-ENT DLT platform
