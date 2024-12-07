@@ -416,12 +416,13 @@ spec:
               echo "EXTERNAL_ADDRESS=${EXTERNAL_ADDRESS}"
               RELAY_CHAIN_P2P_PORT="$(cat /data/relay_chain_p2p_port)"
               echo "RELAY_CHAIN_P2P_PORT=${RELAY_CHAIN_P2P_PORT}"
-              {{- if eq .Values.proxy.provider "ambassador" }}
-              EXTERNAL_ADDRESS="{{ .Values.proxy.external_url }}"
-              echo "EXTERNAL_ADDRESS=${EXTERNAL_ADDRESS}"
-              EXTERNAL_P2P_PORT="{{ .Values.proxy.p2p }}"
-              echo "EXTERNAL_P2P_PORT=${EXTERNAL_P2P_PORT}"
-              {{- end }}
+              # {{- if eq .Values.proxy.provider "ambassador" }}
+              # EXTERNAL_ADDRESS="{{ .Values.proxy.external_url }}"
+              # echo "EXTERNAL_ADDRESS=${EXTERNAL_ADDRESS}"
+              # EXTERNAL_P2P_PORT="{{ .Values.proxy.p2p }}"
+              # echo "EXTERNAL_P2P_PORT=${EXTERNAL_P2P_PORT}"
+              # {{- end }}
+              echo "updated v1"
               {{- if .Values.node.collator.isParachain }}
               PARA_CHAIN_P2P_PORT="$(cat /data/para_chain_p2p_port)"
               echo "PARA_CHAIN_P2P_PORT=${PARA_CHAIN_P2P_PORT}"
@@ -473,20 +474,8 @@ spec:
                 {{- if .Values.node.collator.relayChainCustomChainspecUrl }}
                 --chain={{ .Values.node.relayChainCustomChainspecPath }} \
                 {{- end }}
-                {{- if .Values.node.perNodeServices.createP2pService }}
-                {{- if .Values.node.perNodeServices.setPublicAddressToExternal.enabled }}
-                {{- if eq .Values.node.perNodeServices.p2pServiceType "NodePort" }}
-                --public-addr=/ip4/${EXTERNAL_ADDRESS}/tcp/${RELAY_CHAIN_P2P_PORT} \
-                {{- else if eq .Values.node.perNodeServices.p2pServiceType "LoadBalancer" }}
-                --public-addr=/dns4/${EXTERNAL_ADDRESS}/tcp/${RELAY_CHAIN_P2P_PORT} \
-                {{- end }}
-                {{- else if and (not .Values.node.perNodeServices.setPublicAddressToExternal.enabled) (eq .Values.node.perNodeServices.p2pServiceType "ClusterIP") }}
-                --public-addr=/dns4/${EXTERNAL_ADDRESS}/tcp/${EXTERNAL_P2P_PORT} \
-                {{- end }}
-                --listen-addr=/ip4/0.0.0.0/tcp/${RELAY_CHAIN_P2P_PORT} \
-                {{- else }}
+                --public-addr=/dns4/${EXTERNAL_ADDRESS}/tcp/30333 \
                 --listen-addr=/ip4/0.0.0.0/tcp/30333 \
-                {{- end }}
                 {{- join " " .Values.node.collator.relayChainFlags | nindent 16 }}
           env:
             - name: CHAIN
