@@ -17,8 +17,8 @@
 # - import_playbook: setup-environment.yaml
 
 # Setup Flux, Proxy and Cert manager on each organization cluster
-# - import_playbook: setup-k8s-environment.yaml 
-#   when: reset is undefined or reset == 'false'
+- import_playbook: setup-k8s-environment.yaml 
+  when: reset is undefined or reset == 'false'
 
 ############################################
 # Playbook for Hyperledger Fabric Operations
