@@ -100,7 +100,6 @@ spec:
       certSecret: oem-ambassador-certs
 
     storageClass: oem-bevel-storageclass
-
     vault:
       address: http://inteli-vault.dev.intelipoc.com      
       secretPrefix: secretsv2/data/oem

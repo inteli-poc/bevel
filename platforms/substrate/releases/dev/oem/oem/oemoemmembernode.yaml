@@ -88,7 +88,6 @@ spec:
         p2p: 30333
         ws: 9944
         rpc: 9933
-
       tracing:
         enabled: false
       substrateApiSidecar:

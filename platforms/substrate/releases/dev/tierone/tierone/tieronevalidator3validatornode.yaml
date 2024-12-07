@@ -16,7 +16,6 @@ spec:
         name: flux-dscp
         namespace: flux-dscp
       chart: platforms/substrate/charts/substrate-node
-
   values:
     image:
       repository: ghcr.io/inteli-poc/dscp-node

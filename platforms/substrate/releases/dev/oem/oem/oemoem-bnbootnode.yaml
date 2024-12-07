@@ -78,7 +78,7 @@ spec:
         createP2pService: true
         p2pServiceType: "ClusterIP"
         setPublicAddressToExternalIp:
-          enabled: true
+          enabled: false
           ipRetrievalServiceUrl: https://ifconfig.io
       podManagementPolicy: Parallel
 
