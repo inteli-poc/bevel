@@ -431,6 +431,7 @@ spec:
               exec {{ .Values.node.command }} \
                 --name=${POD_NAME} \
                 --base-path=/data/ \
+                --no-mdns \
                 --chain={{ if .Values.node.customChainspecUrl }}{{ .Values.node.customChainspecPath }}{{ else }}${CHAIN}{{ end }} \
                 {{- if or (eq .Values.node.role "authority") (eq .Values.node.role "validator") }}
                 --validator \
