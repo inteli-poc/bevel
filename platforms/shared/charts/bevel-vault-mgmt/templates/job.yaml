@@ -90,18 +90,22 @@ spec:
                   exit 1
                 fi
               };
+
+              ##################################################################################################################### 1
               # Check if secretEngine already created
               vault_kv_check=$(curl --header "X-Vault-Token: $ROOT_TOKEN" \
                 ${VAULT_ADDR}/v1/$VAULT_SECRET_PATH/ | jq '.errors');
 
               if [ "$vault_kv_check" != 'null' ]; then
-                echo "secretEngine does not exist. Creating ..."
+                # echo "secretEngine does not exist. Creating ..."
+                echo "Secret engine at path: ${VAULT_SECRET_PATH} does not exist. Proceeding to create a new one..." # NEW
                 curl \
                 --header "X-Vault-Token: $ROOT_TOKEN" \
                 --request POST \
                 --data '{ "type":"kv-v2" }' \
                 ${VAULT_ADDR}/v1/sys/mounts/${VAULT_SECRET_PATH}
               fi;
+              ##################################################################################################################### 1
 
               # Check if authPath already created
               vault_auth_check=$(curl --header "X-Vault-Token: $ROOT_TOKEN" \
