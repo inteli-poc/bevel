@@ -25,7 +25,7 @@ spec:
       vault:
         type: hashicorp
         role: vault-role
-        address: http://inteli-vault.dev.intelipoc.com
+        address: http://inteli-vault.stage.intelipoc.com
         authPath: dscpoem
         network: substrate
         secretEngine: secretsv2
