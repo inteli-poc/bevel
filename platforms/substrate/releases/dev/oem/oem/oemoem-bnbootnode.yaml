@@ -106,3 +106,4 @@ spec:
       authPath: dscpoem
       appRole: vault-role
       image: ghcr.io/hyperledger/alpine-utils:1.0 
+
