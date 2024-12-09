@@ -91,7 +91,6 @@ spec:
                 fi
               };
 
-              ##################################################################################################################### 1
               # Check if secretEngine already created
               vault_kv_check=$(curl --header "X-Vault-Token: $ROOT_TOKEN" \
                 ${VAULT_ADDR}/v1/$VAULT_SECRET_PATH/ | jq '.errors');
@@ -105,7 +104,6 @@ spec:
                 --data '{ "type":"kv-v2" }' \
                 ${VAULT_ADDR}/v1/sys/mounts/${VAULT_SECRET_PATH}
               fi;
-              ##################################################################################################################### 1
 
               # Check if authPath already created
               vault_auth_check=$(curl --header "X-Vault-Token: $ROOT_TOKEN" \
