@@ -95,7 +95,7 @@ spec:
 
     proxy:
       provider: ambassador
-      external_url: validator2.dev.intelipoc.com
+      external_url: validator2-0.dev.intelipoc.com
       p2p: 15012
       certSecret: oem-ambassador-certs
 
