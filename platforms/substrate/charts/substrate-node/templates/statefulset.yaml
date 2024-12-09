@@ -434,7 +434,7 @@ spec:
               echo "PUBLIC_ADDR: /dns4/${EXTERNAL_ADDRESS}/tcp/${EXTERNAL_P2P_PORT}"
               echo "LISTEN_ADDR: /ip4/0.0.0.0/tcp/${RELAY_CHAIN_P2P_PORT}"
               echo "sleeping------------------"
-              sleep 10m
+              # sleep 10m
 
               exec {{ .Values.node.command }} \
                 --name=${POD_NAME} \
