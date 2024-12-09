@@ -21,7 +21,7 @@ spec:
       serviceAccountName: vault-auth
       cluster:
         cloudNativeServices: false
-        kubernetesUrl: https://inteli-dev-dns-bynnikgu.hcp.uksouth.azmk8s.io:443
+        kubernetesUrl: https://inteli-dev-dns-8begk48d.hcp.uksouth.azmk8s.io:443
       vault:
         type: hashicorp
         role: vault-role
