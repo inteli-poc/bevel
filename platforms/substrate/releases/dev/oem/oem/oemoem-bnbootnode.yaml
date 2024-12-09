@@ -94,7 +94,7 @@ spec:
 
     proxy:
       provider: ambassador
-      external_url: oem-bn.stage.intelipoc.com
+      external_url: oem-bn-0.stage.intelipoc.com
       p2p: 15010
       certSecret: oem-ambassador-certs
 

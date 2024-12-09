@@ -60,7 +60,7 @@ spec:
         - "--rpc-cors=all"
         - "--unsafe-ws-external"
         - "--unsafe-rpc-external"
-        - "--bootnodes '/dns4/oem-bn.stage.intelipoc.com/tcp/15010/p2p/12D3KooWPQ245jbdwKdzo6LwgeaaXQ2JPc9ngW6smGL3NdfCcYos'"
+        - "--bootnodes '/dns4/oem-bn-0.stage.intelipoc.com/tcp/15010/p2p/12D3KooWPQ245jbdwKdzo6LwgeaaXQ2JPc9ngW6smGL3NdfCcYos'"
       keys:
         - type: "gran"
           scheme: "ed25519"
@@ -95,7 +95,7 @@ spec:
 
     proxy:
       provider: ambassador
-      external_url: validator2.stage.intelipoc.com
+      external_url: validator2-0.stage.intelipoc.com
       p2p: 15012
       certSecret: oem-ambassador-certs
 
