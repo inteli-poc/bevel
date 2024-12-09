@@ -428,7 +428,12 @@ spec:
                 {{- end }}
               {{- end }}
 
-              echo "sleeping------------------" 
+              echo "sleeping------------------"
+              echo "POD_NAME: ${POD_NAME}"
+              echo "NODE_KEY: $(cat /secrets/node_key)"
+              echo "PUBLIC_ADDR: /dns4/${EXTERNAL_ADDRESS}/tcp/${EXTERNAL_P2P_PORT}"
+              echo "LISTEN_ADDR: /ip4/0.0.0.0/tcp/${RELAY_CHAIN_P2P_PORT}"
+              echo "sleeping------------------"
               sleep 10m
 
               exec {{ .Values.node.command }} \
