@@ -412,21 +412,25 @@ spec:
             #!/bin/sh
               {{- if .Values.node.perNodeServices.createP2pService }}
               if [ ! -s /data/node_external_address ]; then echo "EXTERNAL_ADDRESS is empty" && exit 1 ; fi
-              EXTERNAL_ADDRESS="$(cat /data/node_external_address)"
-              echo "EXTERNAL_ADDRESS=${EXTERNAL_ADDRESS}"
-              RELAY_CHAIN_P2P_PORT="$(cat /data/relay_chain_p2p_port)"
-              echo "RELAY_CHAIN_P2P_PORT=${RELAY_CHAIN_P2P_PORT}"
-              {{- if eq .Values.proxy.provider "ambassador" }}
-              EXTERNAL_ADDRESS="{{ .Values.proxy.external_url }}"
-              echo "EXTERNAL_ADDRESS=${EXTERNAL_ADDRESS}"
-              EXTERNAL_P2P_PORT="{{ .Values.proxy.p2p }}"
-              echo "EXTERNAL_P2P_PORT=${EXTERNAL_P2P_PORT}"
+                EXTERNAL_ADDRESS="$(cat /data/node_external_address)"
+                echo "EXTERNAL_ADDRESS=${EXTERNAL_ADDRESS}"
+                RELAY_CHAIN_P2P_PORT="$(cat /data/relay_chain_p2p_port)"
+                echo "RELAY_CHAIN_P2P_PORT=${RELAY_CHAIN_P2P_PORT}"
+                {{- if eq .Values.proxy.provider "ambassador" }}
+                  EXTERNAL_ADDRESS="{{ .Values.proxy.external_url }}"
+                  echo "EXTERNAL_ADDRESS=${EXTERNAL_ADDRESS}"
+                  EXTERNAL_P2P_PORT="{{ .Values.proxy.p2p }}"
+                  echo "EXTERNAL_P2P_PORT=${EXTERNAL_P2P_PORT}"
+                {{- end }}
+                {{- if .Values.node.collator.isParachain }}
+                  PARA_CHAIN_P2P_PORT="$(cat /data/para_chain_p2p_port)"
+                  echo "PARA_CHAIN_P2P_PORT=${PARA_CHAIN_P2P_PORT}"
+                {{- end }}
               {{- end }}
-              {{- if .Values.node.collator.isParachain }}
-              PARA_CHAIN_P2P_PORT="$(cat /data/para_chain_p2p_port)"
-              echo "PARA_CHAIN_P2P_PORT=${PARA_CHAIN_P2P_PORT}"
-              {{- end }}
-              {{- end }}
+
+              echo "sleeping------------------" 
+              sleep 10m
+
               exec {{ .Values.node.command }} \
                 --name=${POD_NAME} \
                 --base-path=/data/ \
