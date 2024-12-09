@@ -14,15 +14,15 @@
   tasks:
   # ----------------------------------------------------------------------
 
-  # # Uninstalling Flux for organisation
-  # - name: Delete Flux
-  #   include_role:
-  #     name: delete/flux
-  #   vars:
-  #     kubernetes: "{{ organizationItem.k8s }}"
-  #   loop: "{{ network['organizations'] }}"
-  #   loop_control:
-  #     loop_var: organizationItem
+  # Uninstalling Flux for organisation
+  - name: Delete Flux
+    include_role:
+      name: delete/flux
+    vars:
+      kubernetes: "{{ organizationItem.k8s }}"
+    loop: "{{ network['organizations'] }}"
+    loop_control:
+      loop_var: organizationItem
   
   # Cleanup Flux release folder in Git for all organizations
   - name: Delete release folder
