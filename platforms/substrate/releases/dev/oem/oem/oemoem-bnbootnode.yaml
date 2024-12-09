@@ -60,6 +60,7 @@ spec:
         - "--rpc-cors=all"
         - "--unsafe-ws-external"
         - "--unsafe-rpc-external"
+        - "--validator"
       keys:
         - type: "gran"
           scheme: "ed25519"
