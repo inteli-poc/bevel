@@ -233,7 +233,9 @@ spec:
               {{- end }}
 
               node_key=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["node_key"]')
+              node_id=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["node_id"]')
               echo "${node_key}" > /secrets/node_key
+              echo "${node_id}" > /secrets/node_id
           volumeMounts:
           - name: keystore
             mountPath: /secrets
@@ -431,6 +433,11 @@ spec:
               echo "sleeping------------------"
               echo "POD_NAME: ${POD_NAME}"
               echo "NODE_KEY: $(cat /secrets/node_key)"
+              echo "NODE_ID: $(cat /secrets/node_id)"
+              echo "EXTERNAL_ADDRESS: ${EXTERNAL_ADDRESS}"
+              echo "EXTERNAL_P2P_PORT: ${EXTERNAL_P2P_PORT}"
+              echo "RELAY_CHAIN_P2P_PORT: ${RELAY_CHAIN_P2P_PORT}"
+              echo "PARA_CHAIN_P2P_PORT: ${PARA_CHAIN_P2P_PORT}"
               echo "PUBLIC_ADDR: /dns4/${EXTERNAL_ADDRESS}/tcp/${EXTERNAL_P2P_PORT}"
               echo "LISTEN_ADDR: /ip4/0.0.0.0/tcp/${RELAY_CHAIN_P2P_PORT}"
               echo "sleeping------------------"
