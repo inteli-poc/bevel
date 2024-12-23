@@ -102,7 +102,8 @@ spec:
               validateVaultResponse 'vault login token' "${VAULT_CLIENT_TOKEN}"
               echo "Logged into Vault"
   
-              vault_secret_key="${VAULT_SECRET_PREFIX}/substrate"
+              # vault_secret_key="${VAULT_SECRET_PREFIX}/substrate"
+              vault_secret_key="${VAULT_SECRET_PREFIX}"
 
               echo "Getting the node account key from vault: $vault_secret_key"          
               LOOKUP_SECRET_RESPONSE=$(curl -sS \

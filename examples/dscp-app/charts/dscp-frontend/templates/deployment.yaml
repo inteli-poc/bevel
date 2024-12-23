@@ -41,49 +41,51 @@ spec:
           args:
           - |-
             #!/usr/bin/env sh
-            validateVaultResponse () {
-                if echo ${2} | grep "errors"; then
-                  echo "ERROR: unable to retrieve ${1}: ${2}"
-                  exit 1
-                fi
-                if  [ "$3" == "LOOKUPSECRETRESPONSE" ]
-                then
-                  http_code=$(curl -sS -o /dev/null -w "%{http_code}" \
-                  --header "X-Vault-Token: ${VAULT_CLIENT_TOKEN}" \
-                  ${VAULT_ADDR}/v1/${vault_secret_key})
-                  curl_response=$?
-                  if test "$http_code" != "200" ; then
-                      echo "Http response code from Vault - $http_code"
-                      if test "$curl_response" != "0"; then
-                        echo "Error: curl command failed with error code - $curl_response"
-                        exit 1
-                      fi
-                  fi
-                fi
-              }
-              KUBE_SA_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
-              echo "Getting secrets from Vault Server: ${VAULT_ADDR}"
 
-              #Login to Vault and so I can get an approle token
-              VAULT_CLIENT_TOKEN=$(curl -sS --request POST ${VAULT_ADDR}/v1/auth/${KUBERNETES_AUTH_PATH}/login \
-                -H "Content-Type: application/json" \
-                -d '{"role":"'"${VAULT_APP_ROLE}"'","jwt":"'"${KUBE_SA_TOKEN}"'"}' | \
-                jq -r 'if .errors then . else .auth.client_token end')
-              validateVaultResponse 'vault login token' "${VAULT_CLIENT_TOKEN}"
-              echo "Logged into Vault"
+
+            # validateVaultResponse () {
+            #     if echo ${2} | grep "errors"; then
+            #       echo "ERROR: unable to retrieve ${1}: ${2}"
+            #       exit 1
+            #     fi
+            #     if  [ "$3" == "LOOKUPSECRETRESPONSE" ]
+            #     then
+            #       http_code=$(curl -sS -o /dev/null -w "%{http_code}" \
+            #       --header "X-Vault-Token: ${VAULT_CLIENT_TOKEN}" \
+            #       ${VAULT_ADDR}/v1/${vault_secret_key})
+            #       curl_response=$?
+            #       if test "$http_code" != "200" ; then
+            #           echo "Http response code from Vault - $http_code"
+            #           if test "$curl_response" != "0"; then
+            #             echo "Error: curl command failed with error code - $curl_response"
+            #             exit 1
+            #           fi
+            #       fi
+            #     fi
+            #   }
+            #   KUBE_SA_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+            #   echo "Getting secrets from Vault Server: ${VAULT_ADDR}"
+
+            #   #Login to Vault and so I can get an approle token
+            #   VAULT_CLIENT_TOKEN=$(curl -sS --request POST ${VAULT_ADDR}/v1/auth/${KUBERNETES_AUTH_PATH}/login \
+            #     -H "Content-Type: application/json" \
+            #     -d '{"role":"'"${VAULT_APP_ROLE}"'","jwt":"'"${KUBE_SA_TOKEN}"'"}' | \
+            #     jq -r 'if .errors then . else .auth.client_token end')
+            #   validateVaultResponse 'vault login token' "${VAULT_CLIENT_TOKEN}"
+            #   echo "Logged into Vault"
   
-              vault_secret_key="${VAULT_SECRET_PREFIX}/auth"
+            #   vault_secret_key="${VAULT_SECRET_PREFIX}/auth"
 
-              echo "Getting the auth keys from vault: $vault_secret_key"          
-              LOOKUP_SECRET_RESPONSE=$(curl -sS \
-                --header "X-Vault-Token:${VAULT_CLIENT_TOKEN}" \
-                ${VAULT_ADDR}/v1/${vault_secret_key} | \
-                jq -r 'if .errors then . else . end')
-              validateVaultResponse "secret (${vault_secret_key})" "${LOOKUP_SECRET_RESPONSE}" "LOOKUPSECRETRESPONSE"
-              frontendClientKey=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["frontendClientId"]')
-              mapKey=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["mapKey"]')
-              echo -n "${frontendClientKey}" > ${MOUNT_PATH}/frontendClientKey
-              echo -n "${mapKey}" > ${MOUNT_PATH}/mapKey
+            #   echo "Getting the auth keys from vault: $vault_secret_key"          
+            #   LOOKUP_SECRET_RESPONSE=$(curl -sS \
+            #     --header "X-Vault-Token:${VAULT_CLIENT_TOKEN}" \
+            #     ${VAULT_ADDR}/v1/${vault_secret_key} | \
+            #     jq -r 'if .errors then . else . end')
+            #   validateVaultResponse "secret (${vault_secret_key})" "${LOOKUP_SECRET_RESPONSE}" "LOOKUPSECRETRESPONSE"
+            #   frontendClientKey=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["frontendClientId"]')
+            #   mapKey=$(echo ${LOOKUP_SECRET_RESPONSE} | jq -r '.data.data["mapKey"]')
+            #   echo -n "${frontendClientKey}" > ${MOUNT_PATH}/frontendClientKey
+            #   echo -n "${mapKey}" > ${MOUNT_PATH}/mapKey
       containers:
         - name: inteli-frontend
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
@@ -106,8 +108,11 @@ spec:
           - |-
             #!/usr/bin/env sh
 
-            export REACT_APP_AUTH0_CLIENTID=$(cat /secret/frontendClientKey)
-            export REACT_APP_GMAPS_KEY=$(cat /secret/mapKey)
+            # export REACT_APP_AUTH0_CLIENTID=$(cat /secret/frontendClientKey)
+            # export REACT_APP_GMAPS_KEY=$(cat /secret/mapKey)
+
+            export REACT_APP_AUTH0_CLIENTID=4QG5X9quHfzlqQq8n4E5v0MS6GCcMENP
+            export REACT_APP_GMAPS_KEY=""
 
             npm run build
             serve -s build -p $PORT
