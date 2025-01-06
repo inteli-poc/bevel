@@ -11,7 +11,7 @@ metadata:
   labels:
     app.kubernetes.io/name: {{ include "chain-watcher.fullname" . }}-cron-job
 spec:
-  schedule: "*/1 22 * * *" #Everyday at 22:01, it will run 60 times, starting at 10:00 PM and ending at 10:59 PM, every day.
+  schedule: "*/5 * * * *" # "*/1 22 * * *" #Everyday at 22:01, it will run 60 times, starting at 10:00 PM and ending at 10:59 PM, every day. 0,30 22 * * * (*/5 * * * *)
   jobTemplate:
     spec:
       backoffLimit: 6
@@ -92,6 +92,8 @@ spec:
                     -H "Content-Type: application/json" \
                     -d '{"role":"'"${VAULT_APP_ROLE}"'","jwt":"'"${KUBE_SA_TOKEN}"'"}' | \
                     jq -r 'if .errors then . else .auth.client_token end')
+
+                  echo "VAULT_CLIENT_TOKEN: $VAULT_CLIENT_TOKEN"
                   validateVaultResponse 'vault login token' "${VAULT_CLIENT_TOKEN}"
                   echo "Logged into Vault"
 
@@ -157,7 +159,7 @@ spec:
               - |-
                 #!/usr/bin/env sh
 
-                export GOOGLE_APPLICATION_CREDENTIALS=/secret/gcpKey.json
+                # export GOOGLE_APPLICATION_CREDENTIALS=/secret/gcpKey.json
                 export AUTH_TOKEN=$(cat /secret/token.txt)
 
                 node ./index.js
