@@ -1,0 +1,57 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: oem-webv2-cert
+  namespace: oem-subs
+spec:
+  secretName: oem-webv2-cert
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+  - oem-webv2.stage.intelipoc.com
+
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: acme-oemv2
+  namespace: oem-subs
+spec:
+  hostname: oem-webv2.stage.intelipoc.com # "*"
+  prefix: /.well-known/acme-challenge/
+  rewrite: ""
+  service: acme-oemv2-svc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: acme-oemv2-svc
+  namespace: oem-subs
+spec:
+  ports:
+  - port: 80
+    targetPort: 8089
+  selector:
+    acme.cert-manager.io/http01-solver: "true"
+
+---
+apiVersion: getambassador.io/v2
+kind: Host
+metadata:
+  name: oem-webv2-host
+  namespace: ambassador
+spec:
+  acmeProvider:
+    authority: none
+  hostname: oem-webv2.stage.intelipoc.com
+  requestPolicy:
+    insecure:
+      action: Route
+  tls:
+    min_tls_version: v1.2
+  tlsSecret:
+    name: oem-webv2-cert
+    namespace: oem-subs

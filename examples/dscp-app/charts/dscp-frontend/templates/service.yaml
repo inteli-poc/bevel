@@ -61,10 +61,13 @@ spec:
 apiVersion: getambassador.io/v3alpha1
 kind: Mapping
 metadata:
-  name: "dscp-web"
+  name: "{{ include "inteli-frontend.fullname" . }}"
   namespace: "{{ $.Release.Namespace }}"
 spec:
   hostname: "{{ include "inteli-frontend.fullname" . }}.stage.intelipoc.com"
   prefix: /
   # service: "oem-web.{{ $.Release.Namespace }}:4000"
   service: "{{ include "inteli-frontend.fullname" . }}.{{ $.Release.Namespace }}:4000"
+  timeout_ms: 60000
+  idle_timeout_ms: 500000
+  connect_timeout_ms: 60000

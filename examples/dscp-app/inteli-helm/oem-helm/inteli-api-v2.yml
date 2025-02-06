@@ -1,0 +1,53 @@
+fullnameOverride: oem-inteli-apiv2
+config:
+  port: 3000
+  externalPostgresql: oem-postgresql.oem-subs
+  dbName: inteli-api
+  dbPort: 5432
+  dscpApiHost: oem-api.oem-subs
+  dscpApiPort: 80
+  logLevel: info
+  identityServiceHost: oem-dscp-identity-service.oem-subs
+  identityServicePort: 3001
+  externalAddress: https://oem-inteli-apiv2.stage.intelipoc.com
+  auth:
+    type: NONE # NONE | JWT
+    jwksUri: https://intelipoc.eu.auth0.com/.well-known/jwks.json
+    audience: https://intelipoc.eu.auth0.com/api/v2/ # https://intelipoc.com/api
+    issuer: https://intelipoc.eu.auth0.com/
+    tokenUrl: https://intelipoc.eu.auth0.com/oauth/token
+deployment:
+  annotations: {}
+  livenessProbe:
+    enabled: true
+  replicaCount: 1
+ingress:
+  enabled: false
+  annotations: {}
+  # className: ""
+  paths:
+    - /v1/attachment
+    - /v1/build
+    - /v1/order
+    - /v1/part
+    - /v1/recipe
+service:
+  annotations: {}
+  enabled: false
+  port: 
+image:
+  repository: ghcr.io/inteli-poc/inteli-api # {"$imagepolicy": "flux-dscp:inteli-api:name"}
+  pullPolicy: IfNotPresent
+  tag: 'v1.33.2-b5dc122-1738335330' # 'v1.0.0' # {"$imagepolicy": "flux-dscp:inteli-api:tag"}
+  pullSecrets: 
+postgresql:
+  enabled: false
+  postgresqlDatabase: inteli-api
+  postgresqlUsername: postgres
+  postgresqlPassword: postgres123
+proxy:
+  provider: ambassador
+  name: oem 
+  external_url_suffix: stage.intelipoc.com
+  port: 80
+  issuedFor: oem
