@@ -1,0 +1,41 @@
+name: Build and Push Docker Image to GHCR
+
+# Trigger the workflow on pushes to the "pipeline" branch
+on:
+  push:
+    branches:
+      - pipeline
+
+jobs:
+  hello-world-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      # This step ensures that the latest code from the repository is available for building the Docker image
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Log in to GitHub Container Registry using credentials stored securely in GitHub Secrets
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GHCR_IO_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_IO_USERNAME }}" --password-stdin
+
+      # Extract the Git commit hash for versioning
+      # This step retrieves the short commit hash of the latest commit to tag the Docker image uniquely
+      - name: Get Commit Hash
+        id: vars
+        run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      # Builds the Docker image from the code inside the "frontend" directory and tags it with the commit hash to make it unique
+      - name: Build Docker Image
+        run: docker build -t ghcr.io/${{ secrets.GHCR_IO_USERNAME }}/frontend:${{ env.COMMIT_HASH }} ./frontend
+
+      # Push the Docker image with the commit hash tag to GHCR
+      - name: Push Docker Image
+        run: docker push ghcr.io/${{ secrets.GHCR_IO_USERNAME }}/frontend:${{ env.COMMIT_HASH }}
+
+      # Tags the image as 'latest' to indicate it is the most recent build and pushes it to GHCR.
+      - name: Tag as Latest
+        run: |
+          docker tag ghcr.io/${{ secrets.GHCR_IO_USERNAME }}/frontend:${{ env.COMMIT_HASH }} ghcr.io/${{ secrets.GHCR_IO_USERNAME }}/frontend:latest
+          docker push ghcr.io/${{ secrets.GHCR_IO_USERNAME }}/frontend:latest
